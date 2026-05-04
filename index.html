@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth" style="scroll-padding-top: 64px;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallerink | Beyond the Gallery</title>
+    <title>Gallerink | Link to the Art</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
         
         :root {
+            --brand-primary: #1C44FF;
+            --brand-light: #F0F4FF;
             --apple-black: #1d1d1f;
             --apple-gray: #f5f5f7;
-            --apple-blue: #0066cc;
             --brand-gold: #c5a059;
+            --navy: #0f172a;
         }
 
         body { 
@@ -30,11 +32,10 @@
             -webkit-backdrop-filter: saturate(180%) blur(20px);
         }
 
-        /* Hero Text Scaling */
         .hero-text { font-size: clamp(2.8rem, 8vw, 5rem); line-height: 1.05; font-weight: 700; }
         
-        .btn-apple {
-            background-color: var(--apple-black);
+        .btn-brand {
+            background-color: var(--brand-primary);
             color: white;
             padding: 14px 32px;
             border-radius: 980px;
@@ -44,9 +45,12 @@
             align-items: center;
             justify-content: center;
         }
-        .btn-apple:hover { opacity: 0.85; transform: scale(1.02); }
+        .btn-brand:hover { 
+            opacity: 0.9; 
+            transform: scale(1.02); 
+            box-shadow: 0 10px 25px rgba(28, 68, 255, 0.25);
+        }
 
-        /* Card Optimization */
         .card-split {
             background: var(--apple-gray);
             border-radius: 24px;
@@ -55,7 +59,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 280px; /* 상하 높이 최적화 */
+            min-height: 280px;
         }
         .card-split:hover { transform: scale(1.01); box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
 
@@ -68,25 +72,12 @@
             transition: all 0.2s;
             white-space: nowrap;
         }
-        .filter-tag.active { background: var(--apple-black); color: white; }
-
-        /* Horizontal Item Card (Rental) */
-        .horizontal-item-card {
-            background: #ffffff;
-            border: 1px solid #e5e5e7;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            padding: 16px 20px;
-            gap: 20px;
-            transition: all 0.3s ease;
-        }
-        .horizontal-item-card:hover { border-color: var(--brand-gold); box-shadow: 0 10px 20px rgba(0,0,0,0.02); }
+        .filter-tag.active { background: var(--brand-primary); color: white; }
 
         .scan-line {
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--brand-gold), transparent);
-            box-shadow: 0 0 10px var(--brand-gold);
+            background: linear-gradient(90deg, transparent, var(--brand-primary), transparent);
+            box-shadow: 0 0 10px var(--brand-primary);
             animation: moveScan 4s ease-in-out infinite;
         }
         @keyframes moveScan {
@@ -104,37 +95,38 @@
 <body class="overflow-x-hidden">
 
     <!-- Navigation -->
-    <nav class="glass-nav fixed top-0 w-full z-[100] h-12 flex items-center border-b border-slate-100/30">
+    <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center border-b border-slate-100/30 transition-all duration-300">
         <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
-            <a href="#" class="font-bold text-lg tracking-tighter">Gallerink</a>
-            <div class="hidden md:flex space-x-10 text-[12px] font-medium opacity-70">
-                <a href="#explore" class="hover:opacity-100 transition">Explore</a>
-                <a href="#rental" class="hover:opacity-100 transition">Rental</a>
-                <a href="#ai" class="hover:opacity-100 transition">AI Curation</a>
-                <a href="#admin" class="hover:opacity-100 transition">Admin</a>
+            <a href="#" class="flex items-center">
+                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="font-bold text-xl tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            </a>
+            <div class="hidden md:flex space-x-10 text-[13px] font-medium opacity-70">
+                <a href="#explore" class="hover:text-[#1C44FF] hover:opacity-100 transition">Explore</a>
+                <a href="#rental" class="hover:text-[#1C44FF] hover:opacity-100 transition">Rental</a>
+                <a href="#ai" class="hover:text-[#1C44FF] hover:opacity-100 transition">AI Curation</a>
+                <a href="#admin" class="hover:text-[#1C44FF] hover:opacity-100 transition">Admin</a>
             </div>
-            <a href="#" class="text-[12px] font-semibold opacity-70 hover:opacity-100 transition">Sign In</a>
+            <a href="#" id="signInBtn" class="text-[13px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition">마이페이지</a>
         </div>
     </nav>
 
-    <!-- Hero Section (완벽한 중앙 정렬 및 비중 확대) -->
+    <!-- Hero Section -->
     <header class="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-white">
         <div class="max-w-4xl animate-fade-in opacity-0">
-            <h1 class="hero-text mb-8">
-                Beyond the Gallery,<br>
+            <h1 class="hero-text mb-8 tracking-tight">
+                Link to the Art,<br>
                 <span class="text-slate-300">Link to the Space.</span>
             </h1>
             <p class="max-w-xl mx-auto text-lg md:text-xl font-light text-slate-500 mb-12 leading-relaxed">
                 졸업 전시부터 첫 개인전까지.<br>
-                예술가가 오직 창작에만 몰입할 수 있도록<br class="hidden md:block">
-                공간과 인프라를 유기적으로 연결합니다.
+                나에게 딱 맞춘 공간과 원스톱 전시 물류를 찾아보세요!
             </p>
-            <!-- 버튼 정렬 최적화: flex-row 시 정중앙 정렬 보장 -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <a href="#explore" class="btn-apple shadow-xl px-12 py-4 text-sm">공간 탐색하기</a>
-                <button class="text-blue-600 hover:underline flex items-center font-semibold text-sm">
-                    서비스 소개 영상 <i class="fa-solid fa-circle-play ml-2"></i>
-                </button>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#explore" class="btn-brand shadow-xl px-10 py-4 text-sm whitespace-nowrap">전시공간 탐색하기</a>
+                <a href="#explore" class="bg-slate-100 text-slate-600 hover:bg-slate-200 transition px-10 py-4 rounded-full font-semibold text-sm flex items-center whitespace-nowrap" onclick="showToast('공간 등록 페이지로 이동합니다.')">
+                    전시공간 등록하기 <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
             </div>
         </div>
     </header>
@@ -142,68 +134,121 @@
     <!-- Gallery Selection List (Explore) -->
     <section id="explore" class="py-24 bg-slate-50 border-y border-slate-100/50">
         <div class="max-w-[1100px] mx-auto px-6">
-            <div class="mb-14 text-center md:text-left">
-                <h2 class="text-3xl md:text-4xl font-bold mb-8 tracking-tight">전시 공간 찾기</h2>
-                <div class="flex flex-wrap gap-2 no-scrollbar overflow-x-auto pb-4 justify-center md:justify-start">
-                    <button class="filter-tag active">전체</button>
-                    <button class="filter-tag">성수/건대</button>
-                    <button class="filter-tag">인사/삼청</button>
-                    <button class="filter-tag">홍대/연남</button>
-                    <button class="filter-tag">한남/이태원</button>
-                    <button class="filter-tag">못질가능</button>
+            <div class="mb-14 flex flex-col md:flex-row justify-between items-center md:items-end gap-6 text-center md:text-left">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 tracking-tight">전시 공간 찾기</h2>
+                    <div class="flex flex-wrap gap-2 no-scrollbar overflow-x-auto pb-2 justify-center md:justify-start" id="filterContainer">
+                        <button class="filter-tag active" data-filter="all">전체</button>
+                        <button class="filter-tag" data-filter="seongsu">성수/건대</button>
+                        <button class="filter-tag" data-filter="insa">인사/삼청</button>
+                        <button class="filter-tag" data-filter="hongdae">홍대/연남</button>
+                        <button class="filter-tag" data-filter="itaewon">한남/이태원</button>
+                        <button class="filter-tag" data-filter="nail">못질가능</button>
+                    </div>
                 </div>
+                <button class="text-sm font-semibold text-[#1C44FF] bg-[#F0F4FF] px-5 py-2.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition whitespace-nowrap shadow-sm" onclick="showToast('공간 등록 페이지로 이동합니다.')">전시공간 등록하기 <i class="fa-solid fa-plus ml-1"></i></button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <!-- Gallery 1 -->
-                <div class="group cursor-pointer">
-                    <div class="rounded-[28px] overflow-hidden aspect-[4/3] mb-6 bg-slate-200 relative shadow-sm">
+            <!-- 8 Gallery Items -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="galleryGrid">
+                <div class="group cursor-pointer gallery-item" data-category="seongsu nail">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
                         <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute top-5 right-5 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-navy uppercase">P2P Space</div>
+                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-slate-800 uppercase">P2P Space</div>
                     </div>
-                    <div class="px-2 flex justify-between items-start">
-                        <div>
-                            <h4 class="text-lg font-bold tracking-tight">성수 브루잉 팝업홀</h4>
-                            <p class="text-sm text-slate-400 font-light mt-1">서울 성동구 · 층고 3.5m</p>
-                        </div>
-                        <span class="text-base font-bold">₩15만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                    <div class="px-1">
+                        <h4 class="text-base font-bold tracking-tight">성수 브루잉 팝업홀</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 성동구 · 층고 3.5m</p>
+                        <span class="text-sm font-bold">₩15만<span class="text-slate-400 font-normal text-xs">/일</span></span>
                     </div>
                 </div>
 
-                <!-- Gallery 2 -->
-                <div class="group cursor-pointer">
-                    <div class="rounded-[28px] overflow-hidden aspect-[4/3] mb-6 bg-slate-200 relative shadow-sm">
+                <div class="group cursor-pointer gallery-item" data-category="insa">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
                         <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute top-5 right-5 bg-navy px-3 py-1 rounded-full text-[10px] font-bold text-gold uppercase">Premium</div>
+                        <div class="absolute top-4 right-4 bg-[#1C44FF] px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase shadow-md">Premium</div>
                     </div>
-                    <div class="px-2 flex justify-between items-start">
-                        <div>
-                            <h4 class="text-lg font-bold tracking-tight">인사동 아틀리에 01</h4>
-                            <p class="text-sm text-slate-400 font-light mt-1">서울 종로구 · 화이트큐브</p>
-                        </div>
-                        <span class="text-base font-bold text-gold">₩32만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                    <div class="px-1">
+                        <h4 class="text-base font-bold tracking-tight">인사동 아틀리에 01</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 종로구 · 화이트큐브</p>
+                        <span class="text-sm font-bold text-[#1C44FF]">₩32만<span class="text-slate-400 font-normal text-xs">/일</span></span>
                     </div>
                 </div>
 
-                <!-- Gallery 3 -->
-                <div class="group cursor-pointer">
-                    <div class="rounded-[28px] overflow-hidden aspect-[4/3] mb-6 bg-slate-200 relative shadow-sm">
+                <div class="group cursor-pointer gallery-item" data-category="hongdae nail">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
                         <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute top-5 right-5 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-navy uppercase">Empty Shop</div>
+                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-slate-800 uppercase">Empty Shop</div>
                     </div>
-                    <div class="px-2 flex justify-between items-start">
-                        <div>
-                            <h4 class="text-lg font-bold tracking-tight">연남 1층 복층 쇼룸</h4>
-                            <p class="text-sm text-slate-400 font-light mt-1">서울 마포구 · 층고 4m</p>
-                        </div>
-                        <span class="text-base font-bold">₩12만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                    <div class="px-1">
+                        <h4 class="text-base font-bold tracking-tight">연남 1층 복층 쇼룸</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 마포구 · 층고 4m</p>
+                        <span class="text-sm font-bold">₩12만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                    </div>
+                </div>
+
+                <div class="group cursor-pointer gallery-item" data-category="itaewon">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1510368173434-297eb0981e4c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-[#1C44FF] px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase shadow-md">Premium</div>
+                    </div>
+                    <div class="px-1">
+                        <h4 class="text-base font-bold tracking-tight">한남 갤러리 룸 B</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 용산구 · 대형 통창</p>
+                        <span class="text-sm font-bold text-[#1C44FF]">₩45만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                    </div>
+                </div>
+
+                <div class="group cursor-pointer gallery-item" data-category="seongsu">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1518998053401-878c735c9075?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-slate-800 uppercase">P2P Space</div>
+                    </div>
+                    <div class="px-1">
+                        <h4 class="text-base font-bold tracking-tight">건대 창고형 스튜디오</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 광진구 · 인더스트리얼</p>
+                        <span class="text-sm font-bold">₩18만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                    </div>
+                </div>
+
+                <div class="group cursor-pointer gallery-item" data-category="insa nail">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                    <div class="px-1">
+                        <h4 class="text-base font-bold tracking-tight">삼청동 한옥 갤러리</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 종로구 · 못질가능 목조</p>
+                        <span class="text-sm font-bold">₩25만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                    </div>
+                </div>
+
+                <div class="group cursor-pointer gallery-item" data-category="hongdae">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1507643801261-26c39f2eb5fb?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                    <div class="px-1">
+                        <h4 class="text-base font-bold tracking-tight">홍대입구 미디어월 홀</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 마포구 · 프로젝션 매핑</p>
+                        <span class="text-sm font-bold">₩30만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                    </div>
+                </div>
+
+                <div class="group cursor-pointer gallery-item" data-category="itaewon nail">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-slate-800 uppercase">P2P Space</div>
+                    </div>
+                    <div class="px-1">
+                        <h4 class="text-base font-bold tracking-tight">이태원 루프탑 갤러리</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 용산구 · 야외 테라스</p>
+                        <span class="text-sm font-bold">₩22만<span class="text-slate-400 font-normal text-xs">/일</span></span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- B2C/B2B Split (상하 크기 최적화) -->
+    <!-- B2C/B2B Split -->
     <section class="py-24 max-w-[1100px] mx-auto px-6">
         <div class="grid md:grid-cols-2 gap-8">
             <div class="card-split p-12">
@@ -219,95 +264,46 @@
                     <i class="fa-solid fa-circle-plus text-4xl opacity-10"></i>
                 </div>
             </div>
-            <div class="card-split p-12 bg-slate-900 text-white">
+            <div class="card-split p-12 bg-slate-900 text-white border border-slate-800">
                 <div>
-                    <span class="text-[11px] font-bold uppercase tracking-widest opacity-50 mb-4 block text-gold">For Professionals</span>
-                    <h2 class="text-3xl font-bold mb-5 text-gold">Pass Premium</h2>
+                    <span class="text-[11px] font-bold uppercase tracking-widest opacity-50 mb-4 block text-[#8AA4FF]">For Professionals</span>
+                    <h2 class="text-3xl font-bold mb-5 text-[#8AA4FF]">Pass Premium</h2>
                     <p class="opacity-70 font-light leading-relaxed max-w-xs text-base">
                         검증된 전문 갤러리. <br>커리어를 완성하는 정식 데뷔를 지원합니다.
                     </p>
                 </div>
                 <div class="flex justify-between items-end">
-                    <span class="text-xs font-medium opacity-40 text-gold/60">전문 큐레이팅 포함</span>
-                    <i class="fa-solid fa-arrow-right-long text-4xl text-gold"></i>
+                    <span class="text-xs font-medium opacity-40 text-[#8AA4FF]">전문 큐레이팅 포함</span>
+                    <i class="fa-solid fa-arrow-right-long text-4xl text-[#1C44FF]"></i>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pass Freight: Horizontal Layout (가로 중심) -->
+    <!-- Pass Freight: Rental Solution -->
     <section id="rental" class="py-24 bg-white border-t border-slate-100">
         <div class="max-w-[1100px] mx-auto px-6">
-            <div class="mb-14 flex flex-col md:flex-row justify-between items-center md:items-end gap-6 text-center md:text-left">
+            <div class="mb-10 flex flex-col md:flex-row justify-between items-center md:items-end gap-6 text-center md:text-left">
                 <div>
-                    <span class="text-[11px] font-bold uppercase tracking-widest text-blue-600 mb-3 block">Pass Freight</span>
+                    <span class="text-[11px] font-bold uppercase tracking-widest text-[#1C44FF] mb-3 block">Pass Freight</span>
                     <h2 class="text-3xl md:text-4xl font-bold tracking-tight">전시를 위한 물류 솔루션</h2>
                 </div>
-                <a href="#" class="text-blue-600 font-semibold text-sm hover:underline">전체보기 <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                <div class="flex space-x-2 bg-slate-50 p-1 rounded-xl overflow-x-auto no-scrollbar w-full md:w-auto" id="rentalCategoryTabs">
+                    <button class="rental-tab active px-5 py-2.5 text-sm font-semibold rounded-lg bg-white shadow-sm text-[#1C44FF] whitespace-nowrap transition" data-tab="lighting">조명기기</button>
+                    <button class="rental-tab px-5 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition whitespace-nowrap" data-tab="furniture">전시좌대</button>
+                    <button class="rental-tab px-5 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition whitespace-nowrap" data-tab="digital">영상/음향</button>
+                    <button class="rental-tab px-5 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition whitespace-nowrap" data-tab="package">운송/패키지</button>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <!-- Item 1 (Horizontal) -->
-                <div class="horizontal-item-card">
-                    <div class="w-24 h-24 bg-slate-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-slate-300">
-                        <i class="fa-solid fa-lightbulb text-4xl"></i>
-                    </div>
-                    <div class="flex-grow">
-                        <h5 class="font-bold text-base tracking-tight">전시용 스포트라이트</h5>
-                        <p class="text-xs text-slate-400 font-light mt-1">각도 및 조도 조절 가능</p>
-                    </div>
-                    <div class="text-right flex-shrink-0">
-                        <p class="text-sm font-bold text-navy mb-2">₩5,000</p>
-                        <button class="bg-slate-100 text-navy p-2.5 rounded-full hover:bg-navy hover:text-white transition"><i class="fa-solid fa-plus text-[10px]"></i></button>
-                    </div>
-                </div>
-                <!-- Item 2 (Horizontal) -->
-                <div class="horizontal-item-card">
-                    <div class="w-24 h-24 bg-slate-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-slate-300">
-                        <i class="fa-solid fa-cube text-4xl"></i>
-                    </div>
-                    <div class="flex-grow">
-                        <h5 class="font-bold text-base tracking-tight">화이트 큐브 좌대</h5>
-                        <p class="text-xs text-slate-400 font-light mt-1">M 사이즈 (800mm)</p>
-                    </div>
-                    <div class="text-right flex-shrink-0">
-                        <p class="text-sm font-bold text-navy mb-2">₩15,000</p>
-                        <button class="bg-slate-100 text-navy p-2.5 rounded-full hover:bg-navy hover:text-white transition"><i class="fa-solid fa-plus text-[10px]"></i></button>
-                    </div>
-                </div>
-                <!-- Item 3 (Horizontal) -->
-                <div class="horizontal-item-card border-gold bg-slate-50/50">
-                    <div class="w-24 h-24 bg-white rounded-2xl flex-shrink-0 flex items-center justify-center text-gold/30">
-                        <i class="fa-solid fa-display text-4xl"></i>
-                    </div>
-                    <div class="flex-grow">
-                        <h5 class="font-bold text-base tracking-tight text-navy">미디어용 LED TV</h5>
-                        <p class="text-xs text-slate-400 font-light mt-1">55" 4K HDR 해상도</p>
-                    </div>
-                    <div class="text-right flex-shrink-0">
-                        <p class="text-sm font-bold text-navy mb-2">₩65,000</p>
-                        <button class="bg-gold text-white p-2.5 rounded-full hover:bg-yellow-700 transition"><i class="fa-solid fa-plus text-[10px]"></i></button>
-                    </div>
-                </div>
-                <!-- Item 4 (Horizontal) -->
-                <div class="horizontal-item-card">
-                    <div class="w-24 h-24 bg-blue-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-blue-300">
-                        <i class="fa-solid fa-truck-fast text-4xl"></i>
-                    </div>
-                    <div class="flex-grow">
-                        <h5 class="font-bold text-base tracking-tight">라스트마일 철거 패키지</h5>
-                        <p class="text-xs text-slate-400 font-light mt-1">종료 후 즉시 수거 및 배송</p>
-                    </div>
-                    <div class="text-right flex-shrink-0">
-                        <p class="text-sm font-bold text-blue-600 mb-2">Package</p>
-                        <button class="bg-blue-600 text-white p-2.5 rounded-full hover:opacity-80 transition"><i class="fa-solid fa-chevron-right text-[10px]"></i></button>
-                    </div>
-                </div>
+            <!-- E-commerce Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="rentalProductsGrid">
+                <!-- JS Data injected here -->
             </div>
         </div>
     </section>
 
-    <!-- AI Scan (Compact) -->
+    <!-- AI Scan -->
     <section id="ai" class="py-24 bg-slate-50 border-y border-slate-100">
         <div class="max-w-[1100px] mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
             <div class="relative rounded-[40px] overflow-hidden bg-slate-200 aspect-[16/10] shadow-lg">
@@ -315,13 +311,13 @@
                 <div class="absolute inset-0 scan-line"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center">
-                        <p class="text-[10px] font-bold tracking-[0.4em] uppercase opacity-50 mb-1">Analyzing</p>
-                        <h4 class="text-lg font-light tracking-tight">AI Space Twin</h4>
+                        <p class="text-[10px] font-bold tracking-[0.4em] uppercase text-[#1C44FF] mb-1">Analyzing</p>
+                        <h4 class="text-lg font-light tracking-tight text-slate-800">AI Space Twin</h4>
                     </div>
                 </div>
             </div>
             <div class="text-center md:text-left">
-                <span class="text-[11px] font-bold uppercase tracking-widest text-gold mb-3 block">AI Curation</span>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-[#1C44FF] mb-3 block">AI Curation</span>
                 <h2 class="text-3xl font-bold mb-6 tracking-tight">데이터로 설계하는 완벽한 전시.</h2>
                 <p class="text-slate-500 font-light text-base leading-relaxed mb-10">
                     공급자의 도면을 분석하여 작품의 가상 배치를 지원합니다.<br>
@@ -329,11 +325,11 @@
                 </p>
                 <div class="flex justify-center md:justify-start gap-12">
                     <div>
-                        <h5 class="font-bold text-sm mb-1">실측 매칭</h5>
+                        <h5 class="font-bold text-sm mb-1 text-slate-800">실측 매칭</h5>
                         <p class="text-[11px] text-slate-400">1:1 도면 데이터 활용</p>
                     </div>
                     <div>
-                        <h5 class="font-bold text-sm mb-1">조도 분석</h5>
+                        <h5 class="font-bold text-sm mb-1 text-slate-800">조도 분석</h5>
                         <p class="text-[11px] text-slate-400">조명 각도 시뮬레이션</p>
                     </div>
                 </div>
@@ -341,25 +337,28 @@
         </div>
     </section>
 
-    <!-- Admin Support (Simplified) -->
+    <!-- Admin Support -->
     <section id="admin" class="py-24 bg-white">
         <div class="max-w-[1100px] mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold mb-20 tracking-tight">복잡한 행정, 한 번에 끝내세요.</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
-                <div class="flex flex-col items-center">
-                    <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl mb-8 text-slate-300"><i class="fa-solid fa-file-contract"></i></div>
-                    <h4 class="font-bold mb-3 text-base text-slate-800 tracking-tight">표준 계약서</h4>
-                    <p class="text-sm text-slate-400 font-light">전대차 동의서 자동 포함</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
+                <div class="admin-doc-card flex flex-col items-center bg-white p-8 rounded-3xl border border-slate-100 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group" data-doc="계약서 미리보기">
+                    <div class="w-16 h-16 bg-[#F0F4FF] rounded-2xl flex items-center justify-center text-2xl mb-8 text-[#1C44FF] group-hover:scale-110 transition-transform"><i class="fa-solid fa-file-contract"></i></div>
+                    <h4 class="font-bold mb-3 text-lg text-slate-800 tracking-tight group-hover:text-[#1C44FF] transition">표준 계약서</h4>
+                    <p class="text-sm text-slate-400 font-light mb-4">전대차 동의서 자동 포함</p>
+                    <span class="text-xs font-semibold text-[#1C44FF] opacity-0 group-hover:opacity-100 transition flex items-center">미리보기 <i class="fa-solid fa-magnifying-glass ml-1"></i></span>
                 </div>
-                <div class="flex flex-col items-center border-x border-slate-100/50 px-4">
-                    <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl mb-8 text-slate-300"><i class="fa-solid fa-receipt"></i></div>
-                    <h4 class="font-bold mb-3 text-base text-slate-800 tracking-tight">통합 영수증</h4>
-                    <p class="text-sm text-slate-400 font-light">지원금 정산용 증빙 서류</p>
+                <div class="admin-doc-card flex flex-col items-center bg-white p-8 rounded-3xl border border-slate-100 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group" data-doc="통합 영수증 미리보기">
+                    <div class="w-16 h-16 bg-[#F0F4FF] rounded-2xl flex items-center justify-center text-2xl mb-8 text-[#1C44FF] group-hover:scale-110 transition-transform"><i class="fa-solid fa-receipt"></i></div>
+                    <h4 class="font-bold mb-3 text-lg text-slate-800 tracking-tight group-hover:text-[#1C44FF] transition">통합 영수증</h4>
+                    <p class="text-sm text-slate-400 font-light mb-4">지원금 정산용 증빙 서류</p>
+                    <span class="text-xs font-semibold text-[#1C44FF] opacity-0 group-hover:opacity-100 transition flex items-center">미리보기 <i class="fa-solid fa-magnifying-glass ml-1"></i></span>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl mb-8 text-slate-300"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h4 class="font-bold mb-3 text-base text-slate-800 tracking-tight">단기 보험</h4>
-                    <p class="text-sm text-slate-400 font-light">파손 및 사고 대비 안심장치</p>
+                <div class="admin-doc-card flex flex-col items-center bg-white p-8 rounded-3xl border border-slate-100 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group" data-doc="단기 보험 증권 미리보기">
+                    <div class="w-16 h-16 bg-[#F0F4FF] rounded-2xl flex items-center justify-center text-2xl mb-8 text-[#1C44FF] group-hover:scale-110 transition-transform"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h4 class="font-bold mb-3 text-lg text-slate-800 tracking-tight group-hover:text-[#1C44FF] transition">단기 보험</h4>
+                    <p class="text-sm text-slate-400 font-light mb-4">파손 및 사고 대비 안심장치</p>
+                    <span class="text-xs font-semibold text-[#1C44FF] opacity-0 group-hover:opacity-100 transition flex items-center">미리보기 <i class="fa-solid fa-magnifying-glass ml-1"></i></span>
                 </div>
             </div>
         </div>
@@ -367,18 +366,333 @@
 
     <!-- Footer -->
     <footer class="py-24 bg-white border-t border-slate-100">
-        <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-40">
-            <span class="font-bold text-lg tracking-tighter mb-8 md:mb-0">Gallerink</span>
-            <div class="flex space-x-12 text-[11px] font-semibold tracking-widest uppercase">
-                <a href="#" class="hover:text-black transition">Privacy</a>
-                <a href="#" class="hover:text-black transition">Terms</a>
-                <a href="#" class="hover:text-black transition">Contact</a>
+        <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-80">
+            <div class="mb-8 md:mb-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="font-bold text-lg tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            </div>
+            <div class="flex space-x-12 text-[11px] font-semibold tracking-widest uppercase text-slate-400">
+                <a href="#" class="hover:text-[#1C44FF] transition">Privacy</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Terms</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Contact</a>
             </div>
         </div>
-        <div class="text-center mt-14 opacity-20 text-[10px] tracking-[0.3em] uppercase">
+        <div class="text-center mt-14 opacity-30 text-[10px] tracking-[0.3em] uppercase font-semibold text-[#1C44FF]">
             © 2026 GALLERINK. DIRECTED BY HONG DESIGN.
         </div>
     </footer>
 
+    <!-- Modals & Toast Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Sign In Modal -->
+    <div id="signInModal" class="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-md transform scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">마이페이지 (로그인)</h3>
+                <button class="close-modal text-slate-400 hover:text-black transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="space-y-4">
+                <input type="email" placeholder="이메일" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#1C44FF] focus:outline-none transition">
+                <input type="password" placeholder="비밀번호" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#1C44FF] focus:outline-none transition">
+                <button class="w-full bg-[#1C44FF] text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition" onclick="showToast('환영합니다!')">로그인</button>
+            </div>
+            <p class="text-center text-sm text-slate-500 mt-6 cursor-pointer hover:underline hover:text-[#1C44FF] transition">회원가입</p>
+        </div>
+    </div>
+
+    <!-- Document Preview Modal -->
+    <div id="docPreviewModal" class="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[80vh]">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold" id="docPreviewTitle">문서 미리보기</h3>
+                <button class="close-modal text-slate-400 hover:text-black transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="flex-grow overflow-y-auto border border-slate-200 rounded-xl p-6 bg-slate-50 no-scrollbar relative">
+                <div class="w-full h-8 bg-slate-200 rounded mb-6 w-1/2 mx-auto"></div>
+                <div class="space-y-3 mb-8">
+                    <div class="h-4 bg-slate-200 rounded w-full"></div>
+                    <div class="h-4 bg-slate-200 rounded w-full"></div>
+                    <div class="h-4 bg-slate-200 rounded w-5/6"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="h-24 bg-white border border-slate-200 rounded"></div>
+                    <div class="h-24 bg-white border border-slate-200 rounded"></div>
+                </div>
+                <div class="space-y-3">
+                    <div class="h-4 bg-slate-200 rounded w-full"></div>
+                    <div class="h-4 bg-slate-200 rounded w-4/5"></div>
+                    <div class="h-4 bg-slate-200 rounded w-full"></div>
+                </div>
+                <div class="absolute inset-0 bg-white/40 flex items-center justify-center backdrop-blur-[2px]">
+                    <span class="text-[#1C44FF] font-bold text-xl border-2 border-[#1C44FF] px-6 py-2 rounded-lg rotate-[-15deg] opacity-80 uppercase tracking-widest bg-white/80">Preview Only</span>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end">
+                <button class="close-modal bg-[#1C44FF] text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // 전역 Toast 알림 함수 (인라인 이벤트 등에서도 호출 가능하도록)
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-white border border-slate-100 shadow-xl rounded-xl px-5 py-3 flex items-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto';
+            toast.innerHTML = `<div class="w-6 h-6 rounded-full bg-[#F0F4FF] text-[#1C44FF] flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-xs"></i></div><span class="text-sm font-medium text-slate-800">${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Gallery Filtering Logic
+            const filterBtns = document.querySelectorAll('.filter-tag');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active');
+                        b.style.backgroundColor = 'var(--apple-gray)';
+                        b.style.color = '#86868b';
+                    });
+                    
+                    btn.classList.add('active');
+                    btn.style.backgroundColor = 'var(--brand-primary)';
+                    btn.style.color = 'white';
+
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    galleryItems.forEach(item => {
+                        if (filterValue === 'all' || item.getAttribute('data-category').includes(filterValue)) {
+                            item.style.display = 'block';
+                            item.style.opacity = '0';
+                            item.style.transform = 'scale(0.95)';
+                            setTimeout(() => {
+                                item.style.transition = 'all 0.4s ease';
+                                item.style.opacity = '1';
+                                item.style.transform = 'scale(1)';
+                            }, 50);
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // 2. Rental Data
+            const rentalData = {
+                lighting: [
+                    { icon: 'fa-lightbulb', name: '15W 레일 스포트라이트', desc: '웜화이트 (전구색)', price: '₩5,000' },
+                    { icon: 'fa-lightbulb', name: '30W 집중형 스포트라이트', desc: '고광량 핀조명', price: '₩8,000' },
+                    { icon: 'fa-video', name: '핀조명 프로젝터', desc: '작품 집중 조명', price: '₩12,000' },
+                    { icon: 'fa-battery-full', name: '무선 배터리 조명', desc: '선 없는 자유로운 배치', price: '₩15,000' },
+                    { icon: 'fa-lamp', name: '플로어 램프 화이트', desc: '모던 스탠드 조명', price: '₩10,000' },
+                    { icon: 'fa-layer-group', name: '벽면 워시 조명', desc: '넓은 면적을 부드럽게', price: '₩20,000' },
+                    { icon: 'fa-grip-lines', name: '갤러리용 트랙 레일 2m', desc: '추가 레일 설치', price: '₩5,000' },
+                    { icon: 'fa-mobile-screen', name: '스마트 색온도 조절 조명', desc: '앱으로 색온도 제어', price: '₩15,000' }
+                ],
+                furniture: [
+                    { icon: 'fa-cube', name: '화이트 큐브 좌대 (S)', desc: '300 x 300 x 800', price: '₩10,000' },
+                    { icon: 'fa-cube', name: '화이트 큐브 좌대 (M)', desc: '400 x 400 x 800', price: '₩15,000' },
+                    { icon: 'fa-cube', name: '화이트 큐브 좌대 (L)', desc: '500 x 500 x 800', price: '₩20,000' },
+                    { icon: 'fa-box', name: '투명 아크릴 덮개', desc: '보호용 쇼케이스', price: '₩10,000' },
+                    { icon: 'fa-arrows-up-down', name: '전시대용 블랙 스탠드', desc: '가변 높이 조절', price: '₩15,000' },
+                    { icon: 'fa-border-all', name: '이동식 파티션 (2x2m)', desc: '가벽 공간 분리', price: '₩40,000' },
+                    { icon: 'fa-table', name: '방명록/안내 테이블', desc: '심플 화이트 데스크', price: '₩25,000' },
+                    { icon: 'fa-chair', name: '접이식 전시 의자', desc: '스태프/관람객용', price: '₩5,000' }
+                ],
+                digital: [
+                    { icon: 'fa-tv', name: '43인치 FHD 모니터', desc: '미디어 아트용', price: '₩45,000' },
+                    { icon: 'fa-display', name: '55인치 4K UHD 모니터', desc: '초고화질 디스플레이', price: '₩65,000' },
+                    { icon: 'fa-arrows-to-dot', name: '이동식 모니터 스탠드', desc: '각도 및 높이 조절', price: '₩20,000' },
+                    { icon: 'fa-video', name: '단초점 빔프로젝터', desc: '좁은 공간 투사', price: '₩80,000' },
+                    { icon: 'fa-sun', name: '고광량 빔프로젝터', desc: '5000안시 밝은 공간용', price: '₩120,000' },
+                    { icon: 'fa-hard-drive', name: '미디어 플레이어', desc: '자동 반복 재생', price: '₩10,000' },
+                    { icon: 'fa-speaker-deck', name: '무지향성 스피커', desc: '공간을 채우는 사운드', price: '₩30,000' },
+                    { icon: 'fa-headphones', name: '전시장용 2채널 스피커', desc: '정교한 사운드 출력', price: '₩50,000' }
+                ],
+                package: [
+                    { icon: 'fa-truck-fast', name: '베이직 철거 패키지', desc: '10평 이하 원스톱', price: '₩150,000' },
+                    { icon: 'fa-truck', name: '프리미엄 철거 패키지', desc: '대형 전시 공간', price: '₩300,000' },
+                    { icon: 'fa-box-open', name: '작품 포장재 세트', desc: '에어캡 및 코너가드', price: '₩30,000' },
+                    { icon: 'fa-van-shuttle', name: '소형 작품 운송 (다마스)', desc: '근거리 안전 배송', price: '₩50,000' },
+                    { icon: 'fa-truck-moving', name: '1톤 트럭 작품 운송', desc: '대형 작품 배송', price: '₩80,000' },
+                    { icon: 'fa-truck-ramp-box', name: '무진동 윙바디 운송', desc: '고가 미술품 전문', price: '₩150,000' },
+                    { icon: 'fa-user-tie', name: '전문 전시 도우미', desc: '1일 (8시간) 기준', price: '₩100,000' },
+                    { icon: 'fa-pen-nib', name: '서문/캡션 번역 대행', desc: '영문 전문 번역', price: '₩80,000' }
+                ]
+            };
+
+            const rentalGrid = document.getElementById('rentalProductsGrid');
+            const rentalTabs = document.querySelectorAll('.rental-tab');
+
+            function bindCartEvents() {
+                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const itemName = btn.getAttribute('data-item');
+                        showToast(`'${itemName}' 물류 장바구니에 담겼습니다.`);
+                    });
+                });
+            }
+
+            function renderRentalItems(category) {
+                rentalGrid.innerHTML = '';
+                const items = rentalData[category];
+                items.forEach((item, index) => {
+                    const delay = index * 30;
+                    const card = document.createElement('div');
+                    card.className = `border border-slate-100 rounded-2xl overflow-hidden hover:border-[#1C44FF] hover:shadow-lg transition group opacity-0 translate-y-4`;
+                    card.innerHTML = `
+                        <div class="aspect-video bg-slate-50 flex items-center justify-center text-4xl text-slate-300 group-hover:text-[#1C44FF] transition">
+                            <i class="fa-solid ${item.icon}"></i>
+                        </div>
+                        <div class="p-4 bg-white flex flex-col h-full">
+                            <div>
+                                <p class="text-[10px] font-bold tracking-widest uppercase text-slate-400 mb-1">${category}</p>
+                                <h5 class="font-bold text-sm mb-1 tracking-tight text-slate-800 leading-snug">${item.name}</h5>
+                                <p class="text-xs text-slate-400 font-light mb-4 line-clamp-1">${item.desc}</p>
+                            </div>
+                            <div class="flex justify-between items-center mt-auto pt-2">
+                                <p class="font-bold text-[#1C44FF] text-sm">${item.price}</p>
+                                <button class="add-to-cart-btn bg-slate-50 border border-slate-100 text-slate-600 w-8 h-8 rounded-full hover:bg-[#1C44FF] hover:text-white hover:border-[#1C44FF] transition flex items-center justify-center" data-item="${item.name}">
+                                    <i class="fa-solid fa-plus text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    rentalGrid.appendChild(card);
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                        card.classList.remove('opacity-0', 'translate-y-4');
+                    }, delay + 50);
+                });
+                bindCartEvents();
+            }
+
+            rentalTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    rentalTabs.forEach(t => {
+                        t.classList.remove('active', 'bg-white', 'shadow-sm', 'text-[#1C44FF]');
+                        t.classList.add('text-slate-500');
+                    });
+                    tab.classList.add('active', 'bg-white', 'shadow-sm', 'text-[#1C44FF]');
+                    tab.classList.remove('text-slate-500');
+                    renderRentalItems(tab.getAttribute('data-tab'));
+                });
+            });
+
+            renderRentalItems('lighting'); // 초기 렌더링
+
+            // --- 네비바 흔들림 방지 로직 (모달 오픈 시 스크롤바 점프 해결) ---
+            function lockScroll() {
+                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+                document.body.style.overflow = 'hidden';
+                document.body.style.paddingRight = `${scrollbarWidth}px`;
+                const navbar = document.querySelector('.glass-nav');
+                if (navbar) navbar.style.paddingRight = `${scrollbarWidth}px`;
+            }
+
+            function unlockScroll() {
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '0px';
+                const navbar = document.querySelector('.glass-nav');
+                if (navbar) navbar.style.paddingRight = '0px';
+            }
+
+            // 3. Modal Logic
+            function setupModal(triggerId, modalId) {
+                const trigger = document.getElementById(triggerId);
+                const modal = document.getElementById(modalId);
+                if (!trigger || !modal) return;
+                
+                const closeBtns = modal.querySelectorAll('.close-modal');
+                const innerContent = modal.firstElementChild;
+
+                function openModal(e) {
+                    if (e) e.preventDefault();
+                    modal.classList.remove('hidden');
+                    void modal.offsetWidth; 
+                    modal.classList.remove('opacity-0');
+                    if(innerContent && innerContent.classList.contains('scale-95')) {
+                        innerContent.classList.remove('scale-95');
+                        innerContent.classList.add('scale-100');
+                    }
+                    lockScroll();
+                }
+
+                function closeModal() {
+                    modal.classList.add('opacity-0');
+                    if(innerContent && innerContent.classList.contains('scale-100')) {
+                        innerContent.classList.remove('scale-100');
+                        innerContent.classList.add('scale-95');
+                    }
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        unlockScroll();
+                    }, 300);
+                }
+
+                trigger.addEventListener('click', openModal);
+                closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
+            }
+
+            setupModal('signInBtn', 'signInModal');
+
+            // 4. Admin Doc Preview Modal Logic
+            const adminCards = document.querySelectorAll('.admin-doc-card');
+            const docPreviewModal = document.getElementById('docPreviewModal');
+            const docTitle = document.getElementById('docPreviewTitle');
+            const closeDocBtns = docPreviewModal.querySelectorAll('.close-modal');
+            const docInnerContent = docPreviewModal.firstElementChild;
+
+            function closeDocModal() {
+                docPreviewModal.classList.add('opacity-0');
+                if(docInnerContent.classList.contains('scale-100')) {
+                    docInnerContent.classList.remove('scale-100');
+                    docInnerContent.classList.add('scale-95');
+                }
+                setTimeout(() => {
+                    docPreviewModal.classList.add('hidden');
+                    unlockScroll();
+                }, 300);
+            }
+
+            adminCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const titleText = card.getAttribute('data-doc');
+                    docTitle.textContent = titleText;
+                    
+                    docPreviewModal.classList.remove('hidden');
+                    void docPreviewModal.offsetWidth;
+                    docPreviewModal.classList.remove('opacity-0');
+                    docInnerContent.classList.remove('scale-95');
+                    docInnerContent.classList.add('scale-100');
+                    lockScroll();
+                });
+            });
+
+            closeDocBtns.forEach(btn => btn.addEventListener('click', closeDocModal));
+            docPreviewModal.addEventListener('click', (e) => {
+                if (e.target === docPreviewModal) closeDocModal();
+            });
+        });
+    </script>
 </body>
 </html>
