@@ -14,8 +14,6 @@
             --brand-light: #F0F4FF;
             --apple-black: #1d1d1f;
             --apple-gray: #f5f5f7;
-            --brand-gold: #c5a059;
-            --navy: #0f172a;
         }
 
         body { 
@@ -90,6 +88,22 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+        /* 서류 도장 이펙트 */
+        .stamp {
+            border: 4px solid #ef4444;
+            color: #ef4444;
+            font-weight: bold;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-15deg);
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -124,9 +138,9 @@
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="#explore" class="btn-brand shadow-xl px-10 py-4 text-sm whitespace-nowrap">전시공간 탐색하기</a>
-                <a href="#explore" class="bg-slate-100 text-slate-600 hover:bg-slate-200 transition px-10 py-4 rounded-full font-semibold text-sm flex items-center whitespace-nowrap" onclick="showToast('공간 등록 페이지로 이동합니다.')">
+                <button class="bg-slate-100 text-slate-600 hover:bg-slate-200 transition px-10 py-4 rounded-full font-semibold text-sm flex items-center whitespace-nowrap" onclick="showToast('공간 등록 페이지로 이동합니다.')">
                     전시공간 등록하기 <i class="fa-solid fa-arrow-right ml-2"></i>
-                </a>
+                </button>
             </div>
         </div>
     </header>
@@ -143,105 +157,119 @@
                         <button class="filter-tag" data-filter="insa">인사/삼청</button>
                         <button class="filter-tag" data-filter="hongdae">홍대/연남</button>
                         <button class="filter-tag" data-filter="itaewon">한남/이태원</button>
-                        <button class="filter-tag" data-filter="nail">못질가능</button>
                     </div>
                 </div>
-                <button class="text-sm font-semibold text-[#1C44FF] bg-[#F0F4FF] px-5 py-2.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition whitespace-nowrap shadow-sm" onclick="showToast('공간 등록 페이지로 이동합니다.')">전시공간 등록하기 <i class="fa-solid fa-plus ml-1"></i></button>
+                <div class="flex gap-2">
+                    <button class="text-sm font-semibold text-[#1C44FF] bg-[#F0F4FF] px-5 py-2.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition whitespace-nowrap shadow-sm" onclick="showToast('공간 등록 폼으로 이동합니다.')">전시공간 등록하기 <i class="fa-solid fa-plus ml-1"></i></button>
+                    <button class="text-sm font-semibold text-slate-600 bg-white border border-slate-200 px-5 py-2.5 rounded-full hover:bg-slate-100 transition whitespace-nowrap shadow-sm" onclick="showToast('더 많은 공간을 불러옵니다.')">더보기 <i class="fa-solid fa-chevron-right ml-1"></i></button>
+                </div>
             </div>
 
             <!-- 8 Gallery Items -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="galleryGrid">
-                <div class="group cursor-pointer gallery-item" data-category="seongsu nail">
+                <div class="group cursor-pointer gallery-item flex flex-col h-full" data-category="seongsu">
                     <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <img src="https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-white shadow-sm"><i class="fa-solid fa-hammer text-[8px] mr-1 text-[#F0F4FF]"></i>못질가능</div>
                         <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-slate-800 uppercase">P2P Space</div>
                     </div>
-                    <div class="px-1">
+                    <div class="px-1 flex-grow flex flex-col">
                         <h4 class="text-base font-bold tracking-tight">성수 브루잉 팝업홀</h4>
                         <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 성동구 · 층고 3.5m</p>
-                        <span class="text-sm font-bold">₩15만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <span class="text-sm font-bold mt-auto mb-3">₩15만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <button class="w-full bg-white border border-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-sm group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all" onclick="showToast('상세 페이지로 이동합니다.')">공간 확인하기</button>
                     </div>
                 </div>
 
-                <div class="group cursor-pointer gallery-item" data-category="insa">
-                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute top-4 right-4 bg-[#1C44FF] px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase shadow-md">Premium</div>
-                    </div>
-                    <div class="px-1">
-                        <h4 class="text-base font-bold tracking-tight">인사동 아틀리에 01</h4>
-                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 종로구 · 화이트큐브</p>
-                        <span class="text-sm font-bold text-[#1C44FF]">₩32만<span class="text-slate-400 font-normal text-xs">/일</span></span>
-                    </div>
-                </div>
-
-                <div class="group cursor-pointer gallery-item" data-category="hongdae nail">
-                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-slate-800 uppercase">Empty Shop</div>
-                    </div>
-                    <div class="px-1">
-                        <h4 class="text-base font-bold tracking-tight">연남 1층 복층 쇼룸</h4>
-                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 마포구 · 층고 4m</p>
-                        <span class="text-sm font-bold">₩12만<span class="text-slate-400 font-normal text-xs">/일</span></span>
-                    </div>
-                </div>
-
-                <div class="group cursor-pointer gallery-item" data-category="itaewon">
-                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1510368173434-297eb0981e4c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute top-4 right-4 bg-[#1C44FF] px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase shadow-md">Premium</div>
-                    </div>
-                    <div class="px-1">
-                        <h4 class="text-base font-bold tracking-tight">한남 갤러리 룸 B</h4>
-                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 용산구 · 대형 통창</p>
-                        <span class="text-sm font-bold text-[#1C44FF]">₩45만<span class="text-slate-400 font-normal text-xs">/일</span></span>
-                    </div>
-                </div>
-
-                <div class="group cursor-pointer gallery-item" data-category="seongsu">
+                <div class="group cursor-pointer gallery-item flex flex-col h-full" data-category="insa">
                     <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
                         <img src="https://images.unsplash.com/photo-1518998053401-878c735c9075?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-[#1C44FF] px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase shadow-md">Premium</div>
+                    </div>
+                    <div class="px-1 flex-grow flex flex-col">
+                        <h4 class="text-base font-bold tracking-tight">인사동 아틀리에 01</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 종로구 · 화이트큐브</p>
+                        <span class="text-sm font-bold text-[#1C44FF] mt-auto mb-3">₩32만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <button class="w-full bg-white border border-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-sm group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all" onclick="showToast('상세 페이지로 이동합니다.')">공간 확인하기</button>
+                    </div>
+                </div>
+
+                <div class="group cursor-pointer gallery-item flex flex-col h-full" data-category="hongdae">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-white shadow-sm"><i class="fa-solid fa-hammer text-[8px] mr-1 text-[#F0F4FF]"></i>못질가능</div>
+                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-slate-800 uppercase">Empty Shop</div>
+                    </div>
+                    <div class="px-1 flex-grow flex flex-col">
+                        <h4 class="text-base font-bold tracking-tight">연남 1층 복층 쇼룸</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 마포구 · 층고 4m</p>
+                        <span class="text-sm font-bold mt-auto mb-3">₩12만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <button class="w-full bg-white border border-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-sm group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all" onclick="showToast('상세 페이지로 이동합니다.')">공간 확인하기</button>
+                    </div>
+                </div>
+
+                <div class="group cursor-pointer gallery-item flex flex-col h-full" data-category="itaewon">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-[#1C44FF] px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase shadow-md">Premium</div>
+                    </div>
+                    <div class="px-1 flex-grow flex flex-col">
+                        <h4 class="text-base font-bold tracking-tight">한남 갤러리 룸 B</h4>
+                        <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 용산구 · 대형 통창</p>
+                        <span class="text-sm font-bold text-[#1C44FF] mt-auto mb-3">₩45만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <button class="w-full bg-white border border-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-sm group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all" onclick="showToast('상세 페이지로 이동합니다.')">공간 확인하기</button>
+                    </div>
+                </div>
+
+                <div class="group cursor-pointer gallery-item flex flex-col h-full" data-category="seongsu">
+                    <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                         <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-slate-800 uppercase">P2P Space</div>
                     </div>
-                    <div class="px-1">
+                    <div class="px-1 flex-grow flex flex-col">
                         <h4 class="text-base font-bold tracking-tight">건대 창고형 스튜디오</h4>
                         <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 광진구 · 인더스트리얼</p>
-                        <span class="text-sm font-bold">₩18만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <span class="text-sm font-bold mt-auto mb-3">₩18만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <button class="w-full bg-white border border-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-sm group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all" onclick="showToast('상세 페이지로 이동합니다.')">공간 확인하기</button>
                     </div>
                 </div>
 
-                <div class="group cursor-pointer gallery-item" data-category="insa nail">
+                <div class="group cursor-pointer gallery-item flex flex-col h-full" data-category="insa">
                     <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
                         <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-white shadow-sm"><i class="fa-solid fa-hammer text-[8px] mr-1 text-[#F0F4FF]"></i>못질가능</div>
                     </div>
-                    <div class="px-1">
+                    <div class="px-1 flex-grow flex flex-col">
                         <h4 class="text-base font-bold tracking-tight">삼청동 한옥 갤러리</h4>
                         <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 종로구 · 못질가능 목조</p>
-                        <span class="text-sm font-bold">₩25만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <span class="text-sm font-bold mt-auto mb-3">₩25만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <button class="w-full bg-white border border-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-sm group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all" onclick="showToast('상세 페이지로 이동합니다.')">공간 확인하기</button>
                     </div>
                 </div>
 
-                <div class="group cursor-pointer gallery-item" data-category="hongdae">
+                <div class="group cursor-pointer gallery-item flex flex-col h-full" data-category="hongdae">
                     <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
                         <img src="https://images.unsplash.com/photo-1507643801261-26c39f2eb5fb?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                     </div>
-                    <div class="px-1">
+                    <div class="px-1 flex-grow flex flex-col">
                         <h4 class="text-base font-bold tracking-tight">홍대입구 미디어월 홀</h4>
                         <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 마포구 · 프로젝션 매핑</p>
-                        <span class="text-sm font-bold">₩30만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <span class="text-sm font-bold mt-auto mb-3">₩30만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <button class="w-full bg-white border border-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-sm group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all" onclick="showToast('상세 페이지로 이동합니다.')">공간 확인하기</button>
                     </div>
                 </div>
 
-                <div class="group cursor-pointer gallery-item" data-category="itaewon nail">
+                <div class="group cursor-pointer gallery-item flex flex-col h-full" data-category="itaewon">
                     <div class="rounded-[24px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative shadow-sm">
                         <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-white shadow-sm"><i class="fa-solid fa-hammer text-[8px] mr-1 text-[#F0F4FF]"></i>못질가능</div>
                         <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-slate-800 uppercase">P2P Space</div>
                     </div>
-                    <div class="px-1">
+                    <div class="px-1 flex-grow flex flex-col">
                         <h4 class="text-base font-bold tracking-tight">이태원 루프탑 갤러리</h4>
                         <p class="text-[13px] text-slate-400 font-light mt-1 mb-2">서울 용산구 · 야외 테라스</p>
-                        <span class="text-sm font-bold">₩22만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <span class="text-sm font-bold mt-auto mb-3">₩22만<span class="text-slate-400 font-normal text-xs">/일</span></span>
+                        <button class="w-full bg-white border border-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-sm group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all" onclick="showToast('상세 페이지로 이동합니다.')">공간 확인하기</button>
                     </div>
                 </div>
             </div>
@@ -253,27 +281,27 @@
         <div class="grid md:grid-cols-2 gap-8">
             <div class="card-split p-12">
                 <div>
-                    <span class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-4 block">For Artists</span>
-                    <h2 class="text-3xl font-bold mb-5">Pass Light</h2>
+                    <span class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-4 block">For Solo Exhibitions</span>
+                    <h2 class="text-3xl font-bold mb-5">P2P Space</h2>
                     <p class="text-slate-500 font-light leading-relaxed max-w-xs text-base">
-                        일상의 공간을 갤러리로. <br>합리적인 비용으로 첫 무대를 시작하세요.
+                        개인 전시를 위한 아늑한 공간. <br>합리적인 비용으로 첫 무대를 시작하세요.
                     </p>
                 </div>
-                <div class="flex justify-between items-end">
-                    <span class="text-xs font-medium opacity-40">1일 5만원부터</span>
+                <div class="flex justify-between items-end mt-12">
+                    <span class="text-xs font-medium opacity-40">소형 갤러리 & 유휴 공간</span>
                     <i class="fa-solid fa-circle-plus text-4xl opacity-10"></i>
                 </div>
             </div>
             <div class="card-split p-12 bg-slate-900 text-white border border-slate-800">
                 <div>
-                    <span class="text-[11px] font-bold uppercase tracking-widest opacity-50 mb-4 block text-[#8AA4FF]">For Professionals</span>
-                    <h2 class="text-3xl font-bold mb-5 text-[#8AA4FF]">Pass Premium</h2>
+                    <span class="text-[11px] font-bold uppercase tracking-widest opacity-50 mb-4 block text-[#8AA4FF]">For Group Exhibitions</span>
+                    <h2 class="text-3xl font-bold mb-5 text-[#8AA4FF]">Large Gallery</h2>
                     <p class="opacity-70 font-light leading-relaxed max-w-xs text-base">
-                        검증된 전문 갤러리. <br>커리어를 완성하는 정식 데뷔를 지원합니다.
+                        졸업 전시 및 단체전을 위한 공간.<br>다수의 인원과 대형 작품을 수용하는 대형 갤러리입니다.
                     </p>
                 </div>
-                <div class="flex justify-between items-end">
-                    <span class="text-xs font-medium opacity-40 text-[#8AA4FF]">전문 큐레이팅 포함</span>
+                <div class="flex justify-between items-end mt-12">
+                    <span class="text-xs font-medium opacity-40 text-[#8AA4FF]">대형 갤러리 & 복합 문화 공간</span>
                     <i class="fa-solid fa-arrow-right-long text-4xl text-[#1C44FF]"></i>
                 </div>
             </div>
@@ -288,11 +316,14 @@
                     <span class="text-[11px] font-bold uppercase tracking-widest text-[#1C44FF] mb-3 block">Pass Freight</span>
                     <h2 class="text-3xl md:text-4xl font-bold tracking-tight">전시를 위한 물류 솔루션</h2>
                 </div>
-                <div class="flex space-x-2 bg-slate-50 p-1 rounded-xl overflow-x-auto no-scrollbar w-full md:w-auto" id="rentalCategoryTabs">
-                    <button class="rental-tab active px-5 py-2.5 text-sm font-semibold rounded-lg bg-white shadow-sm text-[#1C44FF] whitespace-nowrap transition" data-tab="lighting">조명기기</button>
-                    <button class="rental-tab px-5 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition whitespace-nowrap" data-tab="furniture">전시좌대</button>
-                    <button class="rental-tab px-5 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition whitespace-nowrap" data-tab="digital">영상/음향</button>
-                    <button class="rental-tab px-5 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition whitespace-nowrap" data-tab="package">운송/패키지</button>
+                <div class="flex flex-col md:flex-row gap-4 items-center">
+                    <div class="flex space-x-2 bg-slate-50 p-1 rounded-xl overflow-x-auto no-scrollbar w-full md:w-auto" id="rentalCategoryTabs">
+                        <button class="rental-tab active px-5 py-2.5 text-sm font-semibold rounded-lg bg-white shadow-sm text-[#1C44FF] whitespace-nowrap transition" data-tab="lighting">조명기기</button>
+                        <button class="rental-tab px-5 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition whitespace-nowrap" data-tab="furniture">전시좌대</button>
+                        <button class="rental-tab px-5 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition whitespace-nowrap" data-tab="digital">영상/음향</button>
+                        <button class="rental-tab px-5 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-800 transition whitespace-nowrap" data-tab="package">운송/패키지</button>
+                    </div>
+                    <button class="text-sm font-semibold text-slate-600 bg-white border border-slate-200 px-5 py-2.5 rounded-full hover:bg-slate-100 transition whitespace-nowrap shadow-sm" onclick="showToast('전체 물품 보기 페이지로 이동합니다.')">더보기 <i class="fa-solid fa-chevron-right ml-1"></i></button>
                 </div>
             </div>
 
@@ -307,7 +338,7 @@
     <section id="ai" class="py-24 bg-slate-50 border-y border-slate-100">
         <div class="max-w-[1100px] mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
             <div class="relative rounded-[40px] overflow-hidden bg-slate-200 aspect-[16/10] shadow-lg">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale opacity-40">
+                <img src="https://images.unsplash.com/photo-1542868727-4148011116b4?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale opacity-40">
                 <div class="absolute inset-0 scan-line"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center">
@@ -323,7 +354,7 @@
                     공급자의 도면을 분석하여 작품의 가상 배치를 지원합니다.<br>
                     층고, 조명 각도, 관람객 동선을 고려한 최적의 레이아웃을 확인하세요.
                 </p>
-                <div class="flex justify-center md:justify-start gap-12">
+                <div class="flex justify-center md:justify-start gap-12 mb-8">
                     <div>
                         <h5 class="font-bold text-sm mb-1 text-slate-800">실측 매칭</h5>
                         <p class="text-[11px] text-slate-400">1:1 도면 데이터 활용</p>
@@ -333,6 +364,7 @@
                         <p class="text-[11px] text-slate-400">조명 각도 시뮬레이션</p>
                     </div>
                 </div>
+                <button class="btn-brand shadow-lg" onclick="showToast('AI 가상 배치 페이지로 이동합니다.')">내 도면 가상 배치하기 <i class="fa-solid fa-vr-cardboard ml-2"></i></button>
             </div>
         </div>
     </section>
@@ -342,19 +374,19 @@
         <div class="max-w-[1100px] mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold mb-20 tracking-tight">복잡한 행정, 한 번에 끝내세요.</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
-                <div class="admin-doc-card flex flex-col items-center bg-white p-8 rounded-3xl border border-slate-100 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group" data-doc="계약서 미리보기">
+                <div class="admin-doc-card flex flex-col items-center bg-white p-8 rounded-3xl border border-slate-100 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group" data-doc="contract">
                     <div class="w-16 h-16 bg-[#F0F4FF] rounded-2xl flex items-center justify-center text-2xl mb-8 text-[#1C44FF] group-hover:scale-110 transition-transform"><i class="fa-solid fa-file-contract"></i></div>
                     <h4 class="font-bold mb-3 text-lg text-slate-800 tracking-tight group-hover:text-[#1C44FF] transition">표준 계약서</h4>
                     <p class="text-sm text-slate-400 font-light mb-4">전대차 동의서 자동 포함</p>
                     <span class="text-xs font-semibold text-[#1C44FF] opacity-0 group-hover:opacity-100 transition flex items-center">미리보기 <i class="fa-solid fa-magnifying-glass ml-1"></i></span>
                 </div>
-                <div class="admin-doc-card flex flex-col items-center bg-white p-8 rounded-3xl border border-slate-100 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group" data-doc="통합 영수증 미리보기">
+                <div class="admin-doc-card flex flex-col items-center bg-white p-8 rounded-3xl border border-slate-100 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group" data-doc="receipt">
                     <div class="w-16 h-16 bg-[#F0F4FF] rounded-2xl flex items-center justify-center text-2xl mb-8 text-[#1C44FF] group-hover:scale-110 transition-transform"><i class="fa-solid fa-receipt"></i></div>
                     <h4 class="font-bold mb-3 text-lg text-slate-800 tracking-tight group-hover:text-[#1C44FF] transition">통합 영수증</h4>
                     <p class="text-sm text-slate-400 font-light mb-4">지원금 정산용 증빙 서류</p>
                     <span class="text-xs font-semibold text-[#1C44FF] opacity-0 group-hover:opacity-100 transition flex items-center">미리보기 <i class="fa-solid fa-magnifying-glass ml-1"></i></span>
                 </div>
-                <div class="admin-doc-card flex flex-col items-center bg-white p-8 rounded-3xl border border-slate-100 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group" data-doc="단기 보험 증권 미리보기">
+                <div class="admin-doc-card flex flex-col items-center bg-white p-8 rounded-3xl border border-slate-100 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group" data-doc="insurance">
                     <div class="w-16 h-16 bg-[#F0F4FF] rounded-2xl flex items-center justify-center text-2xl mb-8 text-[#1C44FF] group-hover:scale-110 transition-transform"><i class="fa-solid fa-shield-halved"></i></div>
                     <h4 class="font-bold mb-3 text-lg text-slate-800 tracking-tight group-hover:text-[#1C44FF] transition">단기 보험</h4>
                     <p class="text-sm text-slate-400 font-light mb-4">파손 및 사고 대비 안심장치</p>
@@ -403,30 +435,13 @@
 
     <!-- Document Preview Modal -->
     <div id="docPreviewModal" class="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[80vh]">
+        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-3xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold" id="docPreviewTitle">문서 미리보기</h3>
                 <button class="close-modal text-slate-400 hover:text-black transition"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-            <div class="flex-grow overflow-y-auto border border-slate-200 rounded-xl p-6 bg-slate-50 no-scrollbar relative">
-                <div class="w-full h-8 bg-slate-200 rounded mb-6 w-1/2 mx-auto"></div>
-                <div class="space-y-3 mb-8">
-                    <div class="h-4 bg-slate-200 rounded w-full"></div>
-                    <div class="h-4 bg-slate-200 rounded w-full"></div>
-                    <div class="h-4 bg-slate-200 rounded w-5/6"></div>
-                </div>
-                <div class="grid grid-cols-2 gap-4 mb-8">
-                    <div class="h-24 bg-white border border-slate-200 rounded"></div>
-                    <div class="h-24 bg-white border border-slate-200 rounded"></div>
-                </div>
-                <div class="space-y-3">
-                    <div class="h-4 bg-slate-200 rounded w-full"></div>
-                    <div class="h-4 bg-slate-200 rounded w-4/5"></div>
-                    <div class="h-4 bg-slate-200 rounded w-full"></div>
-                </div>
-                <div class="absolute inset-0 bg-white/40 flex items-center justify-center backdrop-blur-[2px]">
-                    <span class="text-[#1C44FF] font-bold text-xl border-2 border-[#1C44FF] px-6 py-2 rounded-lg rotate-[-15deg] opacity-80 uppercase tracking-widest bg-white/80">Preview Only</span>
-                </div>
+            <div id="docContentArea" class="flex-grow overflow-y-auto border border-slate-200 rounded-xl p-8 bg-white shadow-inner text-sm text-slate-800 leading-relaxed font-serif relative">
+                <!-- JS dynamically injects document preview here -->
             </div>
             <div class="mt-6 flex justify-end">
                 <button class="close-modal bg-[#1C44FF] text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">닫기</button>
@@ -436,7 +451,7 @@
 
     <!-- Scripts -->
     <script>
-        // 전역 Toast 알림 함수 (인라인 이벤트 등에서도 호출 가능하도록)
+        // 전역 Toast 알림 함수
         function showToast(message) {
             const toastContainer = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -476,7 +491,7 @@
 
                     galleryItems.forEach(item => {
                         if (filterValue === 'all' || item.getAttribute('data-category').includes(filterValue)) {
-                            item.style.display = 'block';
+                            item.style.display = 'flex';
                             item.style.opacity = '0';
                             item.style.transform = 'scale(0.95)';
                             setTimeout(() => {
@@ -491,47 +506,47 @@
                 });
             });
 
-            // 2. Rental Data
+            // 2. Rental Data with Images (Unsplash)
             const rentalData = {
                 lighting: [
-                    { icon: 'fa-lightbulb', name: '15W 레일 스포트라이트', desc: '웜화이트 (전구색)', price: '₩5,000' },
-                    { icon: 'fa-lightbulb', name: '30W 집중형 스포트라이트', desc: '고광량 핀조명', price: '₩8,000' },
-                    { icon: 'fa-video', name: '핀조명 프로젝터', desc: '작품 집중 조명', price: '₩12,000' },
-                    { icon: 'fa-battery-full', name: '무선 배터리 조명', desc: '선 없는 자유로운 배치', price: '₩15,000' },
-                    { icon: 'fa-lamp', name: '플로어 램프 화이트', desc: '모던 스탠드 조명', price: '₩10,000' },
-                    { icon: 'fa-layer-group', name: '벽면 워시 조명', desc: '넓은 면적을 부드럽게', price: '₩20,000' },
-                    { icon: 'fa-grip-lines', name: '갤러리용 트랙 레일 2m', desc: '추가 레일 설치', price: '₩5,000' },
-                    { icon: 'fa-mobile-screen', name: '스마트 색온도 조절 조명', desc: '앱으로 색온도 제어', price: '₩15,000' }
+                    { image: 'https://images.unsplash.com/photo-1540932239986-30128078f02f?auto=format&fit=crop&w=400&q=80', name: '15W 레일 스포트라이트', desc: '웜화이트 (전구색)', price: '₩5,000' },
+                    { image: 'https://images.unsplash.com/photo-1565814329452-e1efa11c5e8a?auto=format&fit=crop&w=400&q=80', name: '30W 집중형 스포트라이트', desc: '고광량 핀조명', price: '₩8,000' },
+                    { image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=400&q=80', name: '플로어 램프 화이트', desc: '모던 스탠드 조명', price: '₩10,000' },
+                    { image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=400&q=80', name: '벽면 워시 조명', desc: '넓은 면적을 부드럽게', price: '₩20,000' },
+                    { image: 'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=400&q=80', name: '무선 배터리 조명', desc: '선 없는 자유로운 배치', price: '₩15,000' },
+                    { image: 'https://images.unsplash.com/photo-1620127814984-7a32d169e54a?auto=format&fit=crop&w=400&q=80', name: '핀조명 프로젝터', desc: '작품 집중 조명', price: '₩12,000' },
+                    { image: 'https://images.unsplash.com/photo-1524316654215-d72b226e3860?auto=format&fit=crop&w=400&q=80', name: '갤러리용 트랙 레일 2m', desc: '추가 레일 설치', price: '₩5,000' },
+                    { image: 'https://images.unsplash.com/photo-1516084478143-61fc6b3b05a7?auto=format&fit=crop&w=400&q=80', name: '스마트 색온도 조절 조명', desc: '앱으로 색온도 제어', price: '₩15,000' }
                 ],
                 furniture: [
-                    { icon: 'fa-cube', name: '화이트 큐브 좌대 (S)', desc: '300 x 300 x 800', price: '₩10,000' },
-                    { icon: 'fa-cube', name: '화이트 큐브 좌대 (M)', desc: '400 x 400 x 800', price: '₩15,000' },
-                    { icon: 'fa-cube', name: '화이트 큐브 좌대 (L)', desc: '500 x 500 x 800', price: '₩20,000' },
-                    { icon: 'fa-box', name: '투명 아크릴 덮개', desc: '보호용 쇼케이스', price: '₩10,000' },
-                    { icon: 'fa-arrows-up-down', name: '전시대용 블랙 스탠드', desc: '가변 높이 조절', price: '₩15,000' },
-                    { icon: 'fa-border-all', name: '이동식 파티션 (2x2m)', desc: '가벽 공간 분리', price: '₩40,000' },
-                    { icon: 'fa-table', name: '방명록/안내 테이블', desc: '심플 화이트 데스크', price: '₩25,000' },
-                    { icon: 'fa-chair', name: '접이식 전시 의자', desc: '스태프/관람객용', price: '₩5,000' }
+                    { image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&q=80', name: '화이트 큐브 좌대 (S)', desc: '300 x 300 x 800', price: '₩10,000' },
+                    { image: 'https://images.unsplash.com/photo-1595514535311-667cbca83fc8?auto=format&fit=crop&w=400&q=80', name: '화이트 큐브 좌대 (M)', desc: '400 x 400 x 800', price: '₩15,000' },
+                    { image: 'https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?auto=format&fit=crop&w=400&q=80', name: '화이트 큐브 좌대 (L)', desc: '500 x 500 x 800', price: '₩20,000' },
+                    { image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80', name: '투명 아크릴 덮개', desc: '보호용 쇼케이스', price: '₩10,000' },
+                    { image: 'https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&w=400&q=80', name: '방명록/안내 테이블', desc: '심플 화이트 데스크', price: '₩25,000' },
+                    { image: 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=400&q=80', name: '접이식 전시 의자', desc: '스태프/관람객용', price: '₩5,000' },
+                    { image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=400&q=80', name: '이동식 파티션 (2x2m)', desc: '가벽 공간 분리', price: '₩40,000' },
+                    { image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=400&q=80', name: '전시대용 블랙 스탠드', desc: '가변 높이 조절', price: '₩15,000' }
                 ],
                 digital: [
-                    { icon: 'fa-tv', name: '43인치 FHD 모니터', desc: '미디어 아트용', price: '₩45,000' },
-                    { icon: 'fa-display', name: '55인치 4K UHD 모니터', desc: '초고화질 디스플레이', price: '₩65,000' },
-                    { icon: 'fa-arrows-to-dot', name: '이동식 모니터 스탠드', desc: '각도 및 높이 조절', price: '₩20,000' },
-                    { icon: 'fa-video', name: '단초점 빔프로젝터', desc: '좁은 공간 투사', price: '₩80,000' },
-                    { icon: 'fa-sun', name: '고광량 빔프로젝터', desc: '5000안시 밝은 공간용', price: '₩120,000' },
-                    { icon: 'fa-hard-drive', name: '미디어 플레이어', desc: '자동 반복 재생', price: '₩10,000' },
-                    { icon: 'fa-speaker-deck', name: '무지향성 스피커', desc: '공간을 채우는 사운드', price: '₩30,000' },
-                    { icon: 'fa-headphones', name: '전시장용 2채널 스피커', desc: '정교한 사운드 출력', price: '₩50,000' }
+                    { image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=400&q=80', name: '43인치 FHD 모니터', desc: '미디어 아트용', price: '₩45,000' },
+                    { image: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=400&q=80', name: '55인치 4K UHD 모니터', desc: '초고화질 디스플레이', price: '₩65,000' },
+                    { image: 'https://images.unsplash.com/photo-1601524909162-ae8725290836?auto=format&fit=crop&w=400&q=80', name: '단초점 빔프로젝터', desc: '좁은 공간 투사', price: '₩80,000' },
+                    { image: 'https://images.unsplash.com/photo-1588691529124-7e05fc8645d4?auto=format&fit=crop&w=400&q=80', name: '고광량 빔프로젝터', desc: '5000안시 밝은 공간용', price: '₩120,000' },
+                    { image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=400&q=80', name: '무지향성 스피커', desc: '공간을 채우는 사운드', price: '₩30,000' },
+                    { image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80', name: '전시장용 2채널 스피커', desc: '정교한 사운드 출력', price: '₩50,000' },
+                    { image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=400&q=80', name: '미디어 플레이어', desc: '자동 반복 재생', price: '₩10,000' },
+                    { image: 'https://images.unsplash.com/photo-1522204523234-8729aa6e3d5f?auto=format&fit=crop&w=400&q=80', name: '이동식 모니터 스탠드', desc: '각도 및 높이 조절', price: '₩20,000' }
                 ],
                 package: [
-                    { icon: 'fa-truck-fast', name: '베이직 철거 패키지', desc: '10평 이하 원스톱', price: '₩150,000' },
-                    { icon: 'fa-truck', name: '프리미엄 철거 패키지', desc: '대형 전시 공간', price: '₩300,000' },
-                    { icon: 'fa-box-open', name: '작품 포장재 세트', desc: '에어캡 및 코너가드', price: '₩30,000' },
-                    { icon: 'fa-van-shuttle', name: '소형 작품 운송 (다마스)', desc: '근거리 안전 배송', price: '₩50,000' },
-                    { icon: 'fa-truck-moving', name: '1톤 트럭 작품 운송', desc: '대형 작품 배송', price: '₩80,000' },
-                    { icon: 'fa-truck-ramp-box', name: '무진동 윙바디 운송', desc: '고가 미술품 전문', price: '₩150,000' },
-                    { icon: 'fa-user-tie', name: '전문 전시 도우미', desc: '1일 (8시간) 기준', price: '₩100,000' },
-                    { icon: 'fa-pen-nib', name: '서문/캡션 번역 대행', desc: '영문 전문 번역', price: '₩80,000' }
+                    { image: 'https://images.unsplash.com/photo-1600518464441-f1548d712fa6?auto=format&fit=crop&w=400&q=80', name: '베이직 철거 패키지', desc: '10평 이하 원스톱', price: '₩150,000' },
+                    { image: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=400&q=80', name: '작품 포장재 세트', desc: '에어캡 및 코너가드', price: '₩30,000' },
+                    { image: 'https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&w=400&q=80', name: '소형 작품 운송 (다마스)', desc: '근거리 안전 배송', price: '₩50,000' },
+                    { image: 'https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=400&q=80', name: '1톤 트럭 작품 운송', desc: '대형 작품 배송', price: '₩80,000' },
+                    { image: 'https://images.unsplash.com/photo-1517409257613-2d22a84e314d?auto=format&fit=crop&w=400&q=80', name: '무진동 윙바디 운송', desc: '고가 미술품 전문', price: '₩150,000' },
+                    { image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80', name: '전문 전시 도우미', desc: '1일 (8시간) 기준', price: '₩100,000' },
+                    { image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=400&q=80', name: '서문/캡션 번역 대행', desc: '영문 전문 번역', price: '₩80,000' },
+                    { image: 'https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=400&q=80', name: '프리미엄 철거 패키지', desc: '대형 전시 공간', price: '₩300,000' }
                 ]
             };
 
@@ -554,12 +569,12 @@
                 items.forEach((item, index) => {
                     const delay = index * 30;
                     const card = document.createElement('div');
-                    card.className = `border border-slate-100 rounded-2xl overflow-hidden hover:border-[#1C44FF] hover:shadow-lg transition group opacity-0 translate-y-4`;
+                    card.className = `border border-slate-100 rounded-2xl overflow-hidden hover:border-[#1C44FF] hover:shadow-lg transition group opacity-0 translate-y-4 bg-white flex flex-col`;
                     card.innerHTML = `
-                        <div class="aspect-video bg-slate-50 flex items-center justify-center text-4xl text-slate-300 group-hover:text-[#1C44FF] transition">
-                            <i class="fa-solid ${item.icon}"></i>
+                        <div class="aspect-video bg-slate-100 overflow-hidden relative">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </div>
-                        <div class="p-4 bg-white flex flex-col h-full">
+                        <div class="p-4 flex flex-col flex-grow">
                             <div>
                                 <p class="text-[10px] font-bold tracking-widest uppercase text-slate-400 mb-1">${category}</p>
                                 <h5 class="font-bold text-sm mb-1 tracking-tight text-slate-800 leading-snug">${item.name}</h5>
@@ -595,9 +610,9 @@
                 });
             });
 
-            renderRentalItems('lighting'); // 초기 렌더링
+            renderRentalItems('lighting');
 
-            // --- 네비바 흔들림 방지 로직 (모달 오픈 시 스크롤바 점프 해결) ---
+            // --- Scroll Lock ---
             function lockScroll() {
                 const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
                 document.body.style.overflow = 'hidden';
@@ -659,8 +674,95 @@
             const adminCards = document.querySelectorAll('.admin-doc-card');
             const docPreviewModal = document.getElementById('docPreviewModal');
             const docTitle = document.getElementById('docPreviewTitle');
+            const docContentArea = document.getElementById('docContentArea');
             const closeDocBtns = docPreviewModal.querySelectorAll('.close-modal');
             const docInnerContent = docPreviewModal.firstElementChild;
+
+            // 서류 HTML 데이터
+            const documentTemplates = {
+                contract: `
+                    <div class="max-w-2xl mx-auto space-y-6 relative">
+                        <div class="border-b-2 border-black pb-4 mb-8 text-center">
+                            <h2 class="text-2xl font-bold">표준 임대차 및 전대차 계약서</h2>
+                        </div>
+                        <p><strong>제1조 (목적)</strong><br>본 계약은 '갤러링크' 플랫폼을 통해 임대인(또는 전대인)과 임차인(또는 전차인) 간의 전시 공간 사용에 관한 권리와 의무를 규정함을 목적으로 한다.</p>
+                        <p><strong>제2조 (계약 기간 및 금액)</strong><br>1. 사용 기간: 2026년 OO월 OO일 ~ 2026년 OO월 OO일<br>2. 계약 금액: 일금 OOO원정 (₩OOO)</p>
+                        <p><strong>제3조 (전대차 동의)</strong><br>임대인은 본 공간이 '갤러링크'를 통해 전대될 수 있음을 사전 동의하며, 전차인은 공간을 파손 없이 사용 및 원상 복구할 의무를 가진다.</p>
+                        <div class="mt-12 flex justify-between px-10">
+                            <div><p>임대인: _________________ (인)</p></div>
+                            <div><p>임차인: _________________ (인)</p></div>
+                        </div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                            <div class="stamp">승인</div>
+                        </div>
+                    </div>
+                `,
+                receipt: `
+                    <div class="max-w-xl mx-auto border border-slate-300 p-8 shadow-sm">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold tracking-widest">전자 영수증 (RECEIPT)</h2>
+                            <p class="text-xs text-slate-500 mt-2">No. 2026-GL-00192</p>
+                        </div>
+                        <div class="flex justify-between mb-4 pb-4 border-b border-dashed border-slate-300">
+                            <span>결제 일시</span>
+                            <span>2026.05.04 14:30:00</span>
+                        </div>
+                        <table class="w-full text-left mb-6">
+                            <thead>
+                                <tr class="border-b border-slate-300">
+                                    <th class="py-2">품목/내역</th>
+                                    <th class="py-2 text-right">금액</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-3">인사동 아틀리에 01 (3일 대관)</td>
+                                    <td class="py-3 text-right">₩960,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3">미디어용 LED TV 렌탈</td>
+                                    <td class="py-3 text-right">₩65,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3">화이트 큐브 좌대 (2개)</td>
+                                    <td class="py-3 text-right">₩30,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="flex justify-between font-bold text-lg border-t-2 border-black pt-4">
+                            <span>총 결제 금액 (VAT 포함)</span>
+                            <span class="text-[#1C44FF]">₩1,055,000</span>
+                        </div>
+                    </div>
+                `,
+                insurance: `
+                    <div class="max-w-2xl mx-auto border-4 border-double border-slate-200 p-8 relative">
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-slate-800">단기 전시 종합 보험 증권</h2>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 mb-6 border-y border-slate-300 py-4">
+                            <div class="font-bold text-slate-600">증권번호</div>
+                            <div class="col-span-2">GL-INS-2026-9901</div>
+                            <div class="font-bold text-slate-600">피보험자</div>
+                            <div class="col-span-2">홍길동 (Gallerink 플랫폼 이용자)</div>
+                            <div class="font-bold text-slate-600">보험기간</div>
+                            <div class="col-span-2">전시 시작일 ~ 종료일 (이동 기간 포함)</div>
+                        </div>
+                        <div class="space-y-4">
+                            <h4 class="font-bold text-lg">보장 내역</h4>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><strong>작품 파손 및 도난:</strong> 최대 5,000만원 한도 보상</li>
+                                <li><strong>대관 공간 파손 (원상복구 비용):</strong> 최대 1,000만원 한도 보상</li>
+                                <li><strong>관람객 배상 책임:</strong> 대인/대물 통합 최대 1억원 한도</li>
+                            </ul>
+                            <p class="text-xs text-slate-400 mt-6">* 본 증권은 갤러링크 플랫폼을 통한 대관/물류 이용 기간에 한하여 유효합니다.</p>
+                        </div>
+                        <div class="absolute bottom-8 right-8 pointer-events-none">
+                            <div class="stamp border-[#1C44FF] text-[#1C44FF]">보증</div>
+                        </div>
+                    </div>
+                `
+            };
 
             function closeDocModal() {
                 docPreviewModal.classList.add('opacity-0');
@@ -676,8 +778,15 @@
 
             adminCards.forEach(card => {
                 card.addEventListener('click', () => {
-                    const titleText = card.getAttribute('data-doc');
-                    docTitle.textContent = titleText;
+                    const docType = card.getAttribute('data-doc');
+                    
+                    // Set Title
+                    if(docType === 'contract') docTitle.textContent = '표준 계약서 미리보기';
+                    if(docType === 'receipt') docTitle.textContent = '통합 영수증 미리보기';
+                    if(docType === 'insurance') docTitle.textContent = '단기 보험 증권 미리보기';
+
+                    // Inject HTML Template
+                    docContentArea.innerHTML = documentTemplates[docType];
                     
                     docPreviewModal.classList.remove('hidden');
                     void docPreviewModal.offsetWidth;
