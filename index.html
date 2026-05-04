@@ -111,7 +111,8 @@
     <!-- Navigation -->
     <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center border-b border-slate-100/30 transition-all duration-300">
         <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
-            <a href="#" class="flex items-center">
+            <!-- 1. 로고 클릭 시 새로고침 추가 -->
+            <a href="#" onclick="window.location.reload(); return false;" class="flex items-center">
                 <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="font-bold text-xl tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
             </a>
@@ -126,19 +127,27 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-white">
-        <div class="max-w-4xl animate-fade-in opacity-0">
+    <!-- 3. 메인 히어로 섹션 배경 이미지 적용 -->
+    <header class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <!-- 전시관/갤러리 이미지 -->
+            <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1920&q=80" alt="Exhibition Space" class="w-full h-full object-cover">
+            <!-- 텍스트 가독성을 위한 반투명 오버레이 -->
+            <div class="absolute inset-0 bg-white/85 backdrop-blur-[2px]"></div>
+        </div>
+
+        <div class="max-w-4xl animate-fade-in opacity-0 relative z-10">
             <h1 class="hero-text mb-8 tracking-tight">
                 Link to the Art,<br>
-                <span class="text-slate-300">Link to the Space.</span>
+                <span class="text-slate-400">Link to the Space.</span>
             </h1>
-            <p class="max-w-xl mx-auto text-lg md:text-xl font-light text-slate-500 mb-12 leading-relaxed">
+            <p class="max-w-xl mx-auto text-lg md:text-xl font-medium text-slate-600 mb-12 leading-relaxed">
                 졸업 전시부터 첫 개인전까지.<br>
                 나에게 딱 맞춘 공간과 원스톱 전시 물류를 찾아보세요!
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="#explore" class="btn-brand shadow-xl px-10 py-4 text-sm whitespace-nowrap">전시공간 탐색하기</a>
-                <button class="bg-slate-100 text-slate-600 hover:bg-slate-200 transition px-10 py-4 rounded-full font-semibold text-sm flex items-center whitespace-nowrap" onclick="showToast('공간 등록 페이지로 이동합니다.')">
+                <button class="bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 transition px-10 py-4 rounded-full font-semibold text-sm flex items-center whitespace-nowrap shadow-sm" onclick="showToast('공간 등록 페이지로 이동합니다.')">
                     전시공간 등록하기 <i class="fa-solid fa-arrow-right ml-2"></i>
                 </button>
             </div>
@@ -279,30 +288,34 @@
     <!-- B2C/B2B Split -->
     <section class="py-24 max-w-[1100px] mx-auto px-6">
         <div class="grid md:grid-cols-2 gap-8">
-            <div class="card-split p-12">
+            <div class="card-split p-12 cursor-pointer group" onclick="showToast('P2P Space 상세 페이지로 이동합니다.')">
                 <div>
                     <span class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-4 block">For Solo Exhibitions</span>
-                    <h2 class="text-3xl font-bold mb-5">P2P Space</h2>
+                    <h2 class="text-3xl font-bold mb-5 group-hover:text-[#1C44FF] transition-colors">P2P Space</h2>
                     <p class="text-slate-500 font-light leading-relaxed max-w-xs text-base">
                         개인 전시를 위한 아늑한 공간. <br>합리적인 비용으로 첫 무대를 시작하세요.
                     </p>
                 </div>
                 <div class="flex justify-between items-end mt-12">
                     <span class="text-xs font-medium opacity-40">소형 갤러리 & 유휴 공간</span>
-                    <i class="fa-solid fa-circle-plus text-4xl opacity-10"></i>
+                    <button class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#1C44FF] shadow-sm group-hover:scale-110 group-hover:bg-[#1C44FF] group-hover:text-white transition-all duration-300">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
-            <div class="card-split p-12 bg-slate-900 text-white border border-slate-800">
+            <div class="card-split p-12 bg-slate-900 text-white border border-slate-800 cursor-pointer group" onclick="showToast('Large Gallery 상세 페이지로 이동합니다.')">
                 <div>
                     <span class="text-[11px] font-bold uppercase tracking-widest opacity-50 mb-4 block text-[#8AA4FF]">For Group Exhibitions</span>
-                    <h2 class="text-3xl font-bold mb-5 text-[#8AA4FF]">Large Gallery</h2>
+                    <h2 class="text-3xl font-bold mb-5 text-[#8AA4FF] group-hover:text-white transition-colors">Large Gallery</h2>
                     <p class="opacity-70 font-light leading-relaxed max-w-xs text-base">
                         졸업 전시 및 단체전을 위한 공간.<br>다수의 인원과 대형 작품을 수용하는 대형 갤러리입니다.
                     </p>
                 </div>
                 <div class="flex justify-between items-end mt-12">
                     <span class="text-xs font-medium opacity-40 text-[#8AA4FF]">대형 갤러리 & 복합 문화 공간</span>
-                    <i class="fa-solid fa-arrow-right-long text-4xl text-[#1C44FF]"></i>
+                    <button class="w-12 h-12 rounded-full bg-[#1C44FF] flex items-center justify-center text-white shadow-md group-hover:scale-110 group-hover:bg-white group-hover:text-[#1C44FF] transition-all duration-300">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -328,8 +341,15 @@
             </div>
 
             <!-- E-commerce Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="rentalProductsGrid">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12" id="rentalProductsGrid">
                 <!-- JS Data injected here -->
+            </div>
+
+            <!-- 4. 장바구니로 이동하기 버튼 -->
+            <div class="text-center">
+                <button class="btn-brand shadow-lg px-12 py-4" onclick="showToast('장바구니 페이지로 이동합니다.')">
+                    장바구니로 이동하기 <i class="fa-solid fa-cart-shopping ml-2"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -397,7 +417,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-24 bg-white border-t border-slate-100">
+    <footer class="py-24 bg-white border-t border-slate-100 relative">
         <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-80">
             <div class="mb-8 md:mb-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition duration-300">
                 <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -413,6 +433,11 @@
             © 2026 GALLERINK. DIRECTED BY HONG DESIGN.
         </div>
     </footer>
+
+    <!-- 2. 페이지 최상단으로 이동하는 버튼 -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 z-[150] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible pointer-events-none transform translate-y-4">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 
     <!-- Modals & Toast Container -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none"></div>
@@ -443,14 +468,20 @@
             <div id="docContentArea" class="flex-grow overflow-y-auto border border-slate-200 rounded-xl p-8 bg-white shadow-inner text-sm text-slate-800 leading-relaxed font-serif relative">
                 <!-- JS dynamically injects document preview here -->
             </div>
-            <div class="mt-8 flex justify-between items-center border-t border-slate-100 pt-6">
-                <button class="text-slate-500 hover:text-[#1C44FF] transition font-medium flex items-center" onclick="showToast('문서를 PDF로 다운로드합니다.')">
-                    <i class="fa-solid fa-download mr-2"></i> PDF 다운로드
-                </button>
-                <div class="flex gap-3">
-                    <button class="close-modal bg-slate-100 text-slate-700 px-6 py-3 rounded-xl font-semibold hover:bg-slate-200 transition">닫기</button>
-                    <button class="bg-[#1C44FF] text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition flex items-center" onclick="showToast('해당 관리 페이지로 이동합니다.')">
-                        해당 페이지로 이동 <i class="fa-solid fa-arrow-right ml-2"></i>
+            <!-- 5. PDF 다운로드 및 한글 다운로드 버튼 세분화 -->
+            <div class="mt-8 flex flex-col sm:flex-row justify-between items-center border-t border-slate-100 pt-6 gap-4">
+                <div class="flex gap-3 w-full sm:w-auto">
+                    <button class="flex-1 sm:flex-none text-slate-600 bg-slate-100 px-5 py-3 rounded-xl hover:bg-slate-200 hover:text-red-500 transition font-semibold text-sm flex items-center justify-center" onclick="showToast('PDF 파일이 다운로드됩니다.')">
+                        <i class="fa-solid fa-file-pdf mr-2 text-red-500"></i> PDF 다운로드
+                    </button>
+                    <button class="flex-1 sm:flex-none text-slate-600 bg-slate-100 px-5 py-3 rounded-xl hover:bg-slate-200 hover:text-blue-500 transition font-semibold text-sm flex items-center justify-center" onclick="showToast('한글(HWP) 파일이 다운로드됩니다.')">
+                        <i class="fa-solid fa-file-word mr-2 text-blue-500"></i> 한글 다운로드
+                    </button>
+                </div>
+                <div class="flex gap-3 w-full sm:w-auto">
+                    <button class="close-modal bg-slate-100 text-slate-700 px-6 py-3 rounded-xl font-semibold hover:bg-slate-200 transition flex-1 sm:flex-none">닫기</button>
+                    <button class="bg-[#1C44FF] text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition flex items-center justify-center flex-1 sm:flex-none" onclick="showToast('해당 관리 페이지로 이동합니다.')">
+                        관리 페이지로 이동 <i class="fa-solid fa-arrow-right ml-2"></i>
                     </button>
                 </div>
             </div>
@@ -477,6 +508,18 @@
                 setTimeout(() => toast.remove(), 300);
             }, 2500);
         }
+
+        // 스크롤 탑 버튼 보이기/숨기기 로직
+        window.addEventListener('scroll', () => {
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.add('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.remove('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             // 1. Gallery Filtering Logic
@@ -527,7 +570,7 @@
                     { image: safeImg2, name: '30W 집중형 스포트라이트', desc: '고광량 핀조명', price: '₩8,000' },
                     { image: safeImg3, name: '플로어 램프 화이트', desc: '모던 스탠드 조명', price: '₩10,000' },
                     { image: safeImg4, name: '벽면 워시 조명', desc: '넓은 면적을 부드럽게', price: '₩20,000' },
-                    { image: safeImg5, name: '무선 배터리 조명', desc: '선 없는 자유로운 배치', price: '₩15,000' },
+                    { image: safeImg5, name: '무선 배터 조명', desc: '선 없는 자유로운 배치', price: '₩15,000' },
                     { image: safeImg1, name: '핀조명 프로젝터', desc: '작품 집중 조명', price: '₩12,000' },
                     { image: safeImg2, name: '갤러리용 트랙 레일 2m', desc: '추가 레일 설치', price: '₩5,000' },
                     { image: safeImg3, name: '스마트 색온도 조절 조명', desc: '앱으로 색온도 제어', price: '₩15,000' }
