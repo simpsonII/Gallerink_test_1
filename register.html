@@ -30,6 +30,15 @@
             -webkit-backdrop-filter: saturate(180%) blur(20px);
         }
 
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -89,29 +98,60 @@
 </head>
 <body class="overflow-x-hidden pt-14 text-slate-800">
 
-    <!-- Navigation -->
+    <!-- Global Navigation -->
     <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center border-b border-slate-100/30 transition-all duration-300">
         <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
+            <!-- Text Logo -->
             <a href="index.html" class="flex items-center">
-                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="font-bold text-xl tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
             </a>
-            <div class="hidden md:flex space-x-10 text-[13px] font-medium opacity-70">
-                <a href="index.html#explore" class="hover:text-[#1C44FF] hover:opacity-100 transition">Explore</a>
-                <a href="index.html#rental" class="hover:text-[#1C44FF] hover:opacity-100 transition">Rental</a>
-                <a href="index.html#ai" class="hover:text-[#1C44FF] hover:opacity-100 transition">AI Curation</a>
-                <a href="index.html#admin" class="hover:text-[#1C44FF] hover:opacity-100 transition">Admin</a>
+
+            <!-- Desktop Menu (6 Items) -->
+            <div class="hidden lg:flex space-x-8 text-[13px] font-medium opacity-70">
+                <a href="space-explore.html" class="hover:text-[#1C44FF] transition">Explore</a>
+                <a href="rental-explore.html" class="hover:text-[#1C44FF] transition">Rental</a>
+                <a href="community-explore.html" class="hover:text-[#1C44FF] transition">Community</a>
+                <a href="ai-curation.html" class="hover:text-[#1C44FF] transition">AI Curation</a>
+                <a href="find-subsidy.html" class="hover:text-[#1C44FF] transition">Find Subsidy</a>
+                <a href="about-us.html" class="hover:text-[#1C44FF] transition">About Us</a>
             </div>
-            <a href="#" id="signInBtn" class="text-[13px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition">마이페이지</a>
+
+            <div class="flex items-center gap-4">
+                <!-- Desktop My Page Button -->
+                <a href="mypage.html" class="hidden md:block text-[12px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition whitespace-nowrap">마이페이지</a>
+                
+                <!-- Hamburger Button (Mobile) -->
+                <button id="menu-toggle" class="lg:hidden text-slate-800 text-xl focus:outline-none p-2 flex-shrink-0">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
     </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/40 z-[140] hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 w-[280px] h-full bg-white z-[150] shadow-2xl flex flex-col p-8 lg:hidden">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-bold text-xl text-[#1C44FF]">Gallerink</span>
+            <button id="menu-close" class="text-slate-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <nav class="flex flex-col space-y-6 text-lg font-semibold text-slate-800">
+            <a href="space-explore.html">Explore</a>
+            <a href="rental-explore.html">Rental</a>
+            <a href="community-explore.html">Community</a>
+            <a href="ai-curation.html">AI Curation</a>
+            <a href="find-subsidy.html">Find Subsidy</a>
+            <a href="about-us.html">About Us</a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-slate-100 flex flex-col gap-4">
+            <a href="mypage.html" class="w-full py-3 bg-[#F0F4FF] text-[#1C44FF] rounded-xl font-bold text-center">마이페이지</a>
+            <button onclick="showToast('설정 페이지는 준비 중입니다.')" class="w-full py-3 border border-slate-200 text-slate-500 rounded-xl font-bold">설정</button>
+        </div>
+    </div>
 
     <!-- Header -->
     <header class="bg-white border-b border-slate-200 py-12 pt-20">
         <div class="max-w-[800px] mx-auto px-6">
-            <button onclick="window.history.back()" class="text-sm font-bold text-slate-500 hover:text-[#1C44FF] transition flex items-center w-fit mb-6">
-                <i class="fa-solid fa-arrow-left mr-2"></i> 뒤로가기
-            </button>
             <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4 break-keep">전시 공간 등록하기</h1>
             <p class="text-slate-500 font-light text-sm md:text-base leading-relaxed break-keep">
                 비어있는 공간을 갤러리로 만들고 예술가들과 연결해보세요.<br class="hidden sm:block">
@@ -281,7 +321,7 @@
                         <h4 class="font-bold text-sm mb-1.5 text-slate-800 break-keep">도면을 등록하고 AI 큐레이션을 활성화하세요.</h4>
                         <p class="text-xs text-slate-500 font-light leading-relaxed break-keep">3D 도면 데이터를 등록하면 전시 기획자가 작품을 가상으로 배치해볼 수 있어 예약 성사율이 300% 증가합니다.</p>
                     </div>
-                    <button type="button" class="bg-white border border-[#1C44FF] text-[#1C44FF] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#F0F4FF] transition whitespace-nowrap w-full sm:w-auto" onclick="showToast('도면 파일 업로드 창이 열립니다.')">
+                    <button type="button" class="bg-white border border-[#1C44FF] text-[#1C44FF] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#F0F4FF] transition whitespace-nowrap w-full sm:w-auto flex-shrink-0" onclick="showToast('도면 파일 업로드 창이 열립니다.')">
                         도면 업로드
                     </button>
                 </div>
@@ -319,8 +359,8 @@
             <!-- 하단 액션 버튼 -->
             <div class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-200 p-4 shadow-[0_-10px_20px_rgba(0,0,0,0.03)] z-[100]">
                 <div class="max-w-[800px] mx-auto flex gap-3">
-                    <button type="button" class="w-1/3 sm:w-1/4 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition text-sm py-4" onclick="showToast('임시저장 되었습니다.')">임시저장</button>
-                    <button type="submit" class="w-2/3 sm:w-3/4 btn-brand font-bold rounded-xl text-sm sm:text-base py-4">등록 심사 요청하기</button>
+                    <button type="button" class="w-1/3 sm:w-1/4 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition text-sm py-4 whitespace-nowrap" onclick="showToast('임시저장 되었습니다.')">임시저장</button>
+                    <button type="submit" class="w-2/3 sm:w-3/4 btn-brand font-bold rounded-xl text-sm sm:text-base py-4 whitespace-nowrap">등록 심사 요청하기</button>
                 </div>
             </div>
 
@@ -328,11 +368,10 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-16 bg-white border-t border-slate-200 relative mt-12 pb-32">
+    <footer class="py-16 bg-white border-t border-slate-200 text-center md:text-left relative mt-12 pb-32">
         <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-80">
-            <div class="mb-8 md:mb-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition duration-300">
-                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="font-bold text-lg tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            <div class="mb-8 md:mb-0">
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
             </div>
             <div class="flex space-x-8 text-[11px] font-semibold tracking-widest uppercase text-slate-400">
                 <a href="#" class="hover:text-[#1C44FF] transition">Privacy</a>
@@ -354,6 +393,31 @@
     <div id="toastContainer" class="fixed bottom-28 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+            function toggleMenu(show) {
+                if(show) {
+                    mobileOverlay.classList.remove('hidden');
+                    setTimeout(() => mobileOverlay.classList.add('opacity-100'), 10);
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileOverlay.classList.remove('opacity-100');
+                    setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            menuToggle?.addEventListener('click', () => toggleMenu(true));
+            menuClose?.addEventListener('click', () => toggleMenu(false));
+            mobileOverlay?.addEventListener('click', () => toggleMenu(false));
+        });
+
         // 전역 Toast 알림 함수
         function showToast(message) {
             const toastContainer = document.getElementById('toastContainer');
