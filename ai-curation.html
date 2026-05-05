@@ -23,7 +23,7 @@
             color: var(--apple-black);
             -webkit-font-smoothing: antialiased;
             letter-spacing: -0.015em;
-            /* 툴 형태이므로 전체 스크롤 방지 및 높이 고정 (데스크탑 기준) */
+            /* 툴 형태이므로 높이 고정 및 스크롤 제어 */
             height: 100vh;
             overflow: hidden;
             display: flex;
@@ -33,6 +33,15 @@
         .glass-nav {
             background: rgba(255, 255, 255, 0.95);
             border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -82,32 +91,62 @@
 </head>
 <body class="pt-14 text-slate-800">
 
-    <!-- Navigation (Compact for Tool) -->
-    <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center transition-all duration-300">
-        <div class="w-full px-6 flex justify-between items-center">
-            <div class="flex items-center gap-6">
-                <a href="index.html" class="flex items-center">
-                    <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="font-bold text-lg tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
-                </a>
-                <div class="h-4 w-px bg-slate-300 hidden md:block"></div>
-                <span class="text-sm font-bold text-slate-700 hidden md:block">AI Space Twin <span class="bg-[#F0F4FF] text-[#1C44FF] text-[9px] px-1.5 py-0.5 rounded ml-1 uppercase tracking-widest">Beta</span></span>
+    <!-- Global Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center border-b border-slate-100/30 transition-all duration-300">
+        <div class="max-w-[1400px] mx-auto w-full px-6 flex justify-between items-center">
+            <!-- Text Logo -->
+            <a href="index.html" class="flex items-center">
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
+            </a>
+
+            <!-- Desktop Menu (6 Items) -->
+            <div class="hidden lg:flex space-x-8 text-[13px] font-medium opacity-70">
+                <a href="space-explore.html" class="hover:text-[#1C44FF] transition">Explore</a>
+                <a href="rental-explore.html" class="hover:text-[#1C44FF] transition">Rental</a>
+                <a href="community-explore.html" class="hover:text-[#1C44FF] transition">Community</a>
+                <a href="ai-curation.html" class="text-[#1C44FF] font-bold">AI Curation</a>
+                <a href="find-subsidy.html" class="hover:text-[#1C44FF] transition">Find Subsidy</a>
+                <a href="about-us.html" class="hover:text-[#1C44FF] transition">About Us</a>
             </div>
-            
+
             <div class="flex items-center gap-4">
-                <button class="text-xs font-semibold text-slate-500 hover:text-slate-800 transition" onclick="showToast('작업 내역이 임시저장되었습니다.')">저장하기</button>
-                <button class="text-xs font-semibold text-white bg-[#1C44FF] px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-md shadow-blue-500/20" onclick="showToast('큐레이션 리포트가 PDF로 다운로드됩니다.')">
-                    <i class="fa-solid fa-download"></i> 리포트 내보내기
+                <!-- Desktop My Page Button -->
+                <a href="mypage.html" class="hidden md:block text-[12px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition">마이페이지</a>
+                
+                <!-- Hamburger Button (Mobile) -->
+                <button id="menu-toggle" class="lg:hidden text-slate-800 text-xl focus:outline-none p-2">
+                    <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
     </nav>
 
+    <!-- Mobile Slide Menu -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/40 z-[140] hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 w-[280px] h-full bg-white z-[150] shadow-2xl flex flex-col p-8 lg:hidden">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-bold text-xl text-[#1C44FF]">Gallerink</span>
+            <button id="menu-close" class="text-slate-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <nav class="flex flex-col space-y-6 text-lg font-semibold text-slate-800">
+            <a href="space-explore.html">Explore</a>
+            <a href="rental-explore.html">Rental</a>
+            <a href="community-explore.html">Community</a>
+            <a href="ai-curation.html" class="text-[#1C44FF]">AI Curation</a>
+            <a href="find-subsidy.html">Find Subsidy</a>
+            <a href="about-us.html">About Us</a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-slate-100 flex flex-col gap-4">
+            <a href="mypage.html" class="w-full py-3 bg-[#F0F4FF] text-[#1C44FF] rounded-xl font-bold text-center">마이페이지</a>
+            <button onclick="showToast('설정 페이지는 준비 중입니다.')" class="w-full py-3 border border-slate-200 text-slate-500 rounded-xl font-bold">설정</button>
+        </div>
+    </div>
+
     <!-- Main Workspace -->
     <main class="flex-grow flex flex-col md:flex-row overflow-hidden bg-slate-200">
         
         <!-- Left Panel: Artworks Library -->
-        <aside class="w-full md:w-80 bg-white border-r border-slate-200 flex flex-col h-[30vh] md:h-full z-10 flex-shrink-0">
+        <aside class="w-full md:w-80 bg-white border-r border-slate-200 flex flex-col h-[35vh] md:h-full z-10 flex-shrink-0">
             <div class="p-4 border-b border-slate-100 flex justify-between items-center">
                 <h2 class="font-bold text-sm">내 작품 라이브러리</h2>
                 <button class="w-8 h-8 rounded-full bg-slate-50 hover:bg-[#F0F4FF] hover:text-[#1C44FF] text-slate-500 flex items-center justify-center transition" onclick="showToast('새 작품 업로드 창이 열립니다.')">
@@ -117,7 +156,6 @@
             
             <div class="flex-grow overflow-y-auto p-4 no-scrollbar">
                 <div class="grid grid-cols-2 gap-3">
-                    <!-- Artwork Item 1 -->
                     <div class="group cursor-grab relative">
                         <div class="aspect-square rounded-xl bg-slate-100 border border-slate-200 overflow-hidden mb-1 hover:border-[#1C44FF] transition">
                             <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
@@ -125,31 +163,12 @@
                         <p class="text-[10px] font-medium text-slate-600 truncate">Untitled (Blue)</p>
                         <p class="text-[9px] text-slate-400">100 x 100 cm</p>
                     </div>
-                    
-                    <!-- Artwork Item 2 -->
                     <div class="group cursor-grab relative">
                         <div class="aspect-square rounded-xl bg-slate-100 border border-slate-200 overflow-hidden mb-1 hover:border-[#1C44FF] transition">
                             <img src="https://images.unsplash.com/photo-1579783900862-c0f32049274d?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
                         </div>
                         <p class="text-[10px] font-medium text-slate-600 truncate">Abstract #04</p>
                         <p class="text-[9px] text-slate-400">80 x 120 cm</p>
-                    </div>
-
-                    <!-- Artwork Item 3 -->
-                    <div class="group cursor-grab relative">
-                        <div class="aspect-square rounded-xl bg-slate-100 border border-slate-200 overflow-hidden mb-1 hover:border-[#1C44FF] transition">
-                            <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
-                        </div>
-                        <p class="text-[10px] font-medium text-slate-600 truncate">The Portrait</p>
-                        <p class="text-[9px] text-slate-400">60 x 80 cm</p>
-                    </div>
-
-                    <!-- Artwork Item 4 -->
-                    <div class="group cursor-grab relative opacity-50">
-                        <div class="aspect-square rounded-xl bg-slate-50 border border-slate-200 border-dashed flex items-center justify-center mb-1">
-                            <i class="fa-solid fa-image text-slate-300 text-xl"></i>
-                        </div>
-                        <p class="text-[10px] font-medium text-slate-400 truncate">작품 없음</p>
                     </div>
                 </div>
                 
@@ -161,7 +180,7 @@
         </aside>
 
         <!-- Center Panel: 3D Workspace -->
-        <section class="flex-grow relative h-[50vh] md:h-full flex flex-col">
+        <section class="flex-grow relative h-[45vh] md:h-full flex flex-col">
             <!-- Toolbar Overlay -->
             <div class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur shadow-sm border border-slate-200 rounded-full px-2 py-1.5 flex gap-1 z-20">
                 <button class="tool-btn active w-8 h-8 rounded-full border border-transparent text-sm flex items-center justify-center text-slate-600" onclick="toggleTool(this)" title="선택/이동">
@@ -181,7 +200,7 @@
 
             <!-- Space Selector -->
             <div class="absolute top-4 left-4 z-20">
-                <select class="bg-white/90 backdrop-blur border border-slate-200 text-slate-800 text-xs font-bold rounded-lg focus:ring-[#1C44FF] focus:border-[#1C44FF] block p-2 outline-none cursor-pointer shadow-sm">
+                <select class="bg-white/90 backdrop-blur border border-slate-200 text-slate-800 text-[10px] font-bold rounded-lg focus:ring-[#1C44FF] focus:border-[#1C44FF] block p-2 outline-none cursor-pointer shadow-sm">
                     <option selected>성수 브루잉 팝업홀 (A구역)</option>
                     <option>성수 브루잉 팝업홀 (B구역)</option>
                     <option>내 도면 불러오기...</option>
@@ -190,42 +209,27 @@
 
             <!-- 3D Canvas Area (Mock) -->
             <div class="w-full h-full relative overflow-hidden bg-slate-300">
-                <!-- Background Image of Gallery Space -->
                 <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1600&q=80" class="absolute inset-0 w-full h-full object-cover opacity-80 filter grayscale-[20%]">
-                
-                <!-- 3D Grid Overlay -->
                 <div class="absolute inset-0 grid-bg opacity-40" style="transform: perspective(800px) rotateX(60deg) scale(2); transform-origin: bottom;"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-transparent to-black/30"></div>
 
                 <!-- Mock Artwork placed on wall -->
                 <div class="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 group cursor-move shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-                    <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=400&q=80" class="w-48 h-48 border-[6px] border-white object-cover">
-                    <!-- Transform Controls Mock -->
-                    <div class="absolute -inset-2 border border-[#1C44FF] opacity-0 group-hover:opacity-100 transition hidden md:block">
-                        <div class="absolute -top-1.5 -left-1.5 w-3 h-3 bg-white border border-[#1C44FF]"></div>
-                        <div class="absolute -top-1.5 -right-1.5 w-3 h-3 bg-white border border-[#1C44FF]"></div>
-                        <div class="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-white border border-[#1C44FF]"></div>
-                        <div class="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-white border border-[#1C44FF]"></div>
-                    </div>
-                    <!-- Mock Spotlight Effect -->
-                    <div class="absolute -top-24 left-1/2 transform -translate-x-1/2 w-48 h-48 bg-white/20 blur-xl pointer-events-none rounded-full" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
+                    <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=400&q=80" class="w-32 md:w-48 border-[4px] border-white object-cover transition-all">
+                    <div class="absolute -inset-2 border border-[#1C44FF] opacity-0 group-hover:opacity-100 transition"></div>
                 </div>
 
                 <!-- Data Overlay Box -->
                 <div class="absolute bottom-6 right-6 bg-slate-900/80 backdrop-blur-md border border-slate-700 p-4 rounded-xl text-white shadow-2xl hidden md:block w-48">
-                    <h4 class="text-[10px] font-bold text-slate-400 mb-3 uppercase tracking-widest">Environment Data</h4>
+                    <h4 class="text-[10px] font-bold text-slate-400 mb-3 uppercase tracking-widest text-center">Environment Data</h4>
                     <div class="space-y-2">
-                        <div class="flex justify-between items-center text-xs">
+                        <div class="flex justify-between items-center text-[11px]">
                             <span class="text-slate-300">벽면 조도</span>
                             <span class="font-mono text-green-400">450 lx</span>
                         </div>
-                        <div class="flex justify-between items-center text-xs">
+                        <div class="flex justify-between items-center text-[11px]">
                             <span class="text-slate-300">작품 여백</span>
                             <span class="font-mono text-yellow-400">1.2m</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-slate-300">시야각</span>
-                            <span class="font-mono text-white">최적</span>
                         </div>
                     </div>
                 </div>
@@ -234,136 +238,100 @@
                 <div class="absolute bottom-6 left-6 flex gap-2">
                     <button class="w-8 h-8 bg-white/90 backdrop-blur border border-slate-200 rounded-lg text-slate-600 flex items-center justify-center shadow-sm hover:text-[#1C44FF]" onclick="showToast('확대합니다.')"><i class="fa-solid fa-plus text-xs"></i></button>
                     <button class="w-8 h-8 bg-white/90 backdrop-blur border border-slate-200 rounded-lg text-slate-600 flex items-center justify-center shadow-sm hover:text-[#1C44FF]" onclick="showToast('축소합니다.')"><i class="fa-solid fa-minus text-xs"></i></button>
-                    <button class="px-3 h-8 bg-white/90 backdrop-blur border border-slate-200 rounded-lg text-slate-600 flex items-center justify-center shadow-sm text-xs font-bold hover:text-[#1C44FF]" onclick="showToast('기본 뷰로 초기화합니다.')">Reset</button>
                 </div>
             </div>
         </section>
 
         <!-- Right Panel: Properties & Logistics -->
-        <aside class="w-full md:w-72 bg-white border-l border-slate-200 flex flex-col h-[30vh] md:h-full z-10 flex-shrink-0 overflow-y-auto no-scrollbar">
-            <!-- Properties Tab -->
+        <aside class="w-full md:w-72 bg-white border-l border-slate-200 flex flex-col h-[20vh] md:h-full z-10 flex-shrink-0 overflow-y-auto no-scrollbar">
             <div class="flex text-xs font-bold border-b border-slate-100">
-                <button class="flex-1 py-3 text-[#1C44FF] border-b-2 border-[#1C44FF]">속성(Property)</button>
-                <button class="flex-1 py-3 text-slate-400 hover:text-slate-700 transition" onclick="showToast('필요한 렌탈 물품을 자동으로 추천합니다.')">추천 물류</button>
+                <button class="flex-1 py-3 text-[#1C44FF] border-b-2 border-[#1C44FF]">속성</button>
+                <button class="flex-1 py-3 text-slate-400 hover:text-slate-700 transition" onclick="showToast('필요한 렌탈 물품을 자동 추천합니다.')">추천 물류</button>
             </div>
 
-            <div class="p-5 space-y-6">
-                <!-- Selected Artwork Info -->
+            <div class="p-4 space-y-6">
                 <div>
                     <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Selected Artwork</h4>
-                    <div class="flex items-center gap-3 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                    <div class="flex items-center gap-3 bg-slate-50 p-2 rounded-lg border border-slate-100 text-xs">
                         <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded object-cover">
                         <div>
-                            <p class="text-xs font-bold text-slate-800">Untitled (Blue)</p>
+                            <p class="font-bold text-slate-800 truncate">Untitled (Blue)</p>
                             <p class="text-[10px] text-slate-500">캔버스에 유채, 2023</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Position & Scale -->
-                <div>
+                <div class="space-y-4">
                     <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Transform</h4>
                     <div class="space-y-3">
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="text-slate-600">높이 (Y축)</span>
-                            <div class="flex items-center gap-1">
-                                <input type="number" value="1.5" step="0.1" class="w-12 p-1 border border-slate-200 rounded text-center focus:border-[#1C44FF] outline-none">
-                                <span class="text-slate-400">m</span>
-                            </div>
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="text-slate-600">높이 (Y)</span>
+                            <input type="number" value="1.5" step="0.1" class="w-12 p-1 border border-slate-200 rounded text-center focus:border-[#1C44FF] outline-none">
                         </div>
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="text-slate-600">비율 (Scale)</span>
-                            <div class="flex items-center gap-1">
-                                <input type="number" value="100" step="1" class="w-12 p-1 border border-slate-200 rounded text-center focus:border-[#1C44FF] outline-none">
-                                <span class="text-slate-400">%</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-[10px] text-slate-500 mb-1">
-                                <span>가로 간격 정렬</span>
-                                <span>Center</span>
-                            </div>
-                            <input type="range" min="0" max="100" value="50" oninput="showToast('정렬 위치가 변경되었습니다.')">
-                        </div>
+                        <input type="range" min="0" max="100" value="50" oninput="showToast('정렬 위치가 변경되었습니다.')">
                     </div>
                 </div>
 
-                <div class="h-px bg-slate-100"></div>
-
-                <!-- Lighting Setup -->
                 <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Lighting Setup</h4>
-                        <div class="w-7 h-4 bg-[#1C44FF] rounded-full relative cursor-pointer" onclick="this.classList.toggle('bg-slate-300'); this.firstElementChild.classList.toggle('translate-x-3')">
-                            <div class="w-3 h-3 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform translate-x-3"></div>
-                        </div>
-                    </div>
+                    <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Lighting</h4>
                     <div class="space-y-4">
-                        <!-- Light Option 1 -->
-                        <div class="border border-[#1C44FF] rounded-lg p-3 bg-[#F0F4FF] cursor-pointer">
-                            <div class="flex items-center gap-2 mb-1">
-                                <i class="fa-solid fa-lightbulb text-[#1C44FF] text-xs"></i>
-                                <span class="text-xs font-bold text-[#1C44FF]">15W 스포트라이트</span>
-                            </div>
-                            <p class="text-[9px] text-slate-500">권장 설치 거리: 1.2m</p>
+                        <div class="border border-[#1C44FF] rounded-lg p-2.5 bg-[#F0F4FF] cursor-pointer">
+                            <span class="text-[11px] font-bold text-[#1C44FF]">15W 스포트라이트 활성화</span>
                         </div>
-                        
-                        <div>
-                            <div class="flex justify-between text-[10px] text-slate-500 mb-1">
-                                <span>조명 밝기 (Intensity)</span>
-                                <span>80%</span>
-                            </div>
-                            <input type="range" min="0" max="100" value="80">
-                        </div>
-                        
-                        <div>
-                            <div class="flex justify-between text-[10px] text-slate-500 mb-1">
-                                <span>색온도 (Temperature)</span>
-                                <span>3200K</span>
-                            </div>
-                            <div class="h-2 w-full rounded-full bg-gradient-to-r from-orange-300 via-white to-blue-200 mt-1"></div>
-                            <input type="range" min="2000" max="6000" value="3200" class="mt-[-10px]">
-                        </div>
+                        <input type="range" min="0" max="100" value="80">
                     </div>
                 </div>
             </div>
             
             <div class="mt-auto p-4 border-t border-slate-100 bg-slate-50">
-                <button class="w-full bg-slate-800 text-white font-bold text-xs py-3 rounded-lg hover:bg-black transition flex items-center justify-center gap-2" onclick="showToast('현재 조명 설정에 맞는 렌탈 솔루션을 장바구니에 담습니다.')">
-                    <i class="fa-solid fa-cart-plus"></i> 필요 물류 일괄 담기
-                </button>
+                <button class="w-full bg-[#1C44FF] text-white font-bold text-xs py-3 rounded-lg hover:bg-blue-700 transition" onclick="showToast('현재 조명 설정에 맞는 물품을 장바구니에 담습니다.')">필요 물류 일괄 담기</button>
             </div>
         </aside>
 
     </main>
 
-    <!-- Toast Container -->
+    <!-- Global Floating Toast -->
     <div id="toastContainer" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
 
     <script>
-        // Toolbar Button Toggle Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+            function toggleMenu(show) {
+                if(show) {
+                    mobileOverlay.classList.remove('hidden');
+                    setTimeout(() => mobileOverlay.classList.add('opacity-100'), 10);
+                    mobileMenu.classList.add('open');
+                } else {
+                    mobileOverlay.classList.remove('opacity-100');
+                    setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+                    mobileMenu.classList.remove('open');
+                }
+            }
+
+            menuToggle?.addEventListener('click', () => toggleMenu(true));
+            menuClose?.addEventListener('click', () => toggleMenu(false));
+            mobileOverlay?.addEventListener('click', () => toggleMenu(false));
+        });
+
         function toggleTool(btn) {
             document.querySelectorAll('.tool-btn').forEach(b => {
-                b.classList.remove('active', 'border-transparent');
-                b.classList.add('border-transparent');
+                b.classList.remove('active');
             });
             btn.classList.add('active');
-            btn.classList.remove('border-transparent');
         }
 
-        // Toast 알림 함수
         function showToast(message) {
             const toastContainer = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            toast.className = 'bg-slate-800 text-white shadow-xl rounded-xl px-5 py-3 flex items-center justify-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center';
-            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span class="text-sm font-medium">${message}</span>`;
+            toast.className = 'bg-slate-800 text-white shadow-xl rounded-xl px-5 py-3 flex items-center justify-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center text-sm font-medium';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span>${message}</span>`;
             
             toastContainer.appendChild(toast);
-            
-            requestAnimationFrame(() => {
-                toast.classList.remove('translate-y-10', 'opacity-0');
-            });
-
+            requestAnimationFrame(() => toast.classList.remove('translate-y-10', 'opacity-0'));
             setTimeout(() => {
                 toast.classList.add('translate-y-10', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
