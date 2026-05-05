@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth" style="scroll-padding-top: 64px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지 - Gallerink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+        
+        :root {
+            --brand-primary: #1C44FF;
+            --brand-light: #F0F4FF;
+            --apple-black: #1d1d1f;
+            --apple-gray: #f5f5f7;
+        }
+
+        body { 
+            font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #f8fafc; 
+            color: var(--apple-black);
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.015em;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #e2e8f0;
+            backdrop-filter: blur(10px);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .btn-brand {
+            background-color: var(--brand-primary);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-brand:hover { 
+            opacity: 0.9; 
+            box-shadow: 0 10px 25px rgba(28, 68, 255, 0.25);
+        }
+
+        .menu-item.active {
+            background-color: var(--brand-light);
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+        .menu-item.active i {
+            color: var(--brand-primary);
+        }
+
+        /* 프로그레스 바 애니메이션 */
+        @keyframes fillProgress {
+            from { width: 0; }
+        }
+        .progress-fill {
+            animation: fillProgress 1s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="pt-14 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center transition-all duration-300">
+        <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
+            <a href="index.html" class="flex items-center">
+                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="font-bold text-lg tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            </a>
+            <div class="hidden md:flex space-x-10 text-[13px] font-medium opacity-70">
+                <a href="explore.html" class="hover:text-[#1C44FF] hover:opacity-100 transition">Explore</a>
+                <a href="rental-explore.html" class="hover:text-[#1C44FF] hover:opacity-100 transition">Rental</a>
+                <a href="ai-curation.html" class="hover:text-[#1C44FF] hover:opacity-100 transition">AI Curation</a>
+                <a href="#" class="hover:text-[#1C44FF] hover:opacity-100 transition">Admin</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button class="relative text-slate-500 hover:text-[#1C44FF] transition" onclick="showToast('알림 센터가 열립니다.')">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+                </button>
+                <div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden cursor-pointer border border-slate-200">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-[1100px] mx-auto px-6 py-10 flex flex-col lg:flex-row gap-8 min-h-screen">
+        
+        <!-- Left Sidebar: Profile & Menu -->
+        <aside class="w-full lg:w-64 flex-shrink-0">
+            <!-- Profile Card -->
+            <div class="bg-white rounded-2xl p-6 border border-slate-200 mb-6 text-center shadow-sm">
+                <div class="w-20 h-20 rounded-full bg-slate-100 mx-auto mb-4 overflow-hidden border-4 border-white shadow-md relative">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                    <button class="absolute bottom-0 inset-x-0 bg-black/50 text-white text-[10px] py-1 opacity-0 hover:opacity-100 transition">변경</button>
+                </div>
+                <h2 class="text-lg font-bold mb-1">김서연 <span class="text-xs font-normal text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full ml-1">Artist</span></h2>
+                <p class="text-xs text-slate-500 mb-4">seoyeon.art@email.com</p>
+                
+                <div class="flex justify-center gap-4 text-xs">
+                    <div class="text-center cursor-pointer hover:text-[#1C44FF] transition" onclick="showToast('전시 이력 페이지로 이동합니다.')">
+                        <p class="font-bold text-slate-800 text-sm">3</p>
+                        <p class="text-slate-500">전시 이력</p>
+                    </div>
+                    <div class="w-px h-8 bg-slate-200"></div>
+                    <div class="text-center cursor-pointer hover:text-[#1C44FF] transition" onclick="showToast('내 작품 라이브러리로 이동합니다.')">
+                        <p class="font-bold text-slate-800 text-sm">12</p>
+                        <p class="text-slate-500">등록 작품</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm sticky top-20">
+                <nav class="flex flex-col">
+                    <a href="#" class="menu-item active flex items-center px-6 py-4 text-sm text-slate-600 hover:bg-slate-50 transition border-b border-slate-100">
+                        <i class="fa-solid fa-layer-group w-6 text-center text-slate-400"></i> 대시보드
+                    </a>
+                    <a href="#" class="menu-item flex items-center px-6 py-4 text-sm text-slate-600 hover:bg-slate-50 transition border-b border-slate-100" onclick="showToast('준비 중인 기능입니다.')">
+                        <i class="fa-regular fa-calendar-check w-6 text-center text-slate-400"></i> 대관 예약 내역
+                    </a>
+                    <a href="#" class="menu-item flex items-center justify-between px-6 py-4 text-sm text-slate-600 hover:bg-slate-50 transition border-b border-slate-100" onclick="showToast('준비 중인 기능입니다.')">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-users-viewfinder w-6 text-center text-slate-400"></i> 공동 전시 관리
+                        </div>
+                        <span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">1</span>
+                    </a>
+                    <a href="#" class="menu-item flex items-center px-6 py-4 text-sm text-slate-600 hover:bg-slate-50 transition border-b border-slate-100" onclick="showToast('준비 중인 기능입니다.')">
+                        <i class="fa-solid fa-cart-shopping w-6 text-center text-slate-400"></i> 물류 장바구니
+                    </a>
+                    <a href="#" class="menu-item flex items-center px-6 py-4 text-sm text-slate-600 hover:bg-slate-50 transition" onclick="showToast('준비 중인 기능입니다.')">
+                        <i class="fa-regular fa-heart w-6 text-center text-slate-400"></i> 찜한 공간
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Right Content Area: Dashboard -->
+        <div class="flex-grow flex flex-col gap-6">
+            <h1 class="text-2xl font-bold tracking-tight mb-2">대시보드</h1>
+
+            <!-- 1. 공동 결제 및 전시 파티원 모집 (핵심 기능) -->
+            <section class="bg-white rounded-3xl border-2 border-[#1C44FF] p-6 md:p-8 shadow-[0_10px_40px_rgba(28,68,255,0.08)] relative overflow-hidden">
+                <!-- Background decoration -->
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+                
+                <div class="flex justify-between items-start mb-6 relative z-10">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-[#1C44FF] text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-md shadow-blue-500/30"><i class="fa-solid fa-wallet"></i> 공동 결제 진행 중</span>
+                            <span class="text-xs text-slate-500 font-medium">결제 마감: 2일 남음</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-slate-800">성수 브루잉 팝업홀 - 그룹 전시 A</h2>
+                        <p class="text-xs text-slate-500 mt-1"><i class="fa-regular fa-calendar mr-1"></i> 2026.06.15 ~ 2026.06.20 (5일 대관 + 조명/좌대 렌탈)</p>
+                    </div>
+                    <button class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold px-4 py-2 rounded-lg transition shadow-sm hidden sm:block" onclick="showToast('공동 전시 초대 링크가 복사되었습니다.')">
+                        <i class="fa-solid fa-link mr-1"></i> 파티원 초대 링크
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 rounded-2xl p-5 md:p-6 border border-slate-100 mb-6 relative z-10">
+                    <div class="flex flex-col md:flex-row justify-between md:items-end gap-6 mb-6 pb-6 border-b border-slate-200">
+                        <div>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">총 결제 금액 (N빵)</p>
+                            <div class="flex items-end gap-2">
+                                <span class="text-3xl font-bold text-[#1C44FF]">₩1,200,000</span>
+                                <span class="text-sm text-slate-500 font-medium mb-1">/ 4명</span>
+                            </div>
+                        </div>
+                        <div class="text-left md:text-right">
+                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">나의 결제 할당액</p>
+                            <span class="text-2xl font-bold text-slate-800">₩300,000</span>
+                        </div>
+                    </div>
+
+                    <!-- 결제 현황 프로그레스 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between text-xs font-bold mb-2">
+                            <span class="text-slate-600">그룹 결제 달성률 (3/4명 완료)</span>
+                            <span class="text-[#1C44FF]">75%</span>
+                        </div>
+                        <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-blue-400 to-[#1C44FF] progress-fill rounded-full" style="width: 75%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- 멤버 리스트 -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Member 1 (Me) -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="w-8 h-8 rounded-full object-cover">
+                                <div>
+                                    <p class="text-xs font-bold text-slate-800">김서연 (나)</p>
+                                    <p class="text-[10px] text-slate-500">파티장 (호스트)</p>
+                                </div>
+                            </div>
+                            <!-- 결제 대기 상태 -->
+                            <button class="bg-[#1C44FF] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm hover:bg-blue-700 transition" onclick="showToast('결제 창으로 이동합니다.')">
+                                ₩300,000 결제하기
+                            </button>
+                        </div>
+
+                        <!-- Member 2 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-100 opacity-80">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" class="w-8 h-8 rounded-full object-cover">
+                                <div>
+                                    <p class="text-xs font-bold text-slate-800">이준호</p>
+                                    <p class="text-[10px] text-slate-500">참여 멤버</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-1 rounded-md"><i class="fa-solid fa-check mr-1"></i>결제완료</span>
+                        </div>
+
+                        <!-- Member 3 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-100 opacity-80">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=100&q=80" class="w-8 h-8 rounded-full object-cover">
+                                <div>
+                                    <p class="text-xs font-bold text-slate-800">박지민</p>
+                                    <p class="text-[10px] text-slate-500">참여 멤버</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-1 rounded-md"><i class="fa-solid fa-check mr-1"></i>결제완료</span>
+                        </div>
+
+                        <!-- Member 4 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-100 opacity-80">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=100&q=80" class="w-8 h-8 rounded-full object-cover">
+                                <div>
+                                    <p class="text-xs font-bold text-slate-800">최민영</p>
+                                    <p class="text-[10px] text-slate-500">참여 멤버</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-1 rounded-md"><i class="fa-solid fa-check mr-1"></i>결제완료</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 relative z-10 sm:hidden">
+                    <button class="w-full bg-slate-100 text-slate-600 text-xs font-bold py-3 rounded-xl hover:bg-slate-200 transition flex items-center justify-center gap-2" onclick="showToast('초대 링크가 복사되었습니다.')">
+                        <i class="fa-solid fa-link"></i> 링크 복사
+                    </button>
+                </div>
+            </section>
+
+            <!-- 2. 예약 확정된 다가오는 전시 -->
+            <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <div class="flex justify-between items-center mb-5">
+                    <h2 class="font-bold text-slate-800">다가오는 전시</h2>
+                    <a href="#" class="text-xs font-medium text-[#1C44FF] hover:underline" onclick="showToast('전체 예약 내역 페이지로 이동합니다.')">전체보기</a>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-5">
+                    <div class="w-full sm:w-1/3 aspect-video sm:aspect-square bg-slate-100 rounded-xl overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                        <div class="absolute top-2 left-2 bg-slate-900/80 text-white text-[10px] font-bold px-2 py-1 rounded-md backdrop-blur-sm">D-12</div>
+                    </div>
+                    <div class="w-full sm:w-2/3 flex flex-col justify-center">
+                        <span class="text-[10px] font-bold text-[#1C44FF] bg-[#F0F4FF] px-2 py-1 rounded w-fit mb-2">예약 확정</span>
+                        <h3 class="text-lg font-bold mb-1">연남 1층 복층 쇼룸 (Empty Shop)</h3>
+                        <p class="text-sm text-slate-500 font-light mb-3">개인전 : Blue Canvas</p>
+                        
+                        <div class="grid grid-cols-2 gap-y-2 text-xs text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <div><span class="font-bold text-slate-400 mr-2">일정</span> 05.16 - 05.20</div>
+                            <div><span class="font-bold text-slate-400 mr-2">장소</span> 서울 마포구 연남동</div>
+                            <div><span class="font-bold text-slate-400 mr-2">물류</span> 패키지 (포함)</div>
+                            <div><span class="font-bold text-slate-400 mr-2">상태</span> 렌탈 배송 준비 중</div>
+                        </div>
+
+                        <div class="mt-4 flex gap-2">
+                            <button class="bg-white border border-slate-200 text-slate-600 text-xs font-semibold px-4 py-2 rounded-lg hover:bg-slate-50 transition" onclick="window.location.href='ai-curation.html'">AI 가상 배치 수정</button>
+                            <button class="bg-white border border-slate-200 text-slate-600 text-xs font-semibold px-4 py-2 rounded-lg hover:bg-slate-50 transition" onclick="showToast('행정 서류 모달이 열립니다.')">서류 다운로드</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. 장바구니 / 찜한 공간 요약 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 장바구니 -->
+                <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm cursor-pointer hover:border-[#1C44FF] transition group" onclick="showToast('장바구니로 이동합니다.')">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-slate-400 group-hover:text-[#1C44FF] transition"></i> 대여 대기 중인 물류</h2>
+                        <span class="text-xs font-bold bg-[#F0F4FF] text-[#1C44FF] w-6 h-6 flex items-center justify-center rounded-full">3</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-sm">
+                            <div class="w-10 h-10 bg-slate-100 rounded-md overflow-hidden flex-shrink-0 border border-slate-200">
+                                <img src="https://images.unsplash.com/photo-1540932239986-30128078f02f?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-grow min-w-0">
+                                <p class="font-bold text-slate-700 truncate">15W 레일 스포트라이트</p>
+                                <p class="text-[10px] text-slate-400">수량 4개</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <div class="w-10 h-10 bg-slate-100 rounded-md overflow-hidden flex-shrink-0 border border-slate-200">
+                                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-grow min-w-0">
+                                <p class="font-bold text-slate-700 truncate">화이트 큐브 좌대 (M)</p>
+                                <p class="text-[10px] text-slate-400">수량 2개</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 찜한 공간 -->
+                <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm cursor-pointer hover:border-red-400 transition group" onclick="showToast('찜한 공간 목록으로 이동합니다.')">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-heart text-slate-400 group-hover:text-red-500 transition"></i> 최근 찜한 공간</h2>
+                        <span class="text-xs font-bold bg-slate-100 text-slate-600 w-6 h-6 flex items-center justify-center rounded-full">2</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-sm">
+                            <div class="w-12 h-8 bg-slate-100 rounded-md overflow-hidden flex-shrink-0 border border-slate-200">
+                                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-grow min-w-0 flex justify-between items-center">
+                                <p class="font-bold text-slate-700 truncate">이태원 루프탑 갤러리</p>
+                                <i class="fa-solid fa-chevron-right text-[10px] text-slate-300"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <div class="w-12 h-8 bg-slate-100 rounded-md overflow-hidden flex-shrink-0 border border-slate-200">
+                                <img src="https://images.unsplash.com/photo-1518998053401-878c735c9075?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-grow min-w-0 flex justify-between items-center">
+                                <p class="font-bold text-slate-700 truncate">건대 창고형 스튜디오</p>
+                                <i class="fa-solid fa-chevron-right text-[10px] text-slate-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-white border-t border-slate-200 mt-12">
+        <div class="max-w-[1100px] mx-auto px-6 flex flex-col items-center opacity-80 text-center">
+            <div class="mb-4 grayscale opacity-50">
+                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="font-bold text-sm tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            </div>
+            <div class="flex space-x-6 text-[10px] font-semibold tracking-widest uppercase text-slate-400 mb-4">
+                <a href="#" class="hover:text-[#1C44FF] transition">Privacy</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Terms</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Contact</a>
+            </div>
+            <div class="opacity-30 text-[9px] tracking-[0.3em] uppercase font-semibold text-[#1C44FF]">
+                © 2026 GALLERINK.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
+
+    <script>
+        // 전역 Toast 알림 함수
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-800 text-white shadow-xl rounded-xl px-5 py-3 flex items-center justify-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span class="text-sm font-medium">${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth" style="scroll-padding-top: 64px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공간 등록하기 - Gallerink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+        
+        :root {
+            --brand-primary: #1C44FF;
+            --brand-light: #F0F4FF;
+            --apple-black: #1d1d1f;
+            --apple-gray: #f5f5f7;
+        }
+
+        body { 
+            font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #f8fafc;
+            color: var(--apple-black);
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.015em;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .btn-brand {
+            background-color: var(--brand-primary);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-brand:hover { 
+            opacity: 0.9; 
+            box-shadow: 0 10px 25px rgba(28, 68, 255, 0.25);
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        @media (max-width: 640px) {
+            .form-section {
+                padding: 24px;
+            }
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.2s;
+            background-color: #f8fafc;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--brand-primary);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(28, 68, 255, 0.1);
+        }
+
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            background-color: #f8fafc;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .upload-zone:hover {
+            border-color: var(--brand-primary);
+            background-color: var(--brand-light);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden pt-14 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center border-b border-slate-100/30 transition-all duration-300">
+        <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
+            <a href="index.html" class="flex items-center">
+                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="font-bold text-xl tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            </a>
+            <div class="hidden md:flex space-x-10 text-[13px] font-medium opacity-70">
+                <a href="index.html#explore" class="hover:text-[#1C44FF] hover:opacity-100 transition">Explore</a>
+                <a href="index.html#rental" class="hover:text-[#1C44FF] hover:opacity-100 transition">Rental</a>
+                <a href="index.html#ai" class="hover:text-[#1C44FF] hover:opacity-100 transition">AI Curation</a>
+                <a href="index.html#admin" class="hover:text-[#1C44FF] hover:opacity-100 transition">Admin</a>
+            </div>
+            <a href="#" id="signInBtn" class="text-[13px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition">마이페이지</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 py-12 pt-20">
+        <div class="max-w-[800px] mx-auto px-6">
+            <button onclick="window.history.back()" class="text-sm font-bold text-slate-500 hover:text-[#1C44FF] transition flex items-center w-fit mb-6">
+                <i class="fa-solid fa-arrow-left mr-2"></i> 뒤로가기
+            </button>
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4 break-keep">전시 공간 등록하기</h1>
+            <p class="text-slate-500 font-light text-sm md:text-base leading-relaxed break-keep">
+                비어있는 공간을 갤러리로 만들고 예술가들과 연결해보세요.<br class="hidden sm:block">
+                정확한 정보를 입력할수록 아티스트와 더 빠르게 매칭됩니다.
+            </p>
+        </div>
+    </header>
+
+    <!-- Registration Form -->
+    <main class="max-w-[800px] mx-auto px-4 sm:px-6 py-12">
+        <form id="spaceRegisterForm" onsubmit="event.preventDefault(); showToast('성공적으로 등록 심사가 요청되었습니다.');">
+            
+            <!-- 1. 기본 정보 -->
+            <section class="form-section">
+                <h3 class="text-lg md:text-xl font-bold mb-6 flex items-center"><span class="w-6 h-6 rounded-full bg-[#1C44FF] text-white flex items-center justify-center text-xs mr-3 flex-shrink-0">1</span> 기본 정보</h3>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">공간 이름 <span class="text-red-500">*</span></label>
+                        <input type="text" class="input-field" placeholder="예) 성수 브루잉 팝업홀" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">공간 유형 <span class="text-red-500">*</span></label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <label class="border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-[#1C44FF] hover:bg-[#F0F4FF] transition flex flex-col gap-1.5 relative">
+                                <input type="radio" name="spaceType" class="absolute top-4 right-4 w-4 h-4 text-[#1C44FF] focus:ring-[#1C44FF]">
+                                <span class="font-bold text-sm text-slate-800 pr-6">P2P Space</span>
+                                <span class="text-xs text-slate-500 break-keep">소형 갤러리 및 유휴 공간 (개인전 위주)</span>
+                            </label>
+                            <label class="border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-[#1C44FF] hover:bg-[#F0F4FF] transition flex flex-col gap-1.5 relative">
+                                <input type="radio" name="spaceType" class="absolute top-4 right-4 w-4 h-4 text-[#1C44FF] focus:ring-[#1C44FF]">
+                                <span class="font-bold text-sm text-[#1C44FF] pr-6">Large Gallery</span>
+                                <span class="text-xs text-slate-500 break-keep">대형 및 전문 복합 문화 공간 (단체전 위주)</span>
+                            </label>
+                            <label class="border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-[#1C44FF] hover:bg-[#F0F4FF] transition flex flex-col gap-1.5 relative">
+                                <input type="radio" name="spaceType" class="absolute top-4 right-4 w-4 h-4 text-[#1C44FF] focus:ring-[#1C44FF]">
+                                <span class="font-bold text-sm text-slate-800 pr-6">Empty Shop</span>
+                                <span class="text-xs text-slate-500 break-keep">단기 임대 가능한 빈 상가 및 팝업스토어</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">한 줄 소개 <span class="text-red-500">*</span></label>
+                        <input type="text" class="input-field" placeholder="공간의 매력을 잘 나타내는 짧은 문장을 적어주세요." required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">상세 소개 <span class="text-red-500">*</span></label>
+                        <textarea class="input-field h-32 resize-none" placeholder="공간의 특징, 주로 열리는 전시 형태, 주변 인프라 등을 자세히 설명해주세요." required></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. 위치 정보 -->
+            <section class="form-section">
+                <h3 class="text-lg md:text-xl font-bold mb-6 flex items-center"><span class="w-6 h-6 rounded-full bg-[#1C44FF] text-white flex items-center justify-center text-xs mr-3 flex-shrink-0">2</span> 위치 정보</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" class="input-field flex-grow bg-white" placeholder="주소를 검색해주세요" readonly required>
+                        <button type="button" class="bg-slate-800 text-white px-6 py-3 sm:py-0 rounded-xl font-semibold text-sm hover:bg-slate-700 transition whitespace-nowrap" onclick="showToast('주소 검색 팝업이 열립니다.')">주소 검색</button>
+                    </div>
+                    <input type="text" class="input-field" placeholder="상세 주소를 입력해주세요 (예: 2층 201호)">
+                    
+                    <div class="w-full h-48 bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative mt-4">
+                        <img src="https://images.unsplash.com/photo-1619468129361-605ebea04b6f?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-50 grayscale" alt="Map">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <p class="text-slate-500 text-sm font-medium bg-white/80 px-4 py-2 rounded-full shadow-sm"><i class="fa-solid fa-map-location-dot mr-2"></i>주소를 입력하면 지도가 표시됩니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. 공간 상세 및 옵션 -->
+            <section class="form-section">
+                <h3 class="text-lg md:text-xl font-bold mb-6 flex items-center"><span class="w-6 h-6 rounded-full bg-[#1C44FF] text-white flex items-center justify-center text-xs mr-3 flex-shrink-0">3</span> 공간 상세 및 옵션</h3>
+                
+                <div class="grid grid-cols-2 gap-4 md:gap-6 mb-8">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">전용 면적 <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <input type="number" class="input-field pr-12" placeholder="0" required>
+                            <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm font-medium">평</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">층고 <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <input type="number" step="0.1" class="input-field pr-12" placeholder="0.0" required>
+                            <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm font-medium">m</span>
+                        </div>
+                    </div>
+                </div>
+
+                <label class="block text-sm font-bold text-slate-700 mb-4">제공 가능한 편의시설 및 옵션 (다중 선택)</label>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-[#1C44FF] transition">
+                        <input type="checkbox" class="w-4 h-4 text-[#1C44FF] rounded focus:ring-[#1C44FF]">
+                        <span class="text-sm font-medium text-slate-700 whitespace-nowrap"><i class="fa-solid fa-hammer w-5 text-slate-400"></i> 못질 가능</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-[#1C44FF] transition">
+                        <input type="checkbox" class="w-4 h-4 text-[#1C44FF] rounded focus:ring-[#1C44FF]">
+                        <span class="text-sm font-medium text-slate-700 whitespace-nowrap"><i class="fa-solid fa-square-parking w-5 text-slate-400"></i> 주차 가능</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-[#1C44FF] transition">
+                        <input type="checkbox" class="w-4 h-4 text-[#1C44FF] rounded focus:ring-[#1C44FF]">
+                        <span class="text-sm font-medium text-slate-700 whitespace-nowrap"><i class="fa-solid fa-wifi w-5 text-slate-400"></i> 와이파이</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-[#1C44FF] transition">
+                        <input type="checkbox" class="w-4 h-4 text-[#1C44FF] rounded focus:ring-[#1C44FF]">
+                        <span class="text-sm font-medium text-slate-700 whitespace-nowrap"><i class="fa-solid fa-lightbulb w-5 text-slate-400"></i> 레일 조명</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-[#1C44FF] transition">
+                        <input type="checkbox" class="w-4 h-4 text-[#1C44FF] rounded focus:ring-[#1C44FF]">
+                        <span class="text-sm font-medium text-slate-700 whitespace-nowrap"><i class="fa-solid fa-tv w-5 text-slate-400"></i> 미디어 최적화</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-[#1C44FF] transition">
+                        <input type="checkbox" class="w-4 h-4 text-[#1C44FF] rounded focus:ring-[#1C44FF]">
+                        <span class="text-sm font-medium text-slate-700 whitespace-nowrap"><i class="fa-solid fa-restroom w-5 text-slate-400"></i> 내부 화장실</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- 4. 이미지 등록 -->
+            <section class="form-section">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-6 gap-2">
+                    <h3 class="text-lg md:text-xl font-bold flex items-center"><span class="w-6 h-6 rounded-full bg-[#1C44FF] text-white flex items-center justify-center text-xs mr-3 flex-shrink-0">4</span> 이미지 등록 <span class="text-red-500 ml-1">*</span></h3>
+                    <span class="text-xs text-slate-400 font-medium">최소 3장, 최대 10장</span>
+                </div>
+                
+                <div class="upload-zone py-12 md:py-16 flex flex-col items-center justify-center text-center px-4" onclick="showToast('이미지 파일 업로드 창이 열립니다.')">
+                    <div class="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mb-4 text-slate-400">
+                        <i class="fa-solid fa-images text-2xl"></i>
+                    </div>
+                    <p class="font-bold text-slate-700 mb-1 text-sm md:text-base">클릭하여 이미지 업로드 또는 드래그 앤 드롭</p>
+                    <p class="text-xs text-slate-400 break-keep mt-2 leading-relaxed">고해상도의 밝은 이미지를 사용할수록 예약률이 높아집니다.<br class="hidden md:block">(JPG, PNG / 단일 파일 최대 10MB)</p>
+                </div>
+            </section>
+
+            <!-- 5. 요금 설정 -->
+            <section class="form-section">
+                <h3 class="text-lg md:text-xl font-bold mb-6 flex items-center"><span class="w-6 h-6 rounded-full bg-[#1C44FF] text-white flex items-center justify-center text-xs mr-3 flex-shrink-0">5</span> 요금 설정</h3>
+                
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">1일 기준 대관료 <span class="text-red-500">*</span></label>
+                    <div class="relative max-w-md">
+                        <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 font-bold">₩</span>
+                        <input type="number" class="input-field pl-10" placeholder="0" required>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2 font-light">* 플랫폼 수수료 10%가 공제된 금액이 정산됩니다.</p>
+                </div>
+            </section>
+
+            <!-- 6. AI 도면 (선택) -->
+            <section class="form-section">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg md:text-xl font-bold flex items-center break-keep"><span class="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-xs mr-3 flex-shrink-0">6</span> AI Space Twin 데이터 <span class="bg-[#F0F4FF] text-[#1C44FF] text-[10px] px-2 py-0.5 rounded ml-2 whitespace-nowrap">선택사항</span></h3>
+                </div>
+                
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-100 flex flex-col sm:flex-row items-center gap-6">
+                    <div class="text-4xl text-[#1C44FF] opacity-40 flex-shrink-0">
+                        <i class="fa-solid fa-vr-cardboard"></i>
+                    </div>
+                    <div class="flex-grow text-center sm:text-left">
+                        <h4 class="font-bold text-sm mb-1.5 text-slate-800 break-keep">도면을 등록하고 AI 큐레이션을 활성화하세요.</h4>
+                        <p class="text-xs text-slate-500 font-light leading-relaxed break-keep">3D 도면 데이터를 등록하면 전시 기획자가 작품을 가상으로 배치해볼 수 있어 예약 성사율이 300% 증가합니다.</p>
+                    </div>
+                    <button type="button" class="bg-white border border-[#1C44FF] text-[#1C44FF] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#F0F4FF] transition whitespace-nowrap w-full sm:w-auto" onclick="showToast('도면 파일 업로드 창이 열립니다.')">
+                        도면 업로드
+                    </button>
+                </div>
+            </section>
+
+            <!-- 7. 법적 임대계약서 업로드 -->
+            <section class="form-section">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
+                    <h3 class="text-lg md:text-xl font-bold flex items-center"><span class="w-6 h-6 rounded-full bg-[#1C44FF] text-white flex items-center justify-center text-xs mr-3 flex-shrink-0">7</span> 법적 계약 서류 <span class="text-red-500 ml-1">*</span></h3>
+                    <button type="button" class="text-xs font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-2 rounded-lg hover:bg-[#1C44FF] hover:text-white transition flex items-center justify-center gap-2 border border-blue-100 w-full sm:w-auto" onclick="showToast('표준 양식이 다운로드됩니다.')">
+                        <i class="fa-solid fa-download"></i> 표준 양식 다운로드
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl p-8 border border-slate-200 border-dashed flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#1C44FF] hover:bg-[#F0F4FF] transition group" onclick="showToast('계약서 파일 업로드 창이 열립니다.')">
+                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-4 text-slate-400 shadow-sm border border-slate-100 group-hover:text-[#1C44FF] transition">
+                        <i class="fa-solid fa-file-contract text-2xl"></i>
+                    </div>
+                    <p class="font-bold text-slate-700 mb-2 text-sm">클릭하여 임대계약서 사본 업로드 (PDF, JPG, PNG)</p>
+                    <p class="text-xs text-slate-500 font-light max-w-sm leading-relaxed break-keep">공간 소유주 본인이 아닐 경우, 전대차 동의 내용이 포함된 임대차 계약서가 반드시 필요합니다.</p>
+                </div>
+            </section>
+
+            <!-- 약관 동의 -->
+            <div class="mb-24 p-4">
+                <label class="flex items-start gap-3 cursor-pointer group">
+                    <input type="checkbox" required class="w-5 h-5 text-[#1C44FF] rounded mt-0.5 focus:ring-[#1C44FF]">
+                    <div>
+                        <span class="text-sm font-bold text-slate-700 block mb-1">(필수) 서비스 이용약관 및 표준 전대차 계약에 동의합니다.</span>
+                        <span class="text-xs text-slate-500 font-light leading-relaxed break-keep">등록된 공간 정보는 갤러링크의 심사(1~2영업일)를 거쳐 공개되며, 플랫폼을 통한 임대 시 표준 계약이 자동 적용됩니다.</span>
+                    </div>
+                </label>
+            </div>
+
+            <!-- 하단 액션 버튼 -->
+            <div class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-200 p-4 shadow-[0_-10px_20px_rgba(0,0,0,0.03)] z-[100]">
+                <div class="max-w-[800px] mx-auto flex gap-3">
+                    <button type="button" class="w-1/3 sm:w-1/4 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition text-sm py-4" onclick="showToast('임시저장 되었습니다.')">임시저장</button>
+                    <button type="submit" class="w-2/3 sm:w-3/4 btn-brand font-bold rounded-xl text-sm sm:text-base py-4">등록 심사 요청하기</button>
+                </div>
+            </div>
+
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-white border-t border-slate-200 relative mt-12 pb-32">
+        <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-80">
+            <div class="mb-8 md:mb-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="font-bold text-lg tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            </div>
+            <div class="flex space-x-8 text-[11px] font-semibold tracking-widest uppercase text-slate-400">
+                <a href="#" class="hover:text-[#1C44FF] transition">Privacy</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Terms</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Contact</a>
+            </div>
+        </div>
+        <div class="text-center mt-10 opacity-30 text-[10px] tracking-[0.3em] uppercase font-semibold text-[#1C44FF]">
+            © 2026 GALLERINK. DIRECTED BY HONG DESIGN.
+        </div>
+    </footer>
+
+    <!-- 페이지 최상단 이동 버튼 -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-28 right-6 z-[150] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible pointer-events-none transform translate-y-4">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-28 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
+
+    <script>
+        // 전역 Toast 알림 함수
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-800 text-white shadow-xl rounded-xl px-5 py-3 flex items-center justify-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span class="text-sm font-medium">${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // 스크롤 탑 버튼 로직
+        window.addEventListener('scroll', () => {
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.add('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.remove('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+            }
+        });
+    </script>
+</body>
+</html>

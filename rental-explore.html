@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth" style="scroll-padding-top: 64px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>물류 솔루션 탐색 - Gallerink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+        
+        :root {
+            --brand-primary: #1C44FF;
+            --brand-light: #F0F4FF;
+            --apple-black: #1d1d1f;
+            --apple-gray: #f5f5f7;
+        }
+
+        body { 
+            font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #ffffff; 
+            color: var(--apple-black);
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.015em;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .filter-pill {
+            padding: 8px 20px;
+            border-radius: 980px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            transition: all 0.2s;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .filter-pill:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+        .filter-pill.active { background: var(--brand-primary); border-color: var(--brand-primary); color: white; }
+    </style>
+</head>
+<body class="overflow-x-hidden pt-14 bg-slate-50">
+
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center border-b border-slate-100/30 transition-all duration-300">
+        <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
+            <a href="index.html" class="flex items-center">
+                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="font-bold text-xl tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            </a>
+            <div class="hidden md:flex space-x-10 text-[13px] font-medium opacity-70">
+                <a href="explore.html" class="hover:text-[#1C44FF] hover:opacity-100 transition">Explore</a>
+                <a href="rental-explore.html" class="text-[#1C44FF] opacity-100 transition font-bold border-b-2 border-[#1C44FF] pb-1">Rental</a>
+                <a href="index.html#ai" class="hover:text-[#1C44FF] hover:opacity-100 transition">AI Curation</a>
+                <a href="index.html#admin" class="hover:text-[#1C44FF] hover:opacity-100 transition">Admin</a>
+            </div>
+            <a href="#" id="signInBtn" class="text-[13px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition">마이페이지</a>
+        </div>
+    </nav>
+
+    <!-- Header & Search -->
+    <header class="bg-white border-b border-slate-200 py-12">
+        <div class="max-w-[1100px] mx-auto px-6">
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">전시 물류 솔루션 탐색</h1>
+            <p class="text-slate-500 font-light mb-8">안전한 운송부터 전시 공간에 꼭 맞는 조명과 가구까지, 갤러링크가 준비해 드립니다.</p>
+            
+            <!-- Search Bar -->
+            <div class="relative max-w-2xl mb-8">
+                <i class="fa-solid fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                <input type="text" placeholder="어떤 물류가 필요하신가요? (예: 레일 조명, 큐브 좌대)" class="w-full pl-12 pr-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-[#1C44FF] focus:ring-1 focus:ring-[#1C44FF] transition shadow-sm">
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2" id="categoryFilter">
+                    <span class="text-xs font-bold text-slate-400 mr-2 whitespace-nowrap uppercase tracking-widest">카테고리</span>
+                    <button class="filter-pill active" data-category="all">전체</button>
+                    <button class="filter-pill" data-category="lighting">조명기기</button>
+                    <button class="filter-pill" data-category="furniture">전시좌대</button>
+                    <button class="filter-pill" data-category="digital">영상/음향</button>
+                    <button class="filter-pill" data-category="package">운송/패키지</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Results Section -->
+    <section class="py-12 max-w-[1100px] mx-auto px-6">
+        <div class="flex justify-between items-center mb-8">
+            <span class="text-sm font-medium text-slate-500">총 <strong class="text-slate-800" id="itemCount">0</strong>개의 아이템</span>
+            <select class="bg-white border border-slate-200 text-slate-600 text-sm rounded-lg focus:ring-[#1C44FF] focus:border-[#1C44FF] block p-2.5 outline-none cursor-pointer shadow-sm">
+                <option selected>추천순</option>
+                <option value="price-asc">가격 낮은순</option>
+                <option value="price-desc">가격 높은순</option>
+            </select>
+        </div>
+
+        <!-- E-commerce Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-16" id="rentalProductsGrid">
+            <!-- JS Data injected here -->
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center">
+            <button class="bg-white border border-slate-200 text-slate-600 px-10 py-4 rounded-full font-semibold hover:bg-slate-50 hover:text-[#1C44FF] hover:border-[#1C44FF] transition shadow-sm" onclick="showToast('다음 아이템을 불러옵니다.')">
+                더보기 <i class="fa-solid fa-chevron-down ml-2"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sticky Bar (Desktop Only - Optional Enhancment) -->
+    <div class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-200 p-4 shadow-[0_-10px_20px_rgba(0,0,0,0.03)] z-[90] hidden md:block">
+        <div class="max-w-[1100px] mx-auto flex justify-between items-center px-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-[#F0F4FF] rounded-full flex items-center justify-center text-[#1C44FF] relative">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">0</span>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-slate-800">장바구니</p>
+                    <p class="text-xs text-slate-500 font-light">물품을 담아 한 번에 결제하세요</p>
+                </div>
+            </div>
+            <button class="bg-[#1C44FF] text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition" onclick="showToast('장바구니 페이지로 이동합니다.')">
+                예약 진행하기
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-white border-t border-slate-200 relative mt-12 pb-32">
+        <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-80">
+            <div class="mb-8 md:mb-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="font-bold text-lg tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            </div>
+            <div class="flex space-x-8 text-[11px] font-semibold tracking-widest uppercase text-slate-400">
+                <a href="#" class="hover:text-[#1C44FF] transition">Privacy</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Terms</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Contact</a>
+            </div>
+        </div>
+        <div class="text-center mt-10 opacity-30 text-[10px] tracking-[0.3em] uppercase font-semibold text-[#1C44FF]">
+            © 2026 GALLERINK. DIRECTED BY HONG DESIGN.
+        </div>
+    </footer>
+
+    <!-- Scroll Top Button -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-28 right-6 z-[150] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible pointer-events-none transform translate-y-4">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-28 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
+
+    <!-- Sign In Modal -->
+    <div id="signInModal" class="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-md transform scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">마이페이지 (로그인)</h3>
+                <button class="close-modal text-slate-400 hover:text-black transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="space-y-4">
+                <input type="email" placeholder="이메일" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#1C44FF] focus:outline-none transition">
+                <input type="password" placeholder="비밀번호" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#1C44FF] focus:outline-none transition">
+                <button class="w-full bg-[#1C44FF] text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition" onclick="showToast('환영합니다!')">로그인</button>
+            </div>
+            <p class="text-center text-sm text-slate-500 mt-6 cursor-pointer hover:underline hover:text-[#1C44FF] transition">회원가입</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // 전역 Toast 알림 함수
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-800 text-white shadow-xl rounded-xl px-5 py-3 flex items-center justify-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span class="text-sm font-medium">${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // 스크롤 탑 버튼 로직
+        window.addEventListener('scroll', () => {
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.add('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.remove('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 장바구니 카운터 연동
+            let cartCount = 0;
+            function updateCartBadge() {
+                cartCount++;
+                const badges = document.querySelectorAll('.fa-cart-shopping + span');
+                badges.forEach(b => b.textContent = cartCount);
+            }
+
+            window.addToCart = function(event, itemName) {
+                event.stopPropagation();
+                updateCartBadge();
+                showToast(`'${itemName}' 장바구니에 담겼습니다.`);
+            }
+
+            // Rental Data (중복을 허용한 안전한 이미지들)
+            const safeImg1 = 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80';
+            const safeImg2 = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=400&q=80';
+            const safeImg3 = 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=400&q=80';
+            const safeImg4 = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80';
+            const safeImg5 = 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=400&q=80';
+
+            const rentalData = {
+                lighting: [
+                    { categoryName: '조명기기', image: safeImg1, name: '15W 레일 스포트라이트', desc: '웜화이트 (전구색)', price: '₩5,000' },
+                    { categoryName: '조명기기', image: safeImg2, name: '30W 집중형 스포트라이트', desc: '고광량 핀조명', price: '₩8,000' },
+                    { categoryName: '조명기기', image: safeImg3, name: '플로어 램프 화이트', desc: '모던 스탠드 조명', price: '₩10,000' },
+                    { categoryName: '조명기기', image: safeImg4, name: '벽면 워시 조명', desc: '넓은 면적을 부드럽게', price: '₩20,000' },
+                    { categoryName: '조명기기', image: safeImg5, name: '무선 배터리 조명', desc: '선 없는 자유로운 배치', price: '₩15,000' },
+                    { categoryName: '조명기기', image: safeImg1, name: '핀조명 프로젝터', desc: '작품 집중 조명', price: '₩12,000' },
+                    { categoryName: '조명기기', image: safeImg2, name: '갤러리용 트랙 레일 2m', desc: '추가 레일 설치', price: '₩5,000' },
+                    { categoryName: '조명기기', image: safeImg3, name: '스마트 색온도 조절 조명', desc: '앱으로 색온도 제어', price: '₩15,000' }
+                ],
+                furniture: [
+                    { categoryName: '전시좌대', image: safeImg4, name: '화이트 큐브 좌대 (S)', desc: '300 x 300 x 800', price: '₩10,000' },
+                    { categoryName: '전시좌대', image: safeImg5, name: '화이트 큐브 좌대 (M)', desc: '400 x 400 x 800', price: '₩15,000' },
+                    { categoryName: '전시좌대', image: safeImg1, name: '화이트 큐브 좌대 (L)', desc: '500 x 500 x 800', price: '₩20,000' },
+                    { categoryName: '전시좌대', image: safeImg2, name: '투명 아크릴 덮개', desc: '보호용 쇼케이스', price: '₩10,000' },
+                    { categoryName: '전시좌대', image: safeImg3, name: '방명록/안내 테이블', desc: '심플 화이트 데스크', price: '₩25,000' },
+                    { categoryName: '전시좌대', image: safeImg4, name: '접이식 전시 의자', desc: '스태프/관람객용', price: '₩5,000' },
+                    { categoryName: '전시좌대', image: safeImg5, name: '이동식 파티션 (2x2m)', desc: '가벽 공간 분리', price: '₩40,000' },
+                    { categoryName: '전시좌대', image: safeImg1, name: '전시대용 블랙 스탠드', desc: '가변 높이 조절', price: '₩15,000' }
+                ],
+                digital: [
+                    { categoryName: '영상/음향', image: safeImg2, name: '43인치 FHD 모니터', desc: '미디어 아트용', price: '₩45,000' },
+                    { categoryName: '영상/음향', image: safeImg3, name: '55인치 4K UHD 모니터', desc: '초고화질 디스플레이', price: '₩65,000' },
+                    { categoryName: '영상/음향', image: safeImg4, name: '단초점 빔프로젝터', desc: '좁은 공간 투사', price: '₩80,000' },
+                    { categoryName: '영상/음향', image: safeImg5, name: '고광량 빔프로젝터', desc: '5000안시 밝은 공간용', price: '₩120,000' },
+                    { categoryName: '영상/음향', image: safeImg1, name: '무지향성 스피커', desc: '공간을 채우는 사운드', price: '₩30,000' },
+                    { categoryName: '영상/음향', image: safeImg2, name: '전시장용 2채널 스피커', desc: '정교한 사운드 출력', price: '₩50,000' },
+                    { categoryName: '영상/음향', image: safeImg3, name: '미디어 플레이어', desc: '자동 반복 재생', price: '₩10,000' },
+                    { categoryName: '영상/음향', image: safeImg4, name: '이동식 모니터 스탠드', desc: '각도 및 높이 조절', price: '₩20,000' }
+                ],
+                package: [
+                    { categoryName: '운송/패키지', image: safeImg5, name: '베이직 철거 패키지', desc: '10평 이하 원스톱', price: '₩150,000' },
+                    { categoryName: '운송/패키지', image: safeImg1, name: '작품 포장재 세트', desc: '에어캡 및 코너가드', price: '₩30,000' },
+                    { categoryName: '운송/패키지', image: safeImg2, name: '소형 작품 운송 (다마스)', desc: '근거리 안전 배송', price: '₩50,000' },
+                    { categoryName: '운송/패키지', image: safeImg3, name: '1톤 트럭 작품 운송', desc: '대형 작품 배송', price: '₩80,000' },
+                    { categoryName: '운송/패키지', image: safeImg4, name: '무진동 윙바디 운송', desc: '고가 미술품 전문', price: '₩150,000' },
+                    { categoryName: '운송/패키지', image: safeImg5, name: '전문 전시 도우미', desc: '1일 (8시간) 기준', price: '₩100,000' },
+                    { categoryName: '운송/패키지', image: safeImg1, name: '서문/캡션 번역 대행', desc: '영문 전문 번역', price: '₩80,000' },
+                    { categoryName: '운송/패키지', image: safeImg2, name: '프리미엄 철거 패키지', desc: '대형 전시 공간', price: '₩300,000' }
+                ]
+            };
+
+            const rentalGrid = document.getElementById('rentalProductsGrid');
+            const itemCount = document.getElementById('itemCount');
+
+            function renderItems(category) {
+                rentalGrid.innerHTML = '';
+                let itemsToRender = [];
+
+                if (category === 'all') {
+                    itemsToRender = [
+                        ...rentalData.lighting, 
+                        ...rentalData.furniture, 
+                        ...rentalData.digital, 
+                        ...rentalData.package
+                    ];
+                } else {
+                    itemsToRender = rentalData[category] || [];
+                }
+
+                itemCount.textContent = itemsToRender.length;
+
+                itemsToRender.forEach((item, index) => {
+                    const delay = (index % 12) * 30; // Max delay limit
+                    const card = document.createElement('div');
+                    card.className = `border border-slate-100 rounded-2xl overflow-hidden hover:border-[#1C44FF] hover:shadow-lg transition group bg-white flex flex-col cursor-pointer opacity-0 translate-y-4`;
+                    card.onclick = () => window.location.href = 'rental-detail.html';
+                    card.innerHTML = `
+                        <div class="aspect-square sm:aspect-video bg-slate-100 overflow-hidden relative border-b border-slate-50">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <div>
+                                <p class="text-[10px] font-bold tracking-widest uppercase text-slate-400 mb-1">${item.categoryName}</p>
+                                <h5 class="font-bold text-sm sm:text-base mb-1 tracking-tight text-slate-800 leading-snug truncate">${item.name}</h5>
+                                <p class="text-xs text-slate-400 font-light mb-4 line-clamp-1">${item.desc}</p>
+                            </div>
+                            <div class="flex justify-between items-center mt-auto pt-2">
+                                <p class="font-bold text-[#1C44FF] text-sm sm:text-base">${item.price}</p>
+                                <button class="bg-slate-50 border border-slate-100 text-slate-600 w-8 h-8 rounded-full hover:bg-[#1C44FF] hover:text-white hover:border-[#1C44FF] transition shadow-sm" onclick="addToCart(event, '${item.name}')">
+                                    <i class="fa-solid fa-plus text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    rentalGrid.appendChild(card);
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                        card.classList.remove('opacity-0', 'translate-y-4');
+                    }, delay + 50);
+                });
+            }
+
+            // Filter Buttons Event Binding
+            const filterBtns = document.querySelectorAll('#categoryFilter .filter-pill');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const category = btn.getAttribute('data-category');
+                    renderItems(category);
+                });
+            });
+
+            // Initial render
+            renderItems('all');
+
+            // Modal Logic
+            function setupModal(triggerId, modalId) {
+                const trigger = document.getElementById(triggerId);
+                const modal = document.getElementById(modalId);
+                if (!trigger || !modal) return;
+                
+                const closeBtns = modal.querySelectorAll('.close-modal');
+                const innerContent = modal.firstElementChild;
+
+                function openModal(e) {
+                    if (e) e.preventDefault();
+                    modal.classList.remove('hidden');
+                    void modal.offsetWidth; 
+                    modal.classList.remove('opacity-0');
+                    if(innerContent && innerContent.classList.contains('scale-95')) {
+                        innerContent.classList.remove('scale-95');
+                        innerContent.classList.add('scale-100');
+                    }
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeModal() {
+                    modal.classList.add('opacity-0');
+                    if(innerContent && innerContent.classList.contains('scale-100')) {
+                        innerContent.classList.remove('scale-100');
+                        innerContent.classList.add('scale-95');
+                    }
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+
+                trigger.addEventListener('click', openModal);
+                closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
+            }
+
+            setupModal('signInBtn', 'signInModal');
+        });
+    </script>
+</body>
+</html>
