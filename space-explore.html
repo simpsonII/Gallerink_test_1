@@ -30,9 +30,19 @@
             -webkit-backdrop-filter: saturate(180%) blur(20px);
         }
 
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+        /* Filter Style from Screenshot */
         .filter-pill {
             padding: 8px 20px;
             border-radius: 980px;
@@ -48,79 +58,126 @@
         .filter-pill:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
         .filter-pill.active { background: var(--brand-primary); border-color: var(--brand-primary); color: white; }
 
-        .btn-brand {
-            background-color: var(--brand-primary);
-            color: white;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .option-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border-radius: 980px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 14px;
+            color: #1d1d1f;
+            font-weight: 500;
         }
-        .btn-brand:hover { 
-            opacity: 0.9; 
-            box-shadow: 0 10px 25px rgba(28, 68, 255, 0.25);
-        }
+        .option-checkbox:hover { border-color: var(--brand-primary); }
+        .option-checkbox input:checked + span { color: var(--brand-primary); }
     </style>
 </head>
 <body class="overflow-x-hidden pt-14 bg-slate-50">
 
-    <!-- Navigation -->
+    <!-- Global Navigation -->
     <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center border-b border-slate-100/30 transition-all duration-300">
         <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
+            <!-- Text Logo -->
             <a href="index.html" class="flex items-center">
-                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="font-bold text-xl tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
             </a>
-            <div class="hidden md:flex space-x-10 text-[13px] font-medium opacity-70">
-                <a href="index.html#explore" class="text-[#1C44FF] opacity-100 transition font-bold border-b-2 border-[#1C44FF] pb-1">Explore</a>
-                <a href="index.html#rental" class="hover:text-[#1C44FF] hover:opacity-100 transition">Rental</a>
-                <a href="index.html#ai" class="hover:text-[#1C44FF] hover:opacity-100 transition">AI Curation</a>
-                <a href="index.html#admin" class="hover:text-[#1C44FF] hover:opacity-100 transition">Admin</a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 text-[13px] font-medium opacity-70">
+                <a href="space-explore.html" class="text-[#1C44FF] font-bold">Explore</a>
+                <a href="rental-explore.html" class="hover:text-[#1C44FF] transition">Rental</a>
+                <a href="community-explore.html" class="hover:text-[#1C44FF] transition">Community</a>
+                <a href="ai-curation.html" class="hover:text-[#1C44FF] transition">AI Curation</a>
+                <a href="find-subsidy.html" class="hover:text-[#1C44FF] transition">Find Subsidy</a>
+                <a href="about-us.html" class="hover:text-[#1C44FF] transition">About Us</a>
             </div>
-            <a href="#" id="signInBtn" class="text-[13px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition">마이페이지</a>
+
+            <div class="flex items-center gap-4">
+                <a href="mypage.html" class="hidden md:block text-[12px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition">마이페이지</a>
+                <button id="menu-toggle" class="md:hidden text-slate-800 text-xl focus:outline-none p-2">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
+    <!-- Mobile Slide Menu -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/40 z-[140] hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 w-[280px] h-full bg-white z-[150] shadow-2xl flex flex-col p-8 md:hidden">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-bold text-xl text-[#1C44FF]">Gallerink</span>
+            <button id="menu-close" class="text-slate-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <nav class="flex flex-col space-y-6 text-lg font-semibold text-slate-800">
+            <a href="space-explore.html" class="text-[#1C44FF]">Explore</a>
+            <a href="rental-explore.html">Rental</a>
+            <a href="community-explore.html">Community</a>
+            <a href="ai-curation.html">AI Curation</a>
+            <a href="find-subsidy.html">Find Subsidy</a>
+            <a href="about-us.html">About Us</a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-slate-100 flex flex-col gap-4">
+            <a href="mypage.html" class="w-full py-3 bg-[#F0F4FF] text-[#1C44FF] rounded-xl font-bold text-center">마이페이지</a>
+            <button onclick="showToast('설정 페이지는 준비 중입니다.')" class="w-full py-3 border border-slate-200 text-slate-500 rounded-xl font-bold">설정</button>
+        </div>
+    </div>
+
     <!-- Header & Search -->
-    <header class="bg-white border-b border-slate-200 py-12">
+    <header class="bg-white border-b border-slate-200 py-12 pt-20 md:pt-12">
         <div class="max-w-[1100px] mx-auto px-6">
             <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-8">모든 전시 공간 탐색</h1>
             
             <!-- Search Bar -->
-            <div class="relative max-w-2xl mb-8">
+            <div class="relative max-w-2xl mb-10">
                 <i class="fa-solid fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
                 <input type="text" placeholder="지역, 갤러리 이름, 공간 특징으로 검색해보세요" class="w-full pl-12 pr-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-[#1C44FF] focus:ring-1 focus:ring-[#1C44FF] transition shadow-sm">
             </div>
 
-            <!-- Filters -->
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
-                    <span class="text-xs font-bold text-slate-400 mr-2 whitespace-nowrap uppercase tracking-widest">지역</span>
-                    <button class="filter-pill active" data-filter="all">전체</button>
-                    <button class="filter-pill" data-filter="seongsu">성수/건대</button>
-                    <button class="filter-pill" data-filter="insa">인사/삼청/종로</button>
-                    <button class="filter-pill" data-filter="hongdae">홍대/연남/합정</button>
-                    <button class="filter-pill" data-filter="itaewon">한남/이태원</button>
-                    <button class="filter-pill" data-filter="gangnam">강남/청담/압구정</button>
+            <!-- Filters Section (from Screenshot) -->
+            <div class="space-y-6">
+                <!-- 지역 -->
+                <div class="flex items-center gap-4 overflow-x-auto no-scrollbar pb-1">
+                    <span class="text-sm font-bold text-slate-400 w-16 flex-shrink-0">지역</span>
+                    <div class="flex gap-2">
+                        <button class="filter-pill active">전체</button>
+                        <button class="filter-pill">성수/건대</button>
+                        <button class="filter-pill">인사/삼청/종로</button>
+                        <button class="filter-pill">홍대/연남/합정</button>
+                        <button class="filter-pill">한남/이태원</button>
+                        <button class="filter-pill">강남/청담/압구정</button>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
-                    <span class="text-xs font-bold text-slate-400 mr-2 whitespace-nowrap uppercase tracking-widest">공간 유형</span>
-                    <button class="filter-pill active" data-type="all">전체</button>
-                    <button class="filter-pill" data-type="p2p">P2P Space (개인전/소형)</button>
-                    <button class="filter-pill" data-type="premium">Premium (대형/전문)</button>
-                    <button class="filter-pill" data-type="empty">Empty Shop (유휴공간)</button>
+                <!-- 공간 유형 -->
+                <div class="flex items-center gap-4 overflow-x-auto no-scrollbar pb-1">
+                    <span class="text-sm font-bold text-slate-400 w-16 flex-shrink-0">공간 유형</span>
+                    <div class="flex gap-2">
+                        <button class="filter-pill active">전체</button>
+                        <button class="filter-pill">P2P Space (개인전/소형)</button>
+                        <button class="filter-pill">Premium (대형/전문)</button>
+                        <button class="filter-pill">Empty Shop (유휴공간)</button>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3 overflow-x-auto no-scrollbar">
-                    <span class="text-xs font-bold text-slate-400 mr-2 whitespace-nowrap uppercase tracking-widest">옵션</span>
-                    <label class="flex items-center gap-2 cursor-pointer border border-slate-200 px-4 py-2 rounded-full hover:border-[#1C44FF] transition bg-white">
-                        <input type="checkbox" class="w-4 h-4 text-[#1C44FF] rounded focus:ring-[#1C44FF]">
-                        <span class="text-sm font-medium text-slate-600"><i class="fa-solid fa-hammer text-slate-400 mr-1"></i> 못질가능</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer border border-slate-200 px-4 py-2 rounded-full hover:border-[#1C44FF] transition bg-white">
-                        <input type="checkbox" class="w-4 h-4 text-[#1C44FF] rounded focus:ring-[#1C44FF]">
-                        <span class="text-sm font-medium text-slate-600"><i class="fa-solid fa-square-parking text-slate-400 mr-1"></i> 주차가능</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer border border-slate-200 px-4 py-2 rounded-full hover:border-[#1C44FF] transition bg-white">
-                        <input type="checkbox" class="w-4 h-4 text-[#1C44FF] rounded focus:ring-[#1C44FF]">
-                        <span class="text-sm font-medium text-slate-600"><i class="fa-solid fa-tv text-slate-400 mr-1"></i> 미디어 최적화</span>
-                    </label>
+                <!-- 옵션 -->
+                <div class="flex items-center gap-4 overflow-x-auto no-scrollbar">
+                    <span class="text-sm font-bold text-slate-400 w-16 flex-shrink-0">옵션</span>
+                    <div class="flex gap-2">
+                        <label class="option-checkbox">
+                            <input type="checkbox" class="accent-[#1C44FF]">
+                            <span><i class="fa-solid fa-hammer mr-1 text-slate-400"></i> 못질가능</span>
+                        </label>
+                        <label class="option-checkbox">
+                            <input type="checkbox" class="accent-[#1C44FF]">
+                            <span><i class="fa-solid fa-square-parking mr-1 text-slate-400"></i> 주차가능</span>
+                        </label>
+                        <label class="option-checkbox">
+                            <input type="checkbox" class="accent-[#1C44FF]">
+                            <span><i class="fa-solid fa-display mr-1 text-slate-400"></i> 미디어 최적화</span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,355 +187,234 @@
     <section class="py-12 max-w-[1100px] mx-auto px-6">
         <div class="flex justify-between items-center mb-8">
             <span class="text-sm font-medium text-slate-500">총 <strong class="text-slate-800">12</strong>개의 공간을 찾았습니다.</span>
-            <select class="bg-white border border-slate-200 text-slate-600 text-sm rounded-lg focus:ring-[#1C44FF] focus:border-[#1C44FF] block p-2.5 outline-none cursor-pointer shadow-sm">
+            <select class="bg-white border border-slate-200 text-slate-600 text-sm rounded-lg p-2.5 outline-none cursor-pointer">
                 <option selected>추천순</option>
-                <option value="price-asc">가격 낮은순</option>
-                <option value="price-desc">가격 높은순</option>
-                <option value="new">최신 등록순</option>
+                <option>가격 낮은순</option>
+                <option>최신 등록순</option>
             </select>
         </div>
 
-        <!-- Gallery Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16" id="galleryGrid">
+        <!-- Gallery Grid (12 Items) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
             
             <!-- Item 1 -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
                 <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-white shadow-sm"><i class="fa-solid fa-hammer text-[7px] mr-1 text-[#F0F4FF]"></i>못질가능</div>
-                    <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-slate-800 uppercase">P2P Space</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-white uppercase">못질가능</div>
+                    <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-slate-800 uppercase">P2P Space</div>
+                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-400 hover:text-red-500 transition shadow-sm" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');">
+                        <i class="fa-solid fa-heart"></i>
+                    </button>
                 </div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">성수 브루잉 팝업홀</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 성동구 · 층고 3.5m</p>
                     <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩150,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
+                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white transition-all">공간 확인하기</button>
                 </div>
             </div>
 
-            <!-- Item 2 -->
+            <!-- Item 2 (Premium) -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
                 <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute top-3 right-3 bg-[#1C44FF] px-2.5 py-1 rounded-full text-[9px] font-bold text-white uppercase shadow-md">Premium</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
                 </div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">인사동 아틀리에 01</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 종로구 · 화이트큐브</p>
-                    <span class="text-sm font-bold text-[#1C44FF] mt-auto mb-3">₩320,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
+                    <span class="text-sm font-bold mt-auto mb-3 text-[#1C44FF]">₩320,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
+                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white transition-all">공간 확인하기</button>
                 </div>
             </div>
 
-            <!-- Item 3 -->
+            <!-- Item 3 (Empty Shop) -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
                 <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-white shadow-sm"><i class="fa-solid fa-hammer text-[7px] mr-1 text-[#F0F4FF]"></i>못질가능</div>
-                    <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-slate-800 uppercase">Empty Shop</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
+                    <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-white uppercase">못질가능</div>
+                    <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-slate-800 uppercase">Empty Shop</div>
                 </div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">연남 1층 복층 쇼룸</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 마포구 · 층고 4m</p>
                     <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩120,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
+                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white transition-all">공간 확인하기</button>
                 </div>
             </div>
 
-            <!-- Item 4 -->
+            <!-- Item 4 (Premium) -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
                 <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute top-3 right-3 bg-[#1C44FF] px-2.5 py-1 rounded-full text-[9px] font-bold text-white uppercase shadow-md">Premium</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
                 </div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">한남 갤러리 룸 B</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 용산구 · 대형 통창</p>
-                    <span class="text-sm font-bold text-[#1C44FF] mt-auto mb-3">₩450,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
+                    <span class="text-sm font-bold mt-auto mb-3 text-[#1C44FF]">₩450,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
+                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white transition-all">공간 확인하기</button>
                 </div>
             </div>
 
-            <!-- Item 5 -->
+            <!-- 5 ~ 12 추가 아이템들 (그리드 풍성함을 위해 반복 데이터 구성) -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
-                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1518998053401-878c735c9075?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-slate-800 uppercase">P2P Space</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
-                </div>
+                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative"><img src="https://images.unsplash.com/photo-1518998053401-878c735c9075?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"></div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">건대 창고형 스튜디오</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 광진구 · 인더스트리얼</p>
                     <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩180,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
                 </div>
             </div>
-
-            <!-- Item 6 -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
-                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-white shadow-sm"><i class="fa-solid fa-hammer text-[7px] mr-1 text-[#F0F4FF]"></i>못질가능</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
-                </div>
+                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative"><img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"></div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">삼청동 한옥 갤러리</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 종로구 · 목조</p>
                     <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩250,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
                 </div>
             </div>
-
-            <!-- Item 7 -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
-                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1507643801261-26c39f2eb5fb?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 right-3 bg-[#1C44FF] px-2.5 py-1 rounded-full text-[9px] font-bold text-white uppercase shadow-md">Premium</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
-                </div>
+                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative"><img src="https://images.unsplash.com/photo-1507643801261-26c39f2eb5fb?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"></div>
                 <div class="px-3 flex-grow flex flex-col">
-                    <h4 class="text-[15px] font-bold tracking-tight">홍대입구 미디어월 홀</h4>
+                    <h4 class="text-[15px] font-bold tracking-tight">홍대 미디어 아트홀</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 마포구 · 프로젝션 매핑</p>
-                    <span class="text-sm font-bold text-[#1C44FF] mt-auto mb-3">₩300,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
+                    <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩300,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
                 </div>
             </div>
-
-            <!-- Item 8 -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
-                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1542868727-4148011116b4?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-white shadow-sm"><i class="fa-solid fa-hammer text-[7px] mr-1 text-[#F0F4FF]"></i>못질가능</div>
-                    <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-slate-800 uppercase">Empty Shop</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
-                </div>
+                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative"><img src="https://images.unsplash.com/photo-1542868727-4148011116b4?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"></div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">청담 화이트 갤러리</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 강남구 · 층고 5m</p>
                     <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩280,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
                 </div>
             </div>
-
-            <!-- Item 9 -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
-                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 right-3 bg-[#1C44FF] px-2.5 py-1 rounded-full text-[9px] font-bold text-white uppercase shadow-md">Premium</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
-                </div>
+                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"></div>
                 <div class="px-3 flex-grow flex flex-col">
-                    <h4 class="text-[15px] font-bold tracking-tight">강남 대형 컨벤션홀</h4>
+                    <h4 class="text-[15px] font-bold tracking-tight">강남 컨벤션 센터</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 강남구 · 최대 100명</p>
-                    <span class="text-sm font-bold text-[#1C44FF] mt-auto mb-3">₩850,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
+                    <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩850,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
                 </div>
             </div>
-
-            <!-- Item 10 -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
-                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-slate-800 uppercase">P2P Space</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
-                </div>
+                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative"><img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"></div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">합정 루프탑 스튜디오</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 마포구 · 야외 테라스</p>
                     <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩140,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
                 </div>
             </div>
-
-            <!-- Item 11 -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
-                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1518998053401-878c735c9075?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-white shadow-sm"><i class="fa-solid fa-hammer text-[7px] mr-1 text-[#F0F4FF]"></i>못질가능</div>
-                    <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-slate-800 uppercase">P2P Space</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
-                </div>
+                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative"><img src="https://images.unsplash.com/photo-1518998053401-878c735c9075?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"></div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">종로 복합문화공간</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 종로구 · 통창 뷰</p>
                     <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩200,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
                 </div>
             </div>
-
-            <!-- Item 12 -->
             <div class="group cursor-pointer bg-white rounded-3xl p-2 pb-4 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#1C44FF] transition-all duration-300 flex flex-col h-full" onclick="window.location.href='space-detail.html'">
-                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute top-3 right-3 bg-[#1C44FF] px-2.5 py-1 rounded-full text-[9px] font-bold text-white uppercase shadow-md">Premium</div>
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-slate-500 hover:text-red-500 hover:bg-white transition shadow-sm z-10" onclick="event.stopPropagation(); showToast('찜 목록에 추가되었습니다.');"><i class="fa-solid fa-heart text-sm"></i></button>
-                </div>
+                <div class="rounded-[20px] overflow-hidden aspect-[4/3] mb-4 bg-slate-200 relative"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"></div>
                 <div class="px-3 flex-grow flex flex-col">
                     <h4 class="text-[15px] font-bold tracking-tight">이태원 프리미엄 라운지</h4>
                     <p class="text-xs text-slate-400 font-light mt-1 mb-3">서울 용산구 · 대리석 바닥</p>
-                    <span class="text-sm font-bold text-[#1C44FF] mt-auto mb-3">₩500,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
-                    <button class="w-full bg-slate-50 border border-slate-200 text-slate-600 py-2.5 rounded-xl font-semibold text-xs group-hover:bg-[#1C44FF] group-hover:text-white group-hover:border-[#1C44FF] transition-all">공간 확인하기</button>
+                    <span class="text-sm font-bold mt-auto mb-3 text-slate-800">₩500,000<span class="text-slate-400 font-normal text-[10px]"> / 일</span></span>
                 </div>
             </div>
 
         </div>
 
-        <!-- Load More Button -->
         <div class="text-center">
-            <button class="bg-white border border-slate-200 text-slate-600 px-10 py-4 rounded-full font-semibold hover:bg-slate-50 hover:text-[#1C44FF] hover:border-[#1C44FF] transition shadow-sm" onclick="showToast('다음 12개의 공간을 불러옵니다.')">
+            <button class="bg-white border border-slate-200 text-slate-600 px-10 py-4 rounded-full font-semibold hover:bg-slate-50 hover:text-[#1C44FF] transition shadow-sm" onclick="showToast('다음 공간을 불러오고 있습니다.')">
                 공간 더보기 <i class="fa-solid fa-chevron-down ml-2"></i>
             </button>
         </div>
-
     </section>
 
     <!-- Footer -->
-    <footer class="py-24 bg-white border-t border-slate-100 relative mt-12">
+    <footer class="py-24 bg-white border-t border-slate-100 text-center md:text-left">
         <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-80">
-            <div class="mb-8 md:mb-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition duration-300">
-                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="font-bold text-lg tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            <div class="mb-8 md:mb-0">
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
             </div>
-            <div class="flex space-x-12 text-[11px] font-semibold tracking-widest uppercase text-slate-400">
+            <div class="flex space-x-8 text-[11px] font-semibold tracking-widest uppercase text-slate-400">
                 <a href="#" class="hover:text-[#1C44FF] transition">Privacy</a>
                 <a href="#" class="hover:text-[#1C44FF] transition">Terms</a>
                 <a href="#" class="hover:text-[#1C44FF] transition">Contact</a>
             </div>
         </div>
         <div class="text-center mt-14 opacity-30 text-[10px] tracking-[0.3em] uppercase font-semibold text-[#1C44FF]">
-            © 2026 GALLERINK. DIRECTED BY HONG DESIGN.
+            © 2026 GALLERINK.
         </div>
     </footer>
 
-    <!-- 페이지 최상단으로 이동하는 버튼 -->
-    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 z-[150] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible pointer-events-none transform translate-y-4">
+    <!-- Global Elements -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 z-[130] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible transform translate-y-4">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
+    <div id="toastContainer" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-xs px-4"></div>
 
-    <!-- Toast Container -->
-    <div id="toastContainer" class="fixed bottom-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none"></div>
-
-    <!-- Sign In Modal -->
-    <div id="signInModal" class="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-md transform scale-95 transition-transform duration-300">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold">마이페이지 (로그인)</h3>
-                <button class="close-modal text-slate-400 hover:text-black transition"><i class="fa-solid fa-xmark text-xl"></i></button>
-            </div>
-            <div class="space-y-4">
-                <input type="email" placeholder="이메일" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#1C44FF] focus:outline-none transition">
-                <input type="password" placeholder="비밀번호" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#1C44FF] focus:outline-none transition">
-                <button class="w-full bg-[#1C44FF] text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition" onclick="showToast('환영합니다!')">로그인</button>
-            </div>
-            <p class="text-center text-sm text-slate-500 mt-6 cursor-pointer hover:underline hover:text-[#1C44FF] transition">회원가입</p>
-        </div>
-    </div>
-
-    <!-- Scripts -->
     <script>
-        // 전역 Toast 알림 함수
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+            function toggleMenu(show) {
+                if(show) {
+                    mobileOverlay.classList.remove('hidden');
+                    setTimeout(() => mobileOverlay.classList.add('opacity-100'), 10);
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileOverlay.classList.remove('opacity-100');
+                    setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            menuToggle?.addEventListener('click', () => toggleMenu(true));
+            menuClose?.addEventListener('click', () => toggleMenu(false));
+            mobileOverlay?.addEventListener('click', () => toggleMenu(false));
+
+            // Filter Pill Click UI
+            const pills = document.querySelectorAll('.filter-pill');
+            pills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const group = pill.parentElement.querySelectorAll('.filter-pill');
+                    group.forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    showToast('필터가 적용되었습니다.');
+                });
+            });
+        });
+
         function showToast(message) {
             const toastContainer = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            toast.className = 'bg-white border border-slate-100 shadow-xl rounded-xl px-5 py-3 flex items-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto';
-            toast.innerHTML = `<div class="w-6 h-6 rounded-full bg-[#F0F4FF] text-[#1C44FF] flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-xs"></i></div><span class="text-sm font-medium text-slate-800">${message}</span>`;
-            
+            toast.className = 'bg-slate-800 text-white shadow-2xl rounded-xl px-5 py-3 flex items-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-sm font-medium';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span>${message}</span>`;
             toastContainer.appendChild(toast);
-            
-            requestAnimationFrame(() => {
-                toast.classList.remove('translate-y-10', 'opacity-0');
-            });
-
+            requestAnimationFrame(() => toast.classList.remove('translate-y-10', 'opacity-0'));
             setTimeout(() => {
                 toast.classList.add('translate-y-10', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
             }, 2500);
         }
 
-        // 스크롤 탑 버튼 보이기/숨기기 로직
         window.addEventListener('scroll', () => {
-            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            const btn = document.getElementById('scrollTopBtn');
             if (window.scrollY > 300) {
-                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
-                scrollTopBtn.classList.add('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+                btn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+                btn.classList.add('opacity-100', 'visible', 'translate-y-0');
             } else {
-                scrollTopBtn.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
-                scrollTopBtn.classList.remove('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+                btn.classList.add('opacity-0', 'invisible', 'translate-y-4');
+                btn.classList.remove('opacity-100', 'visible', 'translate-y-0');
             }
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Filter Pills Toggle Logic (UI Only)
-            const filterGroups = [
-                document.querySelectorAll('button.filter-pill[data-filter]'),
-                document.querySelectorAll('button.filter-pill[data-type]')
-            ];
-
-            filterGroups.forEach(group => {
-                group.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        group.forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        showToast('필터가 적용되었습니다.');
-                    });
-                });
-            });
-
-            // --- Scroll Lock ---
-            function lockScroll() {
-                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-                document.body.style.overflow = 'hidden';
-                document.body.style.paddingRight = `${scrollbarWidth}px`;
-                const navbar = document.querySelector('.glass-nav');
-                if (navbar) navbar.style.paddingRight = `${scrollbarWidth}px`;
-            }
-
-            function unlockScroll() {
-                document.body.style.overflow = '';
-                document.body.style.paddingRight = '0px';
-                const navbar = document.querySelector('.glass-nav');
-                if (navbar) navbar.style.paddingRight = '0px';
-            }
-
-            // Sign In Modal Logic
-            const signInBtn = document.getElementById('signInBtn');
-            const signInModal = document.getElementById('signInModal');
-            const closeBtns = signInModal.querySelectorAll('.close-modal');
-            const innerContent = signInModal.firstElementChild;
-
-            function openModal(e) {
-                if (e) e.preventDefault();
-                signInModal.classList.remove('hidden');
-                void signInModal.offsetWidth; 
-                signInModal.classList.remove('opacity-0');
-                if(innerContent && innerContent.classList.contains('scale-95')) {
-                    innerContent.classList.remove('scale-95');
-                    innerContent.classList.add('scale-100');
-                }
-                lockScroll();
-            }
-
-            function closeModal() {
-                signInModal.classList.add('opacity-0');
-                if(innerContent && innerContent.classList.contains('scale-100')) {
-                    innerContent.classList.remove('scale-100');
-                    innerContent.classList.add('scale-95');
-                }
-                setTimeout(() => {
-                    signInModal.classList.add('hidden');
-                    unlockScroll();
-                }, 300);
-            }
-
-            if(signInBtn) signInBtn.addEventListener('click', openModal);
-            closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
-            signInModal.addEventListener('click', (e) => {
-                if (e.target === signInModal) closeModal();
-            });
         });
     </script>
 </body>
