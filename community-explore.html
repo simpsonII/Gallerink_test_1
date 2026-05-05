@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth" style="scroll-padding-top: 64px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커뮤니티 - Gallerink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+        
+        :root {
+            --brand-primary: #1C44FF;
+            --brand-light: #F0F4FF;
+            --apple-black: #1d1d1f;
+            --apple-gray: #f5f5f7;
+        }
+
+        body { 
+            font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #f8fafc; 
+            color: var(--apple-black);
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.015em;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+        }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .filter-pill {
+            padding: 8px 20px;
+            border-radius: 980px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            transition: all 0.2s;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .filter-pill:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+        .filter-pill.active { background: var(--brand-primary); border-color: var(--brand-primary); color: white; }
+
+        .btn-brand {
+            background-color: var(--brand-primary);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-brand:hover { 
+            opacity: 0.9; 
+            box-shadow: 0 10px 25px rgba(28, 68, 255, 0.25);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden pt-14 text-slate-800">
+
+    <!-- Global Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center border-b border-slate-100/30 transition-all duration-300">
+        <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
+            <!-- Text Logo -->
+            <a href="index.html" class="flex items-center">
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
+            </a>
+
+            <!-- Desktop Menu (6 Items) -->
+            <div class="hidden lg:flex space-x-8 text-[13px] font-medium opacity-70">
+                <a href="space-explore.html" class="hover:text-[#1C44FF] transition">Explore</a>
+                <a href="rental-explore.html" class="hover:text-[#1C44FF] transition">Rental</a>
+                <a href="community-explore.html" class="text-[#1C44FF] font-bold">Community</a>
+                <a href="ai-curation.html" class="hover:text-[#1C44FF] transition">AI Curation</a>
+                <a href="find-subsidy.html" class="hover:text-[#1C44FF] transition">Find Subsidy</a>
+                <a href="about-us.html" class="hover:text-[#1C44FF] transition">About Us</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- Desktop My Page Button -->
+                <a href="mypage.html" class="hidden md:block text-[12px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition whitespace-nowrap">마이페이지</a>
+                
+                <!-- Hamburger Button (Mobile) -->
+                <button id="menu-toggle" class="lg:hidden text-slate-800 text-xl focus:outline-none p-2 flex-shrink-0">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/40 z-[140] hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 w-[280px] h-full bg-white z-[150] shadow-2xl flex flex-col p-8 lg:hidden">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-bold text-xl text-[#1C44FF]">Gallerink</span>
+            <button id="menu-close" class="text-slate-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <nav class="flex flex-col space-y-6 text-lg font-semibold text-slate-800">
+            <a href="space-explore.html">Explore</a>
+            <a href="rental-explore.html">Rental</a>
+            <a href="community-explore.html" class="text-[#1C44FF]">Community</a>
+            <a href="ai-curation.html">AI Curation</a>
+            <a href="find-subsidy.html">Find Subsidy</a>
+            <a href="about-us.html">About Us</a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-slate-100 flex flex-col gap-4">
+            <a href="mypage.html" class="w-full py-3 bg-[#F0F4FF] text-[#1C44FF] rounded-xl font-bold text-center">마이페이지</a>
+            <button onclick="showToast('설정 페이지는 준비 중입니다.')" class="w-full py-3 border border-slate-200 text-slate-500 rounded-xl font-bold">설정</button>
+        </div>
+    </div>
+
+    <!-- Header & Search -->
+    <header class="bg-white border-b border-slate-200 py-12 pt-24 md:pt-12">
+        <div class="max-w-[1100px] mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">전시 파티원 모집</h1>
+                    <p class="text-slate-500 font-light leading-relaxed">
+                        비용은 나누고, 전시는 더 풍성하게.<br>
+                        조건에 맞는 작가들과 그룹전을 기획하고 대관료를 공동 결제하세요.
+                    </p>
+                </div>
+                <button class="bg-[#1C44FF] text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 whitespace-nowrap flex items-center gap-2" onclick="window.location.href='community-detail.html'">
+                    <i class="fa-solid fa-pen"></i> 모집글 작성하기
+                </button>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="relative max-w-2xl mb-8">
+                <i class="fa-solid fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                <input type="text" placeholder="지역, 모집 분야(예: 사진, 회화), 공간 이름으로 검색해보세요" class="w-full pl-12 pr-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-[#1C44FF] focus:ring-1 focus:ring-[#1C44FF] transition shadow-sm">
+            </div>
+
+            <!-- Filters Section -->
+            <div class="flex flex-col gap-5">
+                <!-- 상태 -->
+                <div class="flex items-center">
+                    <span class="text-sm font-bold text-slate-400 w-[50px] flex-shrink-0">상태</span>
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar flex-grow pb-1">
+                        <button class="filter-pill active flex-shrink-0">전체</button>
+                        <button class="filter-pill text-[#1C44FF] border-[#1C44FF] bg-[#F0F4FF] flex-shrink-0">모집중</button>
+                        <button class="filter-pill flex-shrink-0">모집마감</button>
+                    </div>
+                </div>
+                <!-- 지역 -->
+                <div class="flex items-center">
+                    <span class="text-sm font-bold text-slate-400 w-[50px] flex-shrink-0">지역</span>
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar flex-grow pb-1">
+                        <button class="filter-pill active flex-shrink-0">전체</button>
+                        <button class="filter-pill flex-shrink-0">성수/건대</button>
+                        <button class="filter-pill flex-shrink-0">인사/삼청</button>
+                        <button class="filter-pill flex-shrink-0">홍대/연남</button>
+                        <button class="filter-pill flex-shrink-0">한남/이태원</button>
+                    </div>
+                </div>
+                <!-- 분야 -->
+                <div class="flex items-center">
+                    <span class="text-sm font-bold text-slate-400 w-[50px] flex-shrink-0">분야</span>
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar flex-grow pb-1">
+                        <button class="filter-pill active flex-shrink-0">전체</button>
+                        <button class="filter-pill flex-shrink-0">회화/평면</button>
+                        <button class="filter-pill flex-shrink-0">사진/영상</button>
+                        <button class="filter-pill flex-shrink-0">조각/입체</button>
+                        <button class="filter-pill flex-shrink-0">공예/디자인</button>
+                        <button class="filter-pill flex-shrink-0">복합/기타</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Results Section -->
+    <section class="py-12 max-w-[1100px] mx-auto px-6">
+        <div class="flex justify-between items-center mb-8">
+            <span class="text-sm font-medium text-slate-500">총 <strong class="text-slate-800">45</strong>개의 모집글</span>
+            <select class="bg-white border border-slate-200 text-slate-600 text-sm rounded-lg focus:ring-[#1C44FF] focus:border-[#1C44FF] block p-2.5 outline-none cursor-pointer shadow-sm">
+                <option selected>최신 등록순</option>
+                <option value="closing">마감 임박순</option>
+                <option value="views">조회수 높은순</option>
+            </select>
+        </div>
+
+        <!-- Community Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            
+            <!-- Card 1 -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group flex flex-col" onclick="window.location.href='community-detail.html'">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="bg-[#F0F4FF] text-[#1C44FF] text-[10px] font-bold px-2.5 py-1 rounded-md">모집중</span>
+                    <div class="flex items-center gap-1 text-slate-400 text-xs"><i class="fa-regular fa-eye"></i> 124</div>
+                </div>
+                <h4 class="font-bold text-lg mb-2 group-hover:text-[#1C44FF] transition line-clamp-2 leading-snug tracking-tight">성수 브루잉 팝업홀에서 5일간 함께할 미디어 아트 작가님 구합니다!</h4>
+                <div class="flex gap-2 mb-4">
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#영상</span>
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#미디어아트</span>
+                </div>
+                <div class="space-y-2 mb-6 text-xs text-slate-500 font-medium">
+                    <p class="flex items-center gap-2"><i class="fa-regular fa-calendar w-4 text-center text-slate-400"></i> 2026.08.10 - 08.15</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-center text-slate-400"></i> 서울 성동구 (P2P Space)</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-wallet w-4 text-center text-[#1C44FF]"></i> 예상 1인당 25만원 (N분의 1)</p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
+                    <div class="flex items-center gap-2">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="w-6 h-6 rounded-full object-cover flex-shrink-0">
+                        <span class="text-xs font-bold text-slate-700">김서연</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm font-bold text-[#1C44FF] bg-[#F0F4FF] px-2.5 py-1 rounded-lg whitespace-nowrap">
+                        <i class="fa-solid fa-user-group text-[10px]"></i> 2/4명
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group flex flex-col" onclick="window.location.href='community-detail.html'">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="bg-[#F0F4FF] text-[#1C44FF] text-[10px] font-bold px-2.5 py-1 rounded-md">모집중</span>
+                    <div class="flex items-center gap-1 text-slate-400 text-xs"><i class="fa-regular fa-eye"></i> 89</div>
+                </div>
+                <h4 class="font-bold text-lg mb-2 group-hover:text-[#1C44FF] transition line-clamp-2 leading-snug tracking-tight">인사동 대형 갤러리 2주 대관! 회화/동양화 작가님 3분 모십니다.</h4>
+                <div class="flex gap-2 mb-4">
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#회화</span>
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#동양화</span>
+                </div>
+                <div class="space-y-2 mb-6 text-xs text-slate-500 font-medium">
+                    <p class="flex items-center gap-2"><i class="fa-regular fa-calendar w-4 text-center text-slate-400"></i> 2026.09.01 - 09.14</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-center text-slate-400"></i> 서울 종로구 (Premium)</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-wallet w-4 text-center text-[#1C44FF]"></i> 예상 1인당 40만원 (N분의 1)</p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
+                    <div class="flex items-center gap-2">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" class="w-6 h-6 rounded-full object-cover flex-shrink-0">
+                        <span class="text-xs font-bold text-slate-700">이준호</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm font-bold text-[#1C44FF] bg-[#F0F4FF] px-2.5 py-1 rounded-lg whitespace-nowrap">
+                        <i class="fa-solid fa-user-group text-[10px]"></i> 1/4명
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 hover:border-slate-300 transition cursor-pointer group flex flex-col opacity-60" onclick="showToast('이미 마감된 모집글입니다.')">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="bg-slate-200 text-slate-500 text-[10px] font-bold px-2.5 py-1 rounded-md">모집마감</span>
+                    <div class="flex items-center gap-1 text-slate-400 text-xs"><i class="fa-regular fa-eye"></i> 342</div>
+                </div>
+                <h4 class="font-bold text-lg mb-2 text-slate-500 line-clamp-2 leading-snug tracking-tight">이태원 루프탑 갤러리 주말 팝업 전시 파티 모집완료</h4>
+                <div class="flex gap-2 mb-4">
+                    <span class="text-[10px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#일러스트</span>
+                    <span class="text-[10px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#굿즈</span>
+                </div>
+                <div class="space-y-2 mb-6 text-xs text-slate-400 font-medium">
+                    <p class="flex items-center gap-2"><i class="fa-regular fa-calendar w-4 text-center"></i> 2026.07.24 - 07.26</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-center"></i> 서울 용산구 (P2P Space)</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-wallet w-4 text-center"></i> 확정 1인당 15만원</p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
+                    <div class="flex items-center gap-2">
+                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=100&q=80" class="w-6 h-6 rounded-full object-cover grayscale flex-shrink-0">
+                        <span class="text-xs font-bold text-slate-500">박지민</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-lg whitespace-nowrap">
+                        <i class="fa-solid fa-user-check text-[10px]"></i> 3/3명
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group flex flex-col" onclick="window.location.href='community-detail.html'">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="bg-[#F0F4FF] text-[#1C44FF] text-[10px] font-bold px-2.5 py-1 rounded-md">모집중</span>
+                    <div class="flex items-center gap-1 text-slate-400 text-xs"><i class="fa-regular fa-eye"></i> 56</div>
+                </div>
+                <h4 class="font-bold text-lg mb-2 group-hover:text-[#1C44FF] transition line-clamp-2 leading-snug tracking-tight">홍대 2층 빈티지 공간에서 일러스트 4인전 기획합니다</h4>
+                <div class="flex gap-2 mb-4">
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#일러스트</span>
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#드로잉</span>
+                </div>
+                <div class="space-y-2 mb-6 text-xs text-slate-500 font-medium">
+                    <p class="flex items-center gap-2"><i class="fa-regular fa-calendar w-4 text-center text-slate-400"></i> 2026.08.20 - 08.27</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-center text-slate-400"></i> 서울 마포구 (Empty Shop)</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-wallet w-4 text-center text-[#1C44FF]"></i> 예상 1인당 18만원 (N분의 1)</p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
+                    <div class="flex items-center gap-2">
+                        <img src="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=100&q=80" class="w-6 h-6 rounded-full object-cover flex-shrink-0">
+                        <span class="text-xs font-bold text-slate-700">최민영</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm font-bold text-[#1C44FF] bg-[#F0F4FF] px-2.5 py-1 rounded-lg whitespace-nowrap">
+                        <i class="fa-solid fa-user-group text-[10px]"></i> 1/4명
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group flex flex-col" onclick="window.location.href='community-detail.html'">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="bg-[#F0F4FF] text-[#1C44FF] text-[10px] font-bold px-2.5 py-1 rounded-md">모집중</span>
+                    <div class="flex items-center gap-1 text-slate-400 text-xs"><i class="fa-regular fa-eye"></i> 210</div>
+                </div>
+                <h4 class="font-bold text-lg mb-2 group-hover:text-[#1C44FF] transition line-clamp-2 leading-snug tracking-tight">강남/청담 프리미엄 갤러리 단체전 (조각/입체 환영)</h4>
+                <div class="flex gap-2 mb-4">
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#조각</span>
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#설치미술</span>
+                </div>
+                <div class="space-y-2 mb-6 text-xs text-slate-500 font-medium">
+                    <p class="flex items-center gap-2"><i class="fa-regular fa-calendar w-4 text-center text-slate-400"></i> 2026.10.05 - 10.15</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-center text-slate-400"></i> 서울 강남구 (Premium)</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-wallet w-4 text-center text-[#1C44FF]"></i> 예상 1인당 50만원 (N분의 1)</p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
+                    <div class="flex items-center gap-2">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=100&q=80" class="w-6 h-6 rounded-full object-cover flex-shrink-0">
+                        <span class="text-xs font-bold text-slate-700">홍진우</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm font-bold text-[#1C44FF] bg-[#F0F4FF] px-2.5 py-1 rounded-lg whitespace-nowrap">
+                        <i class="fa-solid fa-user-group text-[10px]"></i> 3/5명
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 hover:border-[#1C44FF] hover:shadow-xl transition cursor-pointer group flex flex-col" onclick="window.location.href='community-detail.html'">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="bg-[#F0F4FF] text-[#1C44FF] text-[10px] font-bold px-2.5 py-1 rounded-md">모집중</span>
+                    <div class="flex items-center gap-1 text-slate-400 text-xs"><i class="fa-regular fa-eye"></i> 75</div>
+                </div>
+                <h4 class="font-bold text-lg mb-2 group-hover:text-[#1C44FF] transition line-clamp-2 leading-snug tracking-tight">건대 창고형 스튜디오에서 자유로운 사진전 하실 분</h4>
+                <div class="flex gap-2 mb-4">
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#사진</span>
+                    <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">#스트릿</span>
+                </div>
+                <div class="space-y-2 mb-6 text-xs text-slate-500 font-medium">
+                    <p class="flex items-center gap-2"><i class="fa-regular fa-calendar w-4 text-center text-slate-400"></i> 2026.09.20 - 09.25</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-center text-slate-400"></i> 서울 광진구 (P2P Space)</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-wallet w-4 text-center text-[#1C44FF]"></i> 예상 1인당 12만원 (N분의 1)</p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
+                    <div class="flex items-center gap-2">
+                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=100&q=80" class="w-6 h-6 rounded-full object-cover flex-shrink-0">
+                        <span class="text-xs font-bold text-slate-700">강태윤</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm font-bold text-[#1C44FF] bg-[#F0F4FF] px-2.5 py-1 rounded-lg whitespace-nowrap">
+                        <i class="fa-solid fa-user-group text-[10px]"></i> 1/3명
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center">
+            <button class="bg-white border border-slate-200 text-slate-600 px-10 py-4 rounded-full font-semibold hover:bg-slate-50 hover:text-[#1C44FF] hover:border-[#1C44FF] transition shadow-sm" onclick="showToast('다음 모집글을 불러옵니다.')">
+                더보기 <i class="fa-solid fa-chevron-down ml-2"></i>
+            </button>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-24 bg-white border-t border-slate-100 relative mt-12 pb-16">
+        <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-80">
+            <div class="mb-8 md:mb-0">
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
+            </div>
+            <div class="flex space-x-8 text-[11px] font-semibold tracking-widest uppercase text-slate-400">
+                <a href="#" class="hover:text-[#1C44FF] transition">Privacy</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Terms</a>
+                <a href="#" class="hover:text-[#1C44FF] transition">Contact</a>
+            </div>
+        </div>
+        <div class="text-center mt-14 opacity-30 text-[10px] tracking-[0.3em] uppercase font-semibold text-[#1C44FF]">
+            © 2026 GALLERINK. DIRECTED BY HONG DESIGN.
+        </div>
+    </footer>
+
+    <!-- Scroll Top Button -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-6 z-[130] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible transform translate-y-4">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-28 md:bottom-10 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Logic
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+            function toggleMenu(show) {
+                if(show) {
+                    mobileOverlay.classList.remove('hidden');
+                    setTimeout(() => mobileOverlay.classList.add('opacity-100'), 10);
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileOverlay.classList.remove('opacity-100');
+                    setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            menuToggle?.addEventListener('click', () => toggleMenu(true));
+            menuClose?.addEventListener('click', () => toggleMenu(false));
+            mobileOverlay?.addEventListener('click', () => toggleMenu(false));
+
+            // Filter Pills Toggle Logic
+            const filterGroups = document.querySelectorAll('.flex.gap-2.overflow-x-auto');
+
+            filterGroups.forEach(group => {
+                const pills = group.querySelectorAll('.filter-pill');
+                pills.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // 모집중, 마감 등 특정 뱃지 스타일 대응
+                        pills.forEach(b => {
+                            b.classList.remove('active', 'text-[#1C44FF]', 'border-[#1C44FF]', 'bg-[#F0F4FF]');
+                            // Reset to default
+                            b.style.cssText = '';
+                        });
+                        
+                        btn.classList.add('active');
+                        showToast('필터가 적용되었습니다.');
+                    });
+                });
+            });
+        });
+
+        // 전역 Toast 알림 함수
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-800 text-white shadow-2xl rounded-xl px-5 py-3 flex items-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-sm font-medium';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span>${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // 스크롤 탑 버튼 로직
+        window.addEventListener('scroll', () => {
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+                scrollTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-4');
+                scrollTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            }
+        });
+    </script>
+</body>
+</html>

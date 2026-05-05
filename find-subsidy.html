@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth" style="scroll-padding-top: 64px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지원금 찾기 - Gallerink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+        
+        :root {
+            --brand-primary: #1C44FF;
+            --brand-light: #F0F4FF;
+            --apple-black: #1d1d1f;
+            --apple-gray: #f5f5f7;
+        }
+
+        body { 
+            font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #f8fafc; /* 토스 느낌의 부드러운 배경색 */
+            color: var(--apple-black);
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.015em;
+        }
+
+        /* Navigation Styles */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Subsidy Card Hover Effect */
+        .subsidy-card {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+        }
+        .subsidy-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+            border-color: #1C44FF;
+        }
+
+        .category-pill {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            background: white;
+            color: #64748b;
+            transition: all 0.2s;
+            white-space: nowrap;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .category-pill:hover { background: #F0F4FF; color: #1C44FF; }
+        .category-pill.active { background: #1d1d1f; color: white; }
+    </style>
+</head>
+<body class="overflow-x-hidden pt-14 text-slate-800">
+
+    <!-- Global Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center transition-all duration-300">
+        <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
+            <!-- Text Logo -->
+            <a href="index.html" class="flex items-center flex-shrink-0">
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
+            </a>
+
+            <!-- Desktop Menu (6 Items) -->
+            <div class="hidden lg:flex space-x-8 text-[13px] font-medium opacity-70">
+                <a href="space-explore.html" class="hover:text-[#1C44FF] transition">Explore</a>
+                <a href="rental-explore.html" class="hover:text-[#1C44FF] transition">Rental</a>
+                <a href="community-explore.html" class="hover:text-[#1C44FF] transition">Community</a>
+                <a href="ai-curation.html" class="hover:text-[#1C44FF] transition">AI Curation</a>
+                <a href="find-subsidy.html" class="text-[#1C44FF] font-bold">Find Subsidy</a>
+                <a href="about-us.html" class="hover:text-[#1C44FF] transition">About Us</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- Desktop My Page Button -->
+                <a href="mypage.html" class="hidden md:block text-[12px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition whitespace-nowrap">마이페이지</a>
+                
+                <!-- Hamburger Button (Mobile) -->
+                <button id="menu-toggle" class="lg:hidden text-slate-800 text-xl focus:outline-none p-2 flex-shrink-0">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/40 z-[140] hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 w-[280px] h-full bg-white z-[150] shadow-2xl flex flex-col p-8 lg:hidden">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-bold text-xl text-[#1C44FF]">Gallerink</span>
+            <button id="menu-close" class="text-slate-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <nav class="flex flex-col space-y-6 text-lg font-semibold text-slate-800">
+            <a href="space-explore.html">Explore</a>
+            <a href="rental-explore.html">Rental</a>
+            <a href="community-explore.html">Community</a>
+            <a href="ai-curation.html">AI Curation</a>
+            <a href="find-subsidy.html" class="text-[#1C44FF]">Find Subsidy</a>
+            <a href="about-us.html">About Us</a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-slate-100 flex flex-col gap-4">
+            <a href="mypage.html" class="w-full py-3 bg-[#F0F4FF] text-[#1C44FF] rounded-xl font-bold text-center">마이페이지</a>
+            <button onclick="showToast('설정 페이지는 준비 중입니다.')" class="w-full py-3 border border-slate-200 text-slate-500 rounded-xl font-bold">설정</button>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Style Layout -->
+    <main class="max-w-[768px] mx-auto px-4 sm:px-6 py-10 pb-32">
+        
+        <!-- Personalized Hero (Toss Style) -->
+        <div class="mb-10 pt-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-[#1C44FF] text-xs font-bold mb-4 border border-blue-100">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> 내 프로필 맞춤 분석
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-800 leading-snug break-keep mb-3">
+                김서연 작가님,<br>
+                지금 신청 가능한 전시 지원금이<br>
+                <span class="text-[#1C44FF]">총 3건</span> 있어요.
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base font-medium">예상 최대 지원 금액 <strong class="text-slate-700">₩9,500,000</strong></p>
+        </div>
+
+        <!-- Banner -->
+        <div class="w-full bg-[#1C44FF] rounded-3xl p-6 text-white mb-10 shadow-lg shadow-blue-500/20 flex justify-between items-center cursor-pointer hover:bg-blue-700 transition" onclick="showToast('내 정보 입력 페이지로 이동합니다.')">
+            <div>
+                <p class="text-blue-200 text-xs font-bold mb-1 tracking-widest uppercase">1분 완성</p>
+                <h3 class="text-lg font-bold">내게 딱 맞는 지원금 1초만에 찾기</h3>
+            </div>
+            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm flex-shrink-0">
+                <i class="fa-solid fa-chevron-right text-white"></i>
+            </div>
+        </div>
+
+        <!-- Filter Categories -->
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar mb-6 pb-2">
+            <button class="category-pill active flex-shrink-0">맞춤 추천</button>
+            <button class="category-pill flex-shrink-0">대관료 지원</button>
+            <button class="category-pill flex-shrink-0">청년/신진 작가</button>
+            <button class="category-pill flex-shrink-0">작품 제작비</button>
+            <button class="category-pill flex-shrink-0">서울/수도권</button>
+        </div>
+
+        <!-- Subsidy List -->
+        <div class="space-y-4 mb-12">
+            
+            <!-- Card 1 -->
+            <div class="subsidy-card bg-white border border-slate-200 rounded-3xl p-5 md:p-6 cursor-pointer" onclick="showToast('지원금 상세 정보 페이지가 열립니다.')">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-[#1C44FF] text-xl flex-shrink-0 border border-blue-100">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-500 font-bold mb-0.5">문화체육관광부 · 예술경영지원센터</p>
+                            <h3 class="text-base md:text-lg font-bold text-slate-800 leading-tight tracking-tight">2026 K-Art 청년 창작자 전시 지원</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-2 mb-5">
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-semibold px-2 py-1 rounded">#대관료지원</span>
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-semibold px-2 py-1 rounded">#만39세이하</span>
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-semibold px-2 py-1 rounded">#시각예술</span>
+                </div>
+                <div class="flex items-end justify-between pt-4 border-t border-slate-100">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 mb-1">최대 지원 금액</p>
+                        <p class="text-xl font-bold text-[#1C44FF]">₩3,000,000</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-block bg-red-50 text-red-500 text-[11px] font-bold px-3 py-1 rounded-full mb-1">D-5 마감임박</span>
+                        <p class="text-[10px] text-slate-400 font-medium">~ 2026.05.11 까지</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="subsidy-card bg-white border border-slate-200 rounded-3xl p-5 md:p-6 cursor-pointer" onclick="showToast('지원금 상세 정보 페이지가 열립니다.')">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-600 text-xl flex-shrink-0 border border-slate-200">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-500 font-bold mb-0.5">서울문화재단</p>
+                            <h3 class="text-base md:text-lg font-bold text-slate-800 leading-tight tracking-tight">청년 예술창작활동 지원사업 (최초전시)</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-2 mb-5">
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-semibold px-2 py-1 rounded">#첫개인전</span>
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-semibold px-2 py-1 rounded">#제작비통합</span>
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-semibold px-2 py-1 rounded">#서울거주</span>
+                </div>
+                <div class="flex items-end justify-between pt-4 border-t border-slate-100">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 mb-1">최대 지원 금액</p>
+                        <p class="text-xl font-bold text-[#1C44FF]">₩5,000,000</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-block bg-slate-100 text-slate-600 text-[11px] font-bold px-3 py-1 rounded-full mb-1">D-12</span>
+                        <p class="text-[10px] text-slate-400 font-medium">~ 2026.05.18 까지</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="subsidy-card bg-white border border-slate-200 rounded-3xl p-5 md:p-6 cursor-pointer" onclick="showToast('지원금 상세 정보 페이지가 열립니다.')">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-500 text-xl flex-shrink-0 border border-indigo-100">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-500 font-bold mb-0.5">한국문화예술위원회</p>
+                            <h3 class="text-base md:text-lg font-bold text-slate-800 leading-tight tracking-tight">신진미술인 전시 공간 임차료 지원</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-2 mb-5">
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-semibold px-2 py-1 rounded">#대관료실비</span>
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-semibold px-2 py-1 rounded">#신진작가</span>
+                </div>
+                <div class="flex items-end justify-between pt-4 border-t border-slate-100">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 mb-1">최대 지원 금액</p>
+                        <p class="text-xl font-bold text-[#1C44FF]">₩1,500,000</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-block bg-slate-100 text-slate-600 text-[11px] font-bold px-3 py-1 rounded-full mb-1">D-30</span>
+                        <p class="text-[10px] text-slate-400 font-medium">~ 2026.06.05 까지</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center pb-8">
+            <button class="bg-white border border-slate-200 text-slate-600 px-8 py-3.5 rounded-full text-sm font-semibold hover:bg-slate-50 transition shadow-sm" onclick="showToast('전체 145건의 지원금 목록을 불러옵니다.')">
+                전체 지원금 목록 보기 <i class="fa-solid fa-chevron-down ml-1"></i>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Bottom Sticky Action (Toss Style) -->
+    <div class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-200 p-4 shadow-[0_-10px_20px_rgba(0,0,0,0.03)] z-[90]">
+        <div class="max-w-[768px] mx-auto px-2">
+            <button class="w-full bg-[#1d1d1f] text-white py-4 rounded-2xl font-bold text-base shadow-lg hover:bg-black transition flex items-center justify-center gap-2" onclick="window.location.href='find-subsidy-application.html'">
+                <i class="fa-solid fa-bolt text-yellow-400"></i>
+                내 프로필로 원클릭 자동 지원하기
+            </button>
+        </div>
+    </div>
+
+    <!-- Scroll Top Button (Adjusted bottom spacing due to sticky footer) -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-24 right-6 z-[130] w-12 h-12 bg-white border border-slate-200 text-slate-600 rounded-full shadow-lg flex items-center justify-center hover:text-[#1C44FF] transition-all duration-300 opacity-0 invisible transform translate-y-4">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Logic
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+            function toggleMenu(show) {
+                if(show) {
+                    mobileOverlay.classList.remove('hidden');
+                    setTimeout(() => mobileOverlay.classList.add('opacity-100'), 10);
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileOverlay.classList.remove('opacity-100');
+                    setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            menuToggle?.addEventListener('click', () => toggleMenu(true));
+            menuClose?.addEventListener('click', () => toggleMenu(false));
+            mobileOverlay?.addEventListener('click', () => toggleMenu(false));
+
+            // Category Pill Interaction
+            const pills = document.querySelectorAll('.category-pill');
+            pills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    pills.forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    showToast(`${pill.innerText} 카테고리로 필터링되었습니다.`);
+                });
+            });
+        });
+
+        // Toast 알림 함수 (토스 스타일로 상단 노출 적용)
+        let toastTimeout;
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            toastContainer.innerHTML = ''; 
+            
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-800 text-white shadow-xl rounded-2xl px-5 py-3.5 flex items-center justify-center gap-3 transform -translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center text-sm font-medium mx-auto w-fit';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span class="whitespace-nowrap">${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.remove('-translate-y-10', 'opacity-0'));
+            
+            if(toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('-translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // 스크롤 탑 버튼 로직
+        window.addEventListener('scroll', () => {
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+                scrollTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-4');
+                scrollTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            }
+        });
+    </script>
+</body>
+</html>

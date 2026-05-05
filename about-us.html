@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth" style="scroll-padding-top: 120px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회사소개 - Gallerink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+        
+        :root {
+            --brand-primary: #1C44FF;
+            --brand-light: #F0F4FF;
+            --apple-black: #1d1d1f;
+            --apple-gray: #f5f5f7;
+        }
+
+        body { 
+            font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #f8fafc;
+            color: var(--apple-black);
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.015em;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .btn-brand {
+            background-color: var(--brand-primary);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-brand:hover { 
+            opacity: 0.9; 
+            box-shadow: 0 10px 25px rgba(28, 68, 255, 0.25);
+        }
+
+        .side-nav-item.active {
+            color: var(--brand-primary);
+            font-weight: 700;
+            background-color: var(--brand-light);
+        }
+
+        /* Timeline Style */
+        .timeline-dot {
+            width: 12px; height: 12px;
+            background-color: white;
+            border: 3px solid var(--brand-primary);
+            border-radius: 50%;
+            position: absolute;
+            left: -6px;
+            top: 6px;
+        }
+
+        /* Accordion Style */
+        details > summary { list-style: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
+        
+        .board-tab.active {
+            color: var(--brand-primary);
+            border-bottom: 2px solid var(--brand-primary);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden pt-14 text-slate-800 relative">
+
+    <!-- Global Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center transition-all duration-300">
+        <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
+            <!-- Text Logo -->
+            <a href="index.html" class="flex items-center flex-shrink-0">
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
+            </a>
+
+            <!-- Desktop Menu (6 Items) -->
+            <div class="hidden lg:flex space-x-8 text-[13px] font-medium opacity-70">
+                <a href="space-explore.html" class="hover:text-[#1C44FF] transition">Explore</a>
+                <a href="rental-explore.html" class="hover:text-[#1C44FF] transition">Rental</a>
+                <a href="community-explore.html" class="hover:text-[#1C44FF] transition">Community</a>
+                <a href="ai-curation.html" class="hover:text-[#1C44FF] transition">AI Curation</a>
+                <a href="find-subsidy.html" class="hover:text-[#1C44FF] transition">Find Subsidy</a>
+                <a href="about-us.html" class="text-[#1C44FF] font-bold">About Us</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- Desktop My Page Button -->
+                <a href="mypage.html" class="hidden md:block text-[12px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition whitespace-nowrap">마이페이지</a>
+                
+                <!-- Hamburger Button (Mobile) -->
+                <button id="menu-toggle" class="lg:hidden text-slate-800 text-xl focus:outline-none p-2 flex-shrink-0">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide Menu -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/40 z-[140] hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 w-[280px] h-full bg-white z-[150] shadow-2xl flex flex-col p-8 lg:hidden">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-bold text-xl text-[#1C44FF]">Gallerink</span>
+            <button id="menu-close" class="text-slate-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <nav class="flex flex-col space-y-6 text-lg font-semibold text-slate-800">
+            <a href="space-explore.html">Explore</a>
+            <a href="rental-explore.html">Rental</a>
+            <a href="community-explore.html">Community</a>
+            <a href="ai-curation.html">AI Curation</a>
+            <a href="find-subsidy.html">Find Subsidy</a>
+            <a href="about-us.html" class="text-[#1C44FF]">About Us</a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-slate-100 flex flex-col gap-4">
+            <a href="mypage.html" class="w-full py-3 bg-[#F0F4FF] text-[#1C44FF] rounded-xl font-bold text-center">마이페이지</a>
+            <button onclick="showToast('설정 페이지는 준비 중입니다.')" class="w-full py-3 border border-slate-200 text-slate-500 rounded-xl font-bold">설정</button>
+        </div>
+    </div>
+
+    <!-- Header Hero -->
+    <header class="bg-white border-b border-slate-200 py-16 md:py-20">
+        <div class="max-w-[1100px] mx-auto px-6 text-center md:text-left">
+            <h1 class="text-3xl md:text-5xl font-bold tracking-tight mb-4 break-keep">예술과 공간을 잇다,<br class="hidden md:block"> 갤러링크</h1>
+            <p class="text-slate-500 font-light text-sm md:text-base leading-relaxed break-keep">
+                Gallerink는 창작자와 공간 소유주를 연결하여,<br class="hidden sm:block"> 누구나 자신만의 갤러리를 가질 수 있는 세상을 만듭니다.
+            </p>
+        </div>
+    </header>
+
+    <!-- Mobile Sub-navigation (Sticky) -->
+    <div class="md:hidden sticky top-14 bg-white/90 backdrop-blur-md z-40 border-b border-slate-200 w-full overflow-x-auto no-scrollbar">
+        <div class="flex px-4 py-2 gap-2 w-max">
+            <a href="#company" class="px-4 py-2 text-sm font-semibold rounded-full bg-slate-100 text-slate-600 active:bg-blue-50 active:text-[#1C44FF]">회사소개</a>
+            <a href="#business" class="px-4 py-2 text-sm font-semibold rounded-full bg-slate-100 text-slate-600 active:bg-blue-50 active:text-[#1C44FF]">업무소개</a>
+            <a href="#support" class="px-4 py-2 text-sm font-semibold rounded-full bg-slate-100 text-slate-600 active:bg-blue-50 active:text-[#1C44FF]">고객지원</a>
+            <a href="#community" class="px-4 py-2 text-sm font-semibold rounded-full bg-slate-100 text-slate-600 active:bg-blue-50 active:text-[#1C44FF]">커뮤니티</a>
+        </div>
+    </div>
+
+    <main class="max-w-[1100px] mx-auto px-6 py-12 flex flex-col md:flex-row gap-12 relative items-start">
+        
+        <!-- Left Sidebar Navigation (Desktop Only) -->
+        <aside class="hidden md:block w-48 flex-shrink-0 sticky top-28">
+            <nav class="flex flex-col space-y-2">
+                <a href="#company" class="side-nav-item active px-4 py-3 rounded-xl font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">회사소개</a>
+                <a href="#business" class="side-nav-item px-4 py-3 rounded-xl font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">업무소개</a>
+                <a href="#support" class="side-nav-item px-4 py-3 rounded-xl font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">고객지원</a>
+                <a href="#community" class="side-nav-item px-4 py-3 rounded-xl font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">커뮤니티</a>
+            </nav>
+        </aside>
+
+        <!-- Right Content Area -->
+        <div class="flex-grow w-full max-w-full min-w-0 space-y-24">
+            
+            <!-- 1. 회사소개 -->
+            <section id="company" class="scroll-mt-28 space-y-16">
+                <!-- 인사말 -->
+                <div>
+                    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i class="fa-solid fa-building text-[#1C44FF]"></i> 회사소개</h2>
+                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col md:flex-row gap-8 items-center md:items-start shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=300&q=80" alt="CEO" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-md flex-shrink-0">
+                        <div>
+                            <h3 class="text-lg font-bold mb-2">모든 공간이 갤러리가 되는 곳</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-4 break-keep">
+                                안녕하십니까, 갤러링크 대표이사 홍길동입니다.<br>
+                                예술가들이 전시 공간을 찾고 기획하는 과정은 늘 복잡하고 비용이 많이 듭니다. 반면, 도심 곳곳에는 매력적이지만 비어있는 유휴 공간들이 존재합니다. 갤러링크는 이 둘을 연결하여 창작자에게는 합리적인 전시 기회를, 공간 소유주에게는 새로운 가치를 제공하고자 시작되었습니다.
+                            </p>
+                            <p class="text-xs font-bold text-slate-400">CEO 홍길동</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 연혁 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6 text-slate-800">연혁</h3>
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                        <div class="border-l-2 border-slate-200 ml-3 space-y-8 pl-8 relative">
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-[#1C44FF] mb-1">2026</h4>
+                                <ul class="text-sm text-slate-600 space-y-2 font-medium">
+                                    <li>· Gallerink 플랫폼 정식 런칭</li>
+                                    <li>· AI Space Twin (가상 배치 툴) 도입</li>
+                                    <li>· 전국 제휴 공간 500개 돌파</li>
+                                </ul>
+                            </div>
+                            <div class="relative">
+                                <div class="timeline-dot border-slate-400"></div>
+                                <h4 class="font-bold text-slate-700 mb-1">2025</h4>
+                                <ul class="text-sm text-slate-500 space-y-2 font-light">
+                                    <li>· 베타 서비스 오픈 및 첫 기획 전시 성료</li>
+                                    <li>· K-Art 전시 지원 파트너십 체결</li>
+                                </ul>
+                            </div>
+                            <div class="relative">
+                                <div class="timeline-dot border-slate-400"></div>
+                                <h4 class="font-bold text-slate-700 mb-1">2024</h4>
+                                <ul class="text-sm text-slate-500 space-y-2 font-light">
+                                    <li>· (주)갤러링크 법인 설립</li>
+                                    <li>· 시드 투자 유치</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 오시는 길 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6 text-slate-800">오시는 길</h3>
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row">
+                        <div class="w-full md:w-1/2 h-64 bg-slate-200 relative">
+                            <img src="https://images.unsplash.com/photo-1619468129361-605ebea04b6f?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-80" alt="Map">
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div class="w-12 h-12 bg-[#1C44FF] text-white rounded-full flex items-center justify-center shadow-xl shadow-blue-500/50">
+                                    <i class="fa-solid fa-location-dot text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 md:p-8 flex flex-col justify-center w-full md:w-1/2 bg-slate-50">
+                            <h4 class="font-bold text-lg mb-2">갤러링크 본사</h4>
+                            <p class="text-sm text-slate-600 mb-4 font-light">서울특별시 성동구 연무장길 14, 갤러링크 타워 5층</p>
+                            <div class="space-y-2 text-xs text-slate-500 font-medium">
+                                <p><i class="fa-solid fa-phone w-5 text-center text-slate-400"></i> 1588-0000</p>
+                                <p><i class="fa-solid fa-envelope w-5 text-center text-slate-400"></i> contact@gallerink.com</p>
+                                <p><i class="fa-solid fa-train-subway w-5 text-center text-slate-400"></i> 2호선 성수역 4번 출구 도보 5분</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. 업무소개 -->
+            <section id="business" class="scroll-mt-28 space-y-6">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i class="fa-solid fa-briefcase text-[#1C44FF]"></i> 업무소개</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <!-- 국내사업 -->
+                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-[#1C44FF] transition shadow-sm group">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-[#1C44FF] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-map-location-dot"></i></div>
+                        <h3 class="font-bold text-lg mb-2">국내 대관 사업</h3>
+                        <p class="text-sm text-slate-500 font-light leading-relaxed break-keep">전국 주요 예술 거점의 갤러리 및 유휴 공간을 창작자와 안전하게 연결하는 O2O 대관 중개 플랫폼을 운영합니다.</p>
+                    </div>
+                    <!-- 해외사업 -->
+                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-[#1C44FF] transition shadow-sm group">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-500 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-globe"></i></div>
+                        <h3 class="font-bold text-lg mb-2">글로벌 연계 사업</h3>
+                        <p class="text-sm text-slate-500 font-light leading-relaxed break-keep">국내 유망 신진 작가들의 포트폴리오를 기반으로 해외 갤러리 팝업 전시 및 아트페어 참가를 지원합니다.</p>
+                    </div>
+                    <!-- 교육사업 -->
+                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-[#1C44FF] transition shadow-sm group">
+                        <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-500 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <h3 class="font-bold text-lg mb-2">전시 교육 사업</h3>
+                        <p class="text-sm text-slate-500 font-light leading-relaxed break-keep">첫 개인전을 준비하는 창작자를 위한 도면 기획, 큐레이팅, 세무/행정 처리 등 실무 밀착형 세미나를 정기 진행합니다.</p>
+                    </div>
+                    <!-- 지원사업 -->
+                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-[#1C44FF] transition shadow-sm group">
+                        <div class="w-12 h-12 rounded-xl bg-yellow-50 text-yellow-500 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                        <h3 class="font-bold text-lg mb-2">지원 연계 사업</h3>
+                        <p class="text-sm text-slate-500 font-light leading-relaxed break-keep">정부 및 지자체의 다양한 예술 지원금 제도를 분석하여 작가들에게 맞춤 추천하고 신청 과정을 돕는 솔루션을 제공합니다.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. 고객지원 -->
+            <section id="support" class="scroll-mt-28 space-y-12">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i class="fa-solid fa-headset text-[#1C44FF]"></i> 고객지원</h2>
+
+                <!-- 자주하는 질문 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-slate-800">자주 하는 질문 (FAQ)</h3>
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm divide-y divide-slate-100 overflow-hidden">
+                        <details class="group">
+                            <summary class="flex justify-between items-center font-bold text-sm text-slate-700 p-5 hover:bg-slate-50 transition">
+                                <span>Q. 전시 공간 예약 후 취소 수수료 규정은 어떻게 되나요?</span>
+                                <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                            </summary>
+                            <div class="text-sm text-slate-600 font-light p-5 pt-0 bg-slate-50 leading-relaxed">
+                                A. 대관 시작일 기준 14일 전까지는 전액 환불됩니다. 7일 전까지는 50%, 그 이후로는 환불이 불가하오니 신중한 예약 부탁드립니다. (공간별 상이할 수 있으므로 상세 페이지 참고)
+                            </div>
+                        </details>
+                        <details class="group">
+                            <summary class="flex justify-between items-center font-bold text-sm text-slate-700 p-5 hover:bg-slate-50 transition">
+                                <span>Q. 파티원 모집(N분의 1 결제)은 어떻게 진행되나요?</span>
+                                <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                            </summary>
+                            <div class="text-sm text-slate-600 font-light p-5 pt-0 bg-slate-50 leading-relaxed">
+                                A. 커뮤니티에서 목표 인원이 모두 모이면, 각 참여자의 마이페이지로 결제 알림이 전송됩니다. 모든 인원이 결제를 완료해야 예약이 최종 확정되며, 미결제 시 안전하게 자동 취소됩니다.
+                            </div>
+                        </details>
+                        <details class="group">
+                            <summary class="flex justify-between items-center font-bold text-sm text-slate-700 p-5 hover:bg-slate-50 transition">
+                                <span>Q. 렌탈한 물류(조명, 좌대 등)는 직접 가지러 가야 하나요?</span>
+                                <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                            </summary>
+                            <div class="text-sm text-slate-600 font-light p-5 pt-0 bg-slate-50 leading-relaxed">
+                                A. 아닙니다. 갤러링크 전담 물류팀이 전시 시작 1일 전까지 대관하신 공간으로 직접 배송해 드리며, 전시 종료 다음 날 수거합니다.
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- 온라인 문의 폼 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-slate-800">온라인 1:1 문의</h3>
+                    <form class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4" onsubmit="event.preventDefault(); showToast('문의가 성공적으로 접수되었습니다. 담당자가 확인 후 이메일로 답변을 드립니다.'); this.reset();">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1.5">이름/기업명 <span class="text-red-500">*</span></label>
+                                <input type="text" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#1C44FF] focus:bg-white transition" required placeholder="홍길동">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-1.5">이메일 <span class="text-red-500">*</span></label>
+                                <input type="email" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#1C44FF] focus:bg-white transition" required placeholder="example@email.com">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1.5">문의 유형 <span class="text-red-500">*</span></label>
+                            <select class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#1C44FF] focus:bg-white transition outline-none cursor-pointer" required>
+                                <option value="" disabled selected>선택해주세요</option>
+                                <option>대관/예약 관련 문의</option>
+                                <option>공간 호스트 등록 문의</option>
+                                <option>물류 렌탈/배송 문의</option>
+                                <option>기타 제휴 및 제안</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1.5">문의 내용 <span class="text-red-500">*</span></label>
+                            <textarea class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#1C44FF] focus:bg-white transition resize-none h-32" required placeholder="문의하실 내용을 상세히 적어주세요."></textarea>
+                        </div>
+                        <div class="text-right pt-2">
+                            <button type="submit" class="btn-brand px-8 py-3.5 rounded-xl font-bold text-sm w-full md:w-auto shadow-md">문의 접수하기</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 4. 커뮤니티 -->
+            <section id="community" class="scroll-mt-28 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <h2 class="text-2xl font-bold flex items-center gap-2"><i class="fa-solid fa-comments text-[#1C44FF]"></i> 통합 게시판</h2>
+                    
+                    <!-- Board Tabs -->
+                    <div class="flex gap-4 border-b border-slate-200 w-full sm:w-auto" id="boardTabs">
+                        <button class="board-tab active pb-2 text-sm font-medium text-slate-500" data-target="noticeList">공지사항</button>
+                        <button class="board-tab pb-2 text-sm font-medium text-slate-500 hover:text-slate-800 transition" data-target="dataList">자료실</button>
+                        <button class="board-tab pb-2 text-sm font-medium text-slate-500 hover:text-slate-800 transition" data-target="galleryList">갤러리</button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 md:p-6 min-h-[300px]">
+                    <!-- 공지사항 -->
+                    <div id="noticeList" class="board-content space-y-1">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50 rounded-xl cursor-pointer transition border-b border-slate-50 last:border-0" onclick="showToast('상세 내용을 엽니다.')">
+                            <div class="flex items-center gap-3 mb-2 sm:mb-0 min-w-0">
+                                <span class="bg-[#1C44FF] text-white text-[10px] font-bold px-2 py-0.5 rounded flex-shrink-0">공지</span>
+                                <p class="text-sm font-bold text-slate-800 truncate">2026년 상반기 갤러링크 플랫폼 정식 오픈 안내</p>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono flex-shrink-0">2026.05.01</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50 rounded-xl cursor-pointer transition border-b border-slate-50 last:border-0" onclick="showToast('상세 내용을 엽니다.')">
+                            <div class="flex items-center gap-3 mb-2 sm:mb-0 min-w-0">
+                                <span class="bg-[#1C44FF] text-white text-[10px] font-bold px-2 py-0.5 rounded flex-shrink-0">공지</span>
+                                <p class="text-sm font-bold text-slate-800 truncate">신규 가입 작가 대상 렌탈 20% 할인 프로모션</p>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono flex-shrink-0">2026.04.15</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50 rounded-xl cursor-pointer transition border-b border-slate-50 last:border-0" onclick="showToast('상세 내용을 엽니다.')">
+                            <div class="flex items-center gap-3 mb-2 sm:mb-0 min-w-0">
+                                <span class="bg-slate-200 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded flex-shrink-0">안내</span>
+                                <p class="text-sm font-medium text-slate-700 truncate">AI 가상 배치 툴(Beta) 사용 가이드</p>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono flex-shrink-0">2026.03.20</span>
+                        </div>
+                    </div>
+
+                    <!-- 자료실 (기본 숨김) -->
+                    <div id="dataList" class="board-content space-y-1 hidden">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50 rounded-xl cursor-pointer transition border-b border-slate-50 last:border-0" onclick="showToast('양식이 다운로드됩니다.')">
+                            <div class="flex items-center gap-3 mb-2 sm:mb-0 min-w-0">
+                                <i class="fa-regular fa-file-pdf text-red-500 text-lg flex-shrink-0"></i>
+                                <p class="text-sm font-medium text-slate-700 truncate">갤러링크 표준 전대차 동의서 양식 v2.0</p>
+                            </div>
+                            <button class="text-[11px] font-bold text-[#1C44FF] bg-[#F0F4FF] px-3 py-1 rounded-lg flex-shrink-0"><i class="fa-solid fa-download mr-1"></i>다운로드</button>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50 rounded-xl cursor-pointer transition border-b border-slate-50 last:border-0" onclick="showToast('양식이 다운로드됩니다.')">
+                            <div class="flex items-center gap-3 mb-2 sm:mb-0 min-w-0">
+                                <i class="fa-regular fa-file-word text-blue-500 text-lg flex-shrink-0"></i>
+                                <p class="text-sm font-medium text-slate-700 truncate">K-Art 지원금 폼 양식 (초안)</p>
+                            </div>
+                            <button class="text-[11px] font-bold text-[#1C44FF] bg-[#F0F4FF] px-3 py-1 rounded-lg flex-shrink-0"><i class="fa-solid fa-download mr-1"></i>다운로드</button>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50 rounded-xl cursor-pointer transition border-b border-slate-50 last:border-0" onclick="showToast('파일이 열립니다.')">
+                            <div class="flex items-center gap-3 mb-2 sm:mb-0 min-w-0">
+                                <i class="fa-regular fa-image text-emerald-500 text-lg flex-shrink-0"></i>
+                                <p class="text-sm font-medium text-slate-700 truncate">Gallerink 공식 로고 가이드라인 (CI)</p>
+                            </div>
+                            <button class="text-[11px] font-bold text-[#1C44FF] bg-[#F0F4FF] px-3 py-1 rounded-lg flex-shrink-0"><i class="fa-solid fa-download mr-1"></i>다운로드</button>
+                        </div>
+                    </div>
+
+                    <!-- 갤러리 (기본 숨김) -->
+                    <div id="galleryList" class="board-content hidden">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div class="group cursor-pointer" onclick="showToast('갤러리 이미지를 확대합니다.')">
+                                <div class="aspect-square rounded-xl overflow-hidden bg-slate-100 mb-2 border border-slate-200 hover:border-[#1C44FF] transition relative">
+                                    <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                </div>
+                                <p class="text-xs font-bold text-slate-700 truncate text-center">성수동 아틀리에 개인전 스케치</p>
+                            </div>
+                            <div class="group cursor-pointer" onclick="showToast('갤러리 이미지를 확대합니다.')">
+                                <div class="aspect-square rounded-xl overflow-hidden bg-slate-100 mb-2 border border-slate-200 hover:border-[#1C44FF] transition relative">
+                                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                </div>
+                                <p class="text-xs font-bold text-slate-700 truncate text-center">인사동 그룹전 오프닝 현장</p>
+                            </div>
+                            <div class="group cursor-pointer" onclick="showToast('갤러리 이미지를 확대합니다.')">
+                                <div class="aspect-square rounded-xl overflow-hidden bg-slate-100 mb-2 border border-slate-200 hover:border-[#1C44FF] transition relative">
+                                    <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                </div>
+                                <p class="text-xs font-bold text-slate-700 truncate text-center">미디어아트 우수 연출 사례</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer (Updated Links) -->
+    <footer class="py-16 bg-white border-t border-slate-200 text-center md:text-left mt-12 pb-24">
+        <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-80">
+            <div class="mb-8 md:mb-0">
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
+            </div>
+            <div class="flex space-x-8 text-[11px] font-semibold tracking-widest uppercase text-slate-400">
+                <a href="index.html" class="hover:text-[#1C44FF] transition">메인페이지</a>
+                <a href="#" class="hover:text-[#1C44FF] transition" onclick="showToast('개인정보보호정책 약관 팝업이 열립니다.')">개인정보보호정책</a>
+                <a href="#" class="hover:text-[#1C44FF] transition" onclick="showToast('이용약관 팝업이 열립니다.')">이용약관</a>
+            </div>
+        </div>
+        <div class="text-center mt-10 opacity-30 text-[10px] tracking-[0.3em] uppercase font-semibold text-[#1C44FF]">
+            © 2026 GALLERINK. DIRECTED BY HONG DESIGN.
+        </div>
+    </footer>
+
+    <!-- Scroll Top Button -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-6 z-[130] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible pointer-events-none transform translate-y-4">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-24 md:bottom-10 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Logic
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+            function toggleMenu(show) {
+                if(show) {
+                    mobileOverlay.classList.remove('hidden');
+                    setTimeout(() => mobileOverlay.classList.add('opacity-100'), 10);
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileOverlay.classList.remove('opacity-100');
+                    setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            menuToggle?.addEventListener('click', () => toggleMenu(true));
+            menuClose?.addEventListener('click', () => toggleMenu(false));
+            mobileOverlay?.addEventListener('click', () => toggleMenu(false));
+
+            // Board Tab Switch Logic
+            const tabs = document.querySelectorAll('.board-tab');
+            const contents = document.querySelectorAll('.board-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active from all tabs
+                    tabs.forEach(t => {
+                        t.classList.remove('active', 'text-[#1C44FF]', 'border-[#1C44FF]', 'font-bold');
+                        t.classList.add('text-slate-500', 'border-transparent', 'font-medium');
+                    });
+                    
+                    // Add active to clicked tab
+                    tab.classList.add('active', 'text-[#1C44FF]', 'border-[#1C44FF]', 'font-bold');
+                    tab.classList.remove('text-slate-500', 'border-transparent', 'font-medium');
+
+                    // Hide all contents
+                    contents.forEach(c => c.classList.add('hidden'));
+
+                    // Show target content
+                    const targetId = tab.getAttribute('data-target');
+                    document.getElementById(targetId).classList.remove('hidden');
+                });
+            });
+
+            // Intersection Observer for Sidebar Active State
+            const sections = document.querySelectorAll('section[id]');
+            const navItems = document.querySelectorAll('.side-nav-item');
+            const mobileNavItems = document.querySelectorAll('.md\\:hidden.sticky a');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -60% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        
+                        // Desktop Nav
+                        navItems.forEach(item => {
+                            item.classList.remove('active', 'bg-slate-100', 'text-slate-800');
+                            item.classList.add('text-slate-500');
+                            if (item.getAttribute('href') === `#${id}`) {
+                                item.classList.add('active');
+                            }
+                        });
+
+                        // Mobile Nav
+                        mobileNavItems.forEach(item => {
+                            item.classList.remove('bg-blue-50', 'text-[#1C44FF]');
+                            item.classList.add('bg-slate-100', 'text-slate-600');
+                            if (item.getAttribute('href') === `#${id}`) {
+                                item.classList.add('bg-blue-50', 'text-[#1C44FF]');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+        });
+
+        // 전역 Toast 알림 함수
+        let toastTimeout;
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            toastContainer.innerHTML = ''; 
+            
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-800 text-white shadow-xl rounded-xl px-5 py-3 flex items-center justify-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center md:text-left text-sm font-medium mx-auto w-fit';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span class="whitespace-nowrap">${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
+
+            if(toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // 스크롤 탑 버튼 로직
+        window.addEventListener('scroll', () => {
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.add('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.remove('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
+            }
+        });
+    </script>
+</body>
+</html>
