@@ -24,10 +24,20 @@
             letter-spacing: -0.015em;
         }
 
+        /* Navigation Styles */
         .glass-nav {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
+        }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -51,28 +61,64 @@
 </head>
 <body class="overflow-x-hidden pt-14 bg-slate-50">
 
-    <!-- Navigation -->
+    <!-- Global Navigation -->
     <nav class="glass-nav fixed top-0 left-0 w-full z-[100] h-14 flex items-center border-b border-slate-100/30 transition-all duration-300">
         <div class="max-w-[1100px] mx-auto w-full px-6 flex justify-between items-center">
+            <!-- Text Logo -->
             <a href="index.html" class="flex items-center">
-                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="font-bold text-xl tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
             </a>
-            <div class="hidden md:flex space-x-10 text-[13px] font-medium opacity-70">
-                <a href="explore.html" class="hover:text-[#1C44FF] hover:opacity-100 transition">Explore</a>
-                <a href="rental-explore.html" class="text-[#1C44FF] opacity-100 transition font-bold border-b-2 border-[#1C44FF] pb-1">Rental</a>
-                <a href="index.html#ai" class="hover:text-[#1C44FF] hover:opacity-100 transition">AI Curation</a>
-                <a href="index.html#admin" class="hover:text-[#1C44FF] hover:opacity-100 transition">Admin</a>
+
+            <!-- Desktop Menu (6 Items) -->
+            <div class="hidden lg:flex space-x-8 text-[13px] font-medium opacity-70">
+                <a href="space-explore.html" class="hover:text-[#1C44FF] transition">Explore</a>
+                <a href="rental-explore.html" class="text-[#1C44FF] font-bold">Rental</a>
+                <a href="community-explore.html" class="hover:text-[#1C44FF] transition">Community</a>
+                <a href="ai-curation.html" class="hover:text-[#1C44FF] transition">AI Curation</a>
+                <a href="find-subsidy.html" class="hover:text-[#1C44FF] transition">Find Subsidy</a>
+                <a href="about-us.html" class="hover:text-[#1C44FF] transition">About Us</a>
             </div>
-            <a href="#" id="signInBtn" class="text-[13px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition">마이페이지</a>
+
+            <div class="flex items-center gap-4">
+                <!-- Desktop My Page Button -->
+                <a href="mypage.html" class="hidden md:block text-[12px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition">마이페이지</a>
+                
+                <!-- Hamburger Button (Mobile) -->
+                <button id="menu-toggle" class="lg:hidden text-slate-800 text-xl focus:outline-none p-2">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
+    <!-- Mobile Slide Menu -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/40 z-[140] hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 w-[280px] h-full bg-white z-[150] shadow-2xl flex flex-col p-8 lg:hidden">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-bold text-xl text-[#1C44FF]">Gallerink</span>
+            <button id="menu-close" class="text-slate-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <nav class="flex flex-col space-y-6 text-lg font-semibold text-slate-800">
+            <a href="space-explore.html">Explore</a>
+            <a href="rental-explore.html" class="text-[#1C44FF]">Rental</a>
+            <a href="community-explore.html">Community</a>
+            <a href="ai-curation.html">AI Curation</a>
+            <a href="find-subsidy.html">Find Subsidy</a>
+            <a href="about-us.html">About Us</a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-slate-100 flex flex-col gap-4">
+            <a href="mypage.html" class="w-full py-3 bg-[#F0F4FF] text-[#1C44FF] rounded-xl font-bold text-center">마이페이지</a>
+            <button onclick="showToast('설정 페이지는 준비 중입니다.')" class="w-full py-3 border border-slate-200 text-slate-500 rounded-xl font-bold">설정</button>
+        </div>
+    </div>
+
     <!-- Header & Search -->
-    <header class="bg-white border-b border-slate-200 py-12">
+    <header class="bg-white border-b border-slate-200 py-12 pt-20 md:pt-12">
         <div class="max-w-[1100px] mx-auto px-6">
             <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">전시 물류 솔루션 탐색</h1>
-            <p class="text-slate-500 font-light mb-8">안전한 운송부터 전시 공간에 꼭 맞는 조명과 가구까지, 갤러링크가 준비해 드립니다.</p>
+            <p class="text-slate-500 font-light mb-8 leading-relaxed">
+                안전한 운송부터 전시 공간에 꼭 맞는 조명과 가구까지, 갤러링크가 준비해 드립니다.
+            </p>
             
             <!-- Search Bar -->
             <div class="relative max-w-2xl mb-8">
@@ -131,18 +177,17 @@
                     <p class="text-xs text-slate-500 font-light">물품을 담아 한 번에 결제하세요</p>
                 </div>
             </div>
-            <button class="bg-[#1C44FF] text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition" onclick="showToast('장바구니 페이지로 이동합니다.')">
+            <button class="bg-[#1C44FF] text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition" onclick="window.location.href='mypage.html'">
                 예약 진행하기
             </button>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="py-16 bg-white border-t border-slate-200 relative mt-12 pb-32">
+    <footer class="py-24 bg-white border-t border-slate-100 text-center md:text-left relative mt-12 pb-32">
         <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center opacity-80">
-            <div class="mb-8 md:mb-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition duration-300">
-                <img src="갤러링크-1.svg" alt="Gallerink Logo" class="h-5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="font-bold text-lg tracking-tighter text-[#1C44FF]" style="display:none;">Gallerink</span>
+            <div class="mb-8 md:mb-0">
+                <span class="font-bold text-2xl tracking-tighter text-[#1C44FF]">Gallerink</span>
             </div>
             <div class="flex space-x-8 text-[11px] font-semibold tracking-widest uppercase text-slate-400">
                 <a href="#" class="hover:text-[#1C44FF] transition">Privacy</a>
@@ -150,69 +195,46 @@
                 <a href="#" class="hover:text-[#1C44FF] transition">Contact</a>
             </div>
         </div>
-        <div class="text-center mt-10 opacity-30 text-[10px] tracking-[0.3em] uppercase font-semibold text-[#1C44FF]">
+        <div class="text-center mt-14 opacity-30 text-[10px] tracking-[0.3em] uppercase font-semibold text-[#1C44FF]">
             © 2026 GALLERINK. DIRECTED BY HONG DESIGN.
         </div>
     </footer>
 
     <!-- Scroll Top Button -->
-    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-28 right-6 z-[150] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible pointer-events-none transform translate-y-4">
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-28 right-6 z-[130] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible transform translate-y-4">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
     <!-- Toast Container -->
     <div id="toastContainer" class="fixed bottom-28 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
 
-    <!-- Sign In Modal -->
-    <div id="signInModal" class="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl p-8 w-[90%] max-w-md transform scale-95 transition-transform duration-300">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold">마이페이지 (로그인)</h3>
-                <button class="close-modal text-slate-400 hover:text-black transition"><i class="fa-solid fa-xmark text-xl"></i></button>
-            </div>
-            <div class="space-y-4">
-                <input type="email" placeholder="이메일" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#1C44FF] focus:outline-none transition">
-                <input type="password" placeholder="비밀번호" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#1C44FF] focus:outline-none transition">
-                <button class="w-full bg-[#1C44FF] text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition" onclick="showToast('환영합니다!')">로그인</button>
-            </div>
-            <p class="text-center text-sm text-slate-500 mt-6 cursor-pointer hover:underline hover:text-[#1C44FF] transition">회원가입</p>
-        </div>
-    </div>
-
     <!-- Scripts -->
     <script>
-        // 전역 Toast 알림 함수
-        function showToast(message) {
-            const toastContainer = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'bg-slate-800 text-white shadow-xl rounded-xl px-5 py-3 flex items-center justify-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center';
-            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span class="text-sm font-medium">${message}</span>`;
-            
-            toastContainer.appendChild(toast);
-            
-            requestAnimationFrame(() => {
-                toast.classList.remove('translate-y-10', 'opacity-0');
-            });
-
-            setTimeout(() => {
-                toast.classList.add('translate-y-10', 'opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 2500);
-        }
-
-        // 스크롤 탑 버튼 로직
-        window.addEventListener('scroll', () => {
-            const scrollTopBtn = document.getElementById('scrollTopBtn');
-            if (window.scrollY > 300) {
-                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
-                scrollTopBtn.classList.add('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
-            } else {
-                scrollTopBtn.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-4');
-                scrollTopBtn.classList.remove('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
-            }
-        });
-
         document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Logic
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+            function toggleMenu(show) {
+                if(show) {
+                    mobileOverlay.classList.remove('hidden');
+                    setTimeout(() => mobileOverlay.classList.add('opacity-100'), 10);
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileOverlay.classList.remove('opacity-100');
+                    setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            menuToggle?.addEventListener('click', () => toggleMenu(true));
+            menuClose?.addEventListener('click', () => toggleMenu(false));
+            mobileOverlay?.addEventListener('click', () => toggleMenu(false));
+
             // 장바구니 카운터 연동
             let cartCount = 0;
             function updateCartBadge() {
@@ -342,48 +364,37 @@
 
             // Initial render
             renderItems('all');
+        });
 
-            // Modal Logic
-            function setupModal(triggerId, modalId) {
-                const trigger = document.getElementById(triggerId);
-                const modal = document.getElementById(modalId);
-                if (!trigger || !modal) return;
-                
-                const closeBtns = modal.querySelectorAll('.close-modal');
-                const innerContent = modal.firstElementChild;
+        // 전역 Toast 알림 함수
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-800 text-white shadow-2xl rounded-xl px-5 py-3 flex items-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-sm font-medium';
+            toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span>${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
 
-                function openModal(e) {
-                    if (e) e.preventDefault();
-                    modal.classList.remove('hidden');
-                    void modal.offsetWidth; 
-                    modal.classList.remove('opacity-0');
-                    if(innerContent && innerContent.classList.contains('scale-95')) {
-                        innerContent.classList.remove('scale-95');
-                        innerContent.classList.add('scale-100');
-                    }
-                    document.body.style.overflow = 'hidden';
-                }
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
 
-                function closeModal() {
-                    modal.classList.add('opacity-0');
-                    if(innerContent && innerContent.classList.contains('scale-100')) {
-                        innerContent.classList.remove('scale-100');
-                        innerContent.classList.add('scale-95');
-                    }
-                    setTimeout(() => {
-                        modal.classList.add('hidden');
-                        document.body.style.overflow = '';
-                    }, 300);
-                }
-
-                trigger.addEventListener('click', openModal);
-                closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) closeModal();
-                });
+        // 스크롤 탑 버튼 로직
+        window.addEventListener('scroll', () => {
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+                scrollTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-4');
+                scrollTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
             }
-
-            setupModal('signInBtn', 'signInModal');
         });
     </script>
 </body>
