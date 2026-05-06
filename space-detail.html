@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth" style="scroll-padding-top: 64px;">
+<html lang="ko" class="scroll-smooth" style="scroll-padding-top: 140px;">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>성수 브루잉 팝업홀 - Gallerink</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,7 +27,7 @@
 
         /* Navigation Styles */
         .glass-nav {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
@@ -68,10 +68,14 @@
             transition: all 0.2s;
         }
 
-        /* 더보기 텍스트 효과 */
+        /* 더보기 텍스트 그라데이션 효과 */
         .desc-gradient {
-            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+        
+        .content-transition {
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
@@ -96,7 +100,7 @@
 
             <div class="flex items-center gap-4">
                 <a href="mypage.html" class="hidden md:block text-[12px] font-semibold text-[#1C44FF] bg-[#F0F4FF] px-4 py-1.5 rounded-full hover:bg-[#1C44FF] hover:text-white transition whitespace-nowrap">마이페이지</a>
-                <button id="menu-toggle" class="lg:hidden text-slate-800 text-xl focus:outline-none p-2">
+                <button type="button" id="menu-toggle" class="lg:hidden text-slate-800 text-xl focus:outline-none p-2">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
@@ -108,10 +112,10 @@
     <div id="mobile-menu" class="fixed top-0 right-0 w-[280px] h-full bg-white z-[150] shadow-2xl flex flex-col p-8 lg:hidden">
         <div class="flex justify-between items-center mb-12">
             <span class="font-bold text-xl text-[#1C44FF]">Gallerink</span>
-            <button id="menu-close" class="text-slate-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
+            <button type="button" id="menu-close" class="text-slate-400 text-2xl"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <nav class="flex flex-col space-y-6 text-lg font-semibold text-slate-800">
-            <a href="space-explore.html">Explore</a>
+            <a href="space-explore.html" class="text-[#1C44FF]">Explore</a>
             <a href="rental-explore.html">Rental</a>
             <a href="community-explore.html">Community</a>
             <a href="ai-curation.html">AI Curation</a>
@@ -120,7 +124,7 @@
         </nav>
         <div class="mt-auto pt-8 border-t border-slate-100 flex flex-col gap-4">
             <a href="mypage.html" class="w-full py-3 bg-[#F0F4FF] text-[#1C44FF] rounded-xl font-bold text-center">마이페이지</a>
-            <button onclick="showToast('설정 페이지는 준비 중입니다.')" class="w-full py-3 border border-slate-200 text-slate-500 rounded-xl font-bold">설정</button>
+            <button type="button" onclick="showToast('설정 페이지는 준비 중입니다.')" class="w-full py-3 border border-slate-200 text-slate-500 rounded-xl font-bold">설정</button>
         </div>
     </div>
 
@@ -182,15 +186,15 @@
                         <span class="text-sm text-slate-400 font-normal pb-1">/ 1일 대관 기준</span>
                     </div>
 
-                    <!-- Date Selection Widget -->
+                    <!-- Date Selection Widget (Mobile Layout Fixed: Stack on small, Row on medium) -->
                     <div class="space-y-6 mb-8">
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">대관 시작일</label>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2"><i class="fa-regular fa-calendar text-[#1C44FF] mr-1"></i>대관 시작일</label>
                                 <input type="date" id="startDate" class="date-input w-full p-3.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#1C44FF] transition bg-slate-50">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">대관 종료일</label>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2"><i class="fa-regular fa-calendar-check text-[#1C44FF] mr-1"></i>대관 종료일</label>
                                 <input type="date" id="endDate" class="date-input w-full p-3.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#1C44FF] transition bg-slate-50">
                             </div>
                         </div>
@@ -220,7 +224,7 @@
 
                     <div class="flex gap-3">
                         <button type="button" class="w-1/3 bg-white border border-slate-300 text-slate-700 py-4 rounded-xl font-bold text-sm hover:border-[#1C44FF] hover:text-[#1C44FF] transition flex items-center justify-center gap-2 whitespace-nowrap shadow-sm" onclick="showToast('장바구니에 보관되었습니다.')">
-                            <i class="fa-solid fa-bookmark"></i> 장바구니
+                            <i class="fa-solid fa-bookmark"></i> 찜하기
                         </button>
                         <button type="button" class="w-2/3 btn-brand py-4 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/20 whitespace-nowrap" onclick="window.location.href='mypage.html'">
                             예약 신청하기
@@ -230,18 +234,18 @@
             </div>
         </div>
 
-        <!-- Space Detail Content with Tabs -->
-        <div class="border-b border-slate-200 mb-12 sticky top-14 bg-white z-40 pt-4">
-            <div class="flex gap-10 overflow-x-auto no-scrollbar">
-                <a href="#section-intro" class="pb-4 font-bold text-[#1C44FF] border-b-2 border-[#1C44FF] whitespace-nowrap">공간 소개</a>
-                <a href="#section-facilities" class="pb-4 font-medium text-slate-400 hover:text-slate-800 transition whitespace-nowrap">시설 및 옵션</a>
-                <a href="#section-location" class="pb-4 font-medium text-slate-400 hover:text-slate-800 transition whitespace-nowrap">위치 정보</a>
+        <!-- Space Detail Content with Sticky Tabs -->
+        <div class="border-b border-slate-200 mb-12 sticky top-14 bg-white z-40 pt-4 shadow-sm">
+            <div class="flex gap-10 overflow-x-auto no-scrollbar" id="detailTabs">
+                <button type="button" onclick="scrollToSection('section-intro', this)" class="detail-tab-btn pb-4 font-bold text-[#1C44FF] border-b-2 border-[#1C44FF] whitespace-nowrap">공간 소개</button>
+                <button type="button" onclick="scrollToSection('section-facilities', this)" class="detail-tab-btn pb-4 font-medium text-slate-400 hover:text-slate-800 transition border-b-2 border-transparent whitespace-nowrap">시설 및 옵션</button>
+                <button type="button" onclick="scrollToSection('section-location', this)" class="detail-tab-btn pb-4 font-medium text-slate-400 hover:text-slate-800 transition border-b-2 border-transparent whitespace-nowrap">위치 정보</button>
             </div>
         </div>
 
         <div class="max-w-4xl space-y-24 mb-20">
             
-            <!-- 1. 공간 소개 (With Icons & Show More) -->
+            <!-- 1. 공간 소개 (Structured with Show More) -->
             <section id="section-intro" class="scroll-mt-32">
                 <!-- Highlight Icons -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-y border-slate-100 mb-10 bg-slate-50/50 px-6 rounded-3xl">
@@ -263,7 +267,7 @@
                         <i class="fa-solid fa-hammer text-2xl text-[#1C44FF]"></i>
                         <div>
                             <p class="text-[10px] text-slate-400 font-bold uppercase">작품 설치</p>
-                            <p class="font-bold text-sm">못질 가능</p>
+                            <p class="font-bold text-sm">못질·앙카 가능</p>
                         </div>
                     </div>
                     <div class="flex flex-col items-center text-center gap-2">
@@ -276,88 +280,109 @@
                 </div>
 
                 <div class="prose prose-slate max-w-none">
-                    <h3 class="text-2xl font-bold mb-6 tracking-tight text-slate-800">모든 창작자가 꿈꾸던 성수의 인더스트리얼 아틀리에</h3>
+                    <h3 class="text-2xl font-bold mb-6 tracking-tight text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-[#1C44FF] text-xl"></i> 공간 상세 소개
+                    </h3>
                     
-                    <div id="introContent" class="text-slate-600 font-light leading-relaxed mb-4 overflow-hidden max-h-[160px] relative transition-all duration-500 desc-gradient">
-                        <p>성수동 연무장길 메인 거리에 위치한 '성수 브루잉 팝업홀'은 과거 공장 부지를 개조하여 만든 유니크한 전시 전용 공간입니다. 투박한 노출 콘크리트 벽면과 높은 층고는 회화 작업뿐만 아니라 대형 설치 미술이나 미디어 아트 전시에서도 깊이 있는 공간감을 선사합니다.</p>
-                        <p>특히, 창작자들의 편의를 최우선으로 생각하여 벽면 전체에 자유로운 못질과 앙카 작업을 지원하며, 전시 종료 후 깔끔한 원상 복구 가이드를 제공합니다. 전면 통유리창을 통해 쏟아지는 자연광을 활용할 수도 있고, 암막 커튼을 활용해 완벽한 어둠 속에서 영상 전시를 진행할 수도 있습니다.</p>
-                        <p>주변에는 성수의 유명 카페와 편집샵들이 밀집해 있어 자연스러운 유동 인구 유입이 보장되며, 도보 5분 거리에 성수역이 위치해 관람객의 접근성이 매우 뛰어납니다.</p>
+                    <!-- Content area with gradient mask for long text -->
+                    <div id="introContent" class="text-slate-600 text-[15px] leading-loose overflow-hidden max-h-[220px] relative content-transition desc-gradient">
+                        <p class="mb-4">
+                            성수동 연무장길 메인 거리에 위치한 <strong>'성수 브루잉 팝업홀'</strong>은 과거 공장 부지를 개조하여 만든 유니크한 전시 전용 공간입니다. 
+                            투박한 노출 콘크리트 벽면과 높은 층고는 회화 작업뿐만 아니라 대형 설치 미술이나 미디어 아트 전시에서도 깊이 있는 공간감을 선사합니다.
+                        </p>
+                        
+                        <h4 class="font-bold text-slate-800 mt-8 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-cube text-slate-400"></i> 공간 특징 및 스펙</h4>
+                        <ul class="list-none pl-0 space-y-2 mb-6">
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-[#1C44FF] mt-1 text-xs"></i> <span><strong>여유로운 층고:</strong> 3.5m의 노출 콘크리트 천장으로 대형 캔버스 및 조형물 설치에 최적화되어 있습니다.</span></li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-[#1C44FF] mt-1 text-xs"></i> <span><strong>자유로운 작품 설치:</strong> 벽면 전체 앙카 및 못질 작업 완벽 지원 (전시 종료 시 원상복구 퍼티 작업 필수)</span></li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-[#1C44FF] mt-1 text-xs"></i> <span><strong>미디어 아트 지원:</strong> 전면 통유리창에 100% 암막 커튼이 설치되어 있어 주간에도 빔 프로젝터 투사가 가능합니다.</span></li>
+                        </ul>
+
+                        <h4 class="font-bold text-slate-800 mt-8 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-star text-slate-400"></i> 추천 전시 장르</h4>
+                        <ul class="list-none pl-0 space-y-2 mb-6 text-sm">
+                            <li class="bg-slate-50 px-3 py-2 rounded-lg text-slate-700">신진 작가의 첫 개인전 및 2~3인 소규모 그룹전</li>
+                            <li class="bg-slate-50 px-3 py-2 rounded-lg text-slate-700">빛과 그림자를 활용하는 미디어 아트 및 인터랙티브 전시</li>
+                            <li class="bg-slate-50 px-3 py-2 rounded-lg text-slate-700">스트릿/서브컬처 기반의 팝업 스토어 융합 전시</li>
+                        </ul>
+
+                        <h4 class="font-bold text-slate-800 mt-8 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-map-pin text-slate-400"></i> 인프라 및 접근성</h4>
+                        <p class="mb-4">성수역 4번 출구에서 도보 5분 거리에 위치하며, 주변 유명 카페와 편집샵으로 인한 자연스러운 워크인 관람객 유입이 매우 높습니다. 건물 내 단독으로 사용 가능한 화장실과 작품 보관용 1.5평 남의 소형 창고가 구비되어 있어 창작자의 편의를 더합니다.</p>
                     </div>
                     
-                    <button id="toggleDescBtn" onclick="toggleDescription()" class="text-[#1C44FF] font-bold text-sm flex items-center gap-1.5 hover:underline mt-2">
-                        더 읽기 <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                    <button type="button" id="toggleDescBtn" onclick="toggleDescription()" class="mt-4 bg-white border border-slate-200 text-slate-600 px-6 py-2.5 rounded-full text-sm font-bold shadow-sm hover:bg-slate-50 transition w-full md:w-auto flex items-center justify-center gap-2 mx-auto md:mx-0">
+                        더 읽기 <i class="fa-solid fa-chevron-down"></i>
                     </button>
                 </div>
             </section>
 
-            <!-- 2. 시설 및 옵션 (Icons) -->
+            <!-- 2. 시설 및 옵션 (Icons List) -->
             <section id="section-facilities" class="scroll-mt-32">
-                <h3 class="text-xl font-bold mb-8 flex items-center gap-2"><i class="fa-solid fa-list-check text-slate-300"></i> 시설 및 편의사항</h3>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-4">
-                    <div class="flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition">
+                <h3 class="text-2xl font-bold mb-8 flex items-center gap-2 text-slate-800"><i class="fa-solid fa-list-check text-[#1C44FF]"></i> 시설 및 편의사항</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4">
+                    <div class="flex items-center gap-4 bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:border-[#1C44FF] transition group">
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition text-lg">
                             <i class="fa-solid fa-wifi"></i>
                         </div>
-                        <span class="text-sm font-medium text-slate-600">초고속 와이파이</span>
+                        <span class="text-sm font-bold text-slate-700">초고속 와이파이</span>
                     </div>
-                    <div class="flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition">
+                    <div class="flex items-center gap-4 bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:border-[#1C44FF] transition group">
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition text-lg">
                             <i class="fa-solid fa-square-parking"></i>
                         </div>
-                        <span class="text-sm font-medium text-slate-600">주차 1대 무료</span>
+                        <span class="text-sm font-bold text-slate-700">주차 1대 무료</span>
                     </div>
-                    <div class="flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition">
+                    <div class="flex items-center gap-4 bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:border-[#1C44FF] transition group">
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition text-lg">
                             <i class="fa-solid fa-temperature-arrow-up"></i>
                         </div>
-                        <span class="text-sm font-medium text-slate-600">시스템 냉난방</span>
+                        <span class="text-sm font-bold text-slate-700">시스템 냉난방</span>
                     </div>
-                    <div class="flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition">
+                    <div class="flex items-center gap-4 bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:border-[#1C44FF] transition group">
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition text-lg">
                             <i class="fa-solid fa-lightbulb"></i>
                         </div>
-                        <span class="text-sm font-medium text-slate-600">레일 조명 기본 제공</span>
+                        <span class="text-sm font-bold text-slate-700">레일 조명 제공</span>
                     </div>
-                    <div class="flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition">
+                    <div class="flex items-center gap-4 bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:border-[#1C44FF] transition group">
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition text-lg">
                             <i class="fa-solid fa-plug"></i>
                         </div>
-                        <span class="text-sm font-medium text-slate-600">10kW 고용량 전력</span>
+                        <span class="text-sm font-bold text-slate-700">10kW 고용량 전력</span>
                     </div>
-                    <div class="flex items-center gap-4 group">
-                        <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition">
+                    <div class="flex items-center gap-4 bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:border-[#1C44FF] transition group">
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#F0F4FF] group-hover:text-[#1C44FF] transition text-lg">
                             <i class="fa-solid fa-restroom"></i>
                         </div>
-                        <span class="text-sm font-medium text-slate-600">내부 화장실</span>
+                        <span class="text-sm font-bold text-slate-700">내부 단독 화장실</span>
                     </div>
                 </div>
             </section>
 
             <!-- 3. 위치 정보 (Map Integration) -->
             <section id="section-location" class="scroll-mt-32">
-                <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fa-solid fa-location-dot text-slate-300"></i> 위치 정보</h3>
-                <p class="text-sm text-slate-500 mb-6 font-light">서울 성동구 연무장길 14 · 성수역 4번 출구 도보 5분</p>
-                <div class="w-full h-[360px] bg-slate-100 rounded-[32px] overflow-hidden border border-slate-200 relative">
+                <h3 class="text-2xl font-bold mb-6 flex items-center gap-2 text-slate-800"><i class="fa-solid fa-map-location-dot text-[#1C44FF]"></i> 위치 정보</h3>
+                <p class="text-sm text-slate-500 mb-6 font-medium bg-slate-50 inline-block px-4 py-2 rounded-lg">서울 성동구 연무장길 14 · 성수역 4번 출구 도보 5분</p>
+                <div class="w-full h-[400px] bg-slate-100 rounded-[32px] overflow-hidden border border-slate-200 relative shadow-sm">
                     <img src="https://images.unsplash.com/photo-1619468129361-605ebea04b6f?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover opacity-80" alt="Map">
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="w-12 h-12 bg-[#1C44FF] text-white rounded-full flex items-center justify-center shadow-2xl mb-10 shadow-blue-500/50 scale-110">
-                            <i class="fa-solid fa-location-dot text-xl"></i>
+                        <div class="w-14 h-14 bg-[#1C44FF] text-white rounded-full flex items-center justify-center shadow-2xl mb-10 shadow-blue-500/50 scale-110 border-4 border-white">
+                            <i class="fa-solid fa-location-dot text-2xl"></i>
                         </div>
                     </div>
-                    <div class="absolute bottom-6 left-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/50 max-w-[240px]">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Gallerink Guide</p>
-                        <h5 class="text-sm font-bold text-slate-800">찾아오시는 길</h5>
-                        <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">성수역 4번 출구에서 연무장길 방면으로 직진 후, 첫 번째 큰 사거리에서 좌측 건물 1층입니다.</p>
+                    <div class="absolute bottom-6 left-6 right-6 md:right-auto bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-lg border border-white/50 md:max-w-[280px]">
+                        <p class="text-[10px] font-bold text-[#1C44FF] uppercase mb-1 tracking-widest">Gallerink Guide</p>
+                        <h5 class="text-base font-bold text-slate-800 mb-2">찾아오시는 길</h5>
+                        <p class="text-xs text-slate-600 leading-relaxed">성수역 4번 출구에서 연무장길 방면으로 직진 후, 첫 번째 큰 사거리에서 좌측 건물 1층입니다. (발렛파킹 불가)</p>
                     </div>
                 </div>
             </section>
         </div>
 
         <!-- AI Integration Banner -->
-        <div class="bg-slate-900 rounded-[40px] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl mb-24">
+        <div class="bg-slate-900 rounded-[40px] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl mb-24 border-none">
             <div class="absolute top-0 right-0 w-64 h-64 bg-[#1C44FF] rounded-full blur-[100px] opacity-20"></div>
             <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
-                <div class="w-20 h-20 bg-white/10 rounded-3xl flex items-center justify-center text-3xl border border-white/10 backdrop-blur-sm">
+                <div class="w-20 h-20 bg-white/10 rounded-3xl flex items-center justify-center text-3xl border border-white/10 backdrop-blur-sm flex-shrink-0">
                     <i class="fa-solid fa-vr-cardboard"></i>
                 </div>
                 <div class="flex-grow text-center md:text-left">
@@ -365,15 +390,15 @@
                     <h4 class="text-2xl font-bold mb-3">도면에 내 작품을 미리 걸어보세요.</h4>
                     <p class="text-slate-400 font-light text-sm max-w-lg leading-relaxed break-keep">이 공간의 3D 실측 데이터를 기반으로 층고와 조명을 고려한 AI 가상 배치를 지원합니다. 작가님의 포트폴리오를 업로드해보세요.</p>
                 </div>
-                <button class="bg-[#1C44FF] text-white px-10 py-4 rounded-2xl font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 whitespace-nowrap" onclick="window.location.href='ai-curation.html'">AI 가상 배치 시작</button>
+                <button type="button" class="bg-[#1C44FF] text-white px-10 py-4 rounded-2xl font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 whitespace-nowrap" onclick="window.location.href='ai-curation.html'">AI 가상 배치 시작</button>
             </div>
         </div>
 
         <!-- Section: Recommended Logistics -->
         <div class="border-t border-slate-100 pt-16 mb-16">
             <div class="flex justify-between items-center mb-10">
-                <h3 class="text-2xl font-bold tracking-tight">이 공간에 어울리는 추천 물류</h3>
-                <a href="rental-explore.html" class="text-sm font-bold text-[#1C44FF] hover:underline">물류 전체보기 <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                <h3 class="text-2xl font-bold tracking-tight flex items-center gap-2"><i class="fa-solid fa-box-open text-[#1C44FF]"></i> 이 공간에 어울리는 추천 물류</h3>
+                <a href="rental-explore.html" class="text-sm font-bold text-slate-500 hover:text-[#1C44FF] transition">물류 전체보기 <i class="fa-solid fa-chevron-right text-[10px]"></i></a>
             </div>
             <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6">
                 <!-- Logistics Items -->
@@ -386,7 +411,7 @@
                         <h5 class="font-bold text-sm mb-3 truncate text-slate-800">15W 레일 스포트라이트</h5>
                         <div class="flex justify-between items-center">
                             <span class="font-bold text-[#1C44FF] text-sm">₩5,000</span>
-                            <button class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center hover:bg-[#1C44FF] hover:text-white transition"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                            <button type="button" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center hover:bg-[#1C44FF] hover:text-white transition" onclick="event.stopPropagation(); showToast('물품을 장바구니에 담았습니다.')"><i class="fa-solid fa-plus text-[10px]"></i></button>
                         </div>
                     </div>
                 </div>
@@ -399,7 +424,7 @@
                         <h5 class="font-bold text-sm mb-3 truncate text-slate-800">화이트 큐브 좌대 (M)</h5>
                         <div class="flex justify-between items-center">
                             <span class="font-bold text-[#1C44FF] text-sm">₩15,000</span>
-                            <button class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center hover:bg-[#1C44FF] hover:text-white transition"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                            <button type="button" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center hover:bg-[#1C44FF] hover:text-white transition" onclick="event.stopPropagation(); showToast('물품을 장바구니에 담았습니다.')"><i class="fa-solid fa-plus text-[10px]"></i></button>
                         </div>
                     </div>
                 </div>
@@ -412,22 +437,22 @@
                         <h5 class="font-bold text-sm mb-3 truncate text-slate-800">무지향성 스피커</h5>
                         <div class="flex justify-between items-center">
                             <span class="font-bold text-[#1C44FF] text-sm">₩30,000</span>
-                            <button class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center hover:bg-[#1C44FF] hover:text-white transition"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                            <button type="button" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center hover:bg-[#1C44FF] hover:text-white transition" onclick="event.stopPropagation(); showToast('물품을 장바구니에 담았습니다.')"><i class="fa-solid fa-plus text-[10px]"></i></button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Section: Similar Spaces (NEW ADDITION) -->
+        <!-- Section: Similar Spaces -->
         <div class="border-t border-slate-100 pt-16 mb-24">
             <div class="flex justify-between items-center mb-10">
-                <h3 class="text-2xl font-bold tracking-tight text-slate-800">이 공간과 비슷한 추천 공간</h3>
-                <a href="space-explore.html" class="text-sm font-bold text-[#1C44FF] hover:underline">더보기 <i class="fa-solid fa-chevron-right ml-1"></i></a>
+                <h3 class="text-2xl font-bold tracking-tight text-slate-800 flex items-center gap-2"><i class="fa-solid fa-map-location-dot text-[#1C44FF]"></i> 이 공간과 비슷한 추천 공간</h3>
+                <a href="space-explore.html" class="text-sm font-bold text-slate-500 hover:text-[#1C44FF] transition">더보기 <i class="fa-solid fa-chevron-right text-[10px]"></i></a>
             </div>
             <div class="flex gap-6 overflow-x-auto no-scrollbar pb-10">
                 <!-- Similar Space Item 1 -->
-                <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-[32px] border border-slate-100 overflow-hidden group cursor-pointer hover:border-[#1C44FF] transition-all duration-300" onclick="window.location.href='space-detail.html'">
+                <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-[32px] border border-slate-100 overflow-hidden group cursor-pointer hover:border-[#1C44FF] transition-all duration-300 shadow-sm" onclick="window.location.href='space-detail.html'">
                     <div class="aspect-[4/3] overflow-hidden relative">
                         <img src="https://images.unsplash.com/photo-1518998053401-878c735c9075?auto=format&fit=crop&w=600&q=80" alt="Space" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         <div class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur px-3 py-1.5 rounded-full text-[9px] font-bold text-white shadow-sm flex items-center gap-1"><i class="fa-solid fa-hammer text-[8px] text-[#F0F4FF]"></i>못질가능</div>
@@ -438,13 +463,13 @@
                         <p class="text-xs text-slate-400 font-light mb-4">서울 광진구 · 인더스트리얼</p>
                         <div class="flex justify-between items-end mt-auto">
                             <span class="text-[15px] font-bold text-slate-800">₩180,000<span class="text-slate-400 font-normal text-xs"> / 일</span></span>
-                            <span class="text-[10px] font-bold text-[#1C44FF] bg-blue-50 px-2 py-1 rounded-md">8km 이내</span>
+                            <span class="text-[10px] font-bold text-[#1C44FF] bg-blue-50 px-2.5 py-1.5 rounded-md">8km 이내</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Similar Space Item 2 -->
-                <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-[32px] border border-slate-100 overflow-hidden group cursor-pointer hover:border-[#1C44FF] transition-all duration-300" onclick="window.location.href='space-detail.html'">
+                <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-[32px] border border-slate-100 overflow-hidden group cursor-pointer hover:border-[#1C44FF] transition-all duration-300 shadow-sm" onclick="window.location.href='space-detail.html'">
                     <div class="aspect-[4/3] overflow-hidden relative">
                         <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=600&q=80" alt="Space" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         <div class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur px-3 py-1.5 rounded-full text-[9px] font-bold text-white shadow-sm flex items-center gap-1"><i class="fa-solid fa-hammer text-[8px] text-[#F0F4FF]"></i>못질가능</div>
@@ -455,13 +480,13 @@
                         <p class="text-xs text-slate-400 font-light mb-4">서울 종로구 · 목조 감성</p>
                         <div class="flex justify-between items-end mt-auto">
                             <span class="text-[15px] font-bold text-slate-800">₩250,000<span class="text-slate-400 font-normal text-xs"> / 일</span></span>
-                            <span class="text-[10px] font-bold text-[#1C44FF] bg-blue-50 px-2 py-1 rounded-md">전시 최적</span>
+                            <span class="text-[10px] font-bold text-[#1C44FF] bg-blue-50 px-2.5 py-1.5 rounded-md">전시 최적</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Similar Space Item 3 -->
-                <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-[32px] border border-slate-100 overflow-hidden group cursor-pointer hover:border-[#1C44FF] transition-all duration-300" onclick="window.location.href='space-detail.html'">
+                <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-[32px] border border-slate-100 overflow-hidden group cursor-pointer hover:border-[#1C44FF] transition-all duration-300 shadow-sm" onclick="window.location.href='space-detail.html'">
                     <div class="aspect-[4/3] overflow-hidden relative">
                         <img src="https://images.unsplash.com/photo-1542868727-4148011116b4?auto=format&fit=crop&w=600&q=80" alt="Space" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         <div class="absolute top-4 left-4 bg-[#1C44FF] px-3 py-1.5 rounded-full text-[9px] font-bold text-white shadow-sm">Premium</div>
@@ -472,7 +497,7 @@
                         <p class="text-xs text-slate-400 font-light mb-4">서울 용산구 · 야외 테라스</p>
                         <div class="flex justify-between items-end mt-auto">
                             <span class="text-[15px] font-bold text-slate-800">₩220,000<span class="text-slate-400 font-normal text-xs"> / 일</span></span>
-                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-1 rounded-md">인기 급상승</span>
+                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2.5 py-1.5 rounded-md">인기 급상승</span>
                         </div>
                     </div>
                 </div>
@@ -499,7 +524,7 @@
     </footer>
 
     <!-- Global Elements -->
-    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-6 z-[130] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible transform translate-y-4">
+    <button type="button" id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-6 z-[130] w-12 h-12 bg-[#1C44FF] text-white rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-all duration-300 opacity-0 invisible transform translate-y-4">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
     <div id="toastContainer" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
@@ -530,20 +555,37 @@
             mobileOverlay?.addEventListener('click', () => toggleMenu(false));
         });
 
+        // 탭 메뉴 스크롤 이동 및 활성화 상태 변경
+        function scrollToSection(sectionId, btnElement) {
+            const element = document.getElementById(sectionId);
+            if(element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            const tabs = document.querySelectorAll('.detail-tab-btn');
+            tabs.forEach(tab => {
+                tab.classList.remove('font-bold', 'text-[#1C44FF]', 'border-[#1C44FF]');
+                tab.classList.add('font-medium', 'text-slate-400', 'border-transparent');
+            });
+            
+            btnElement.classList.remove('font-medium', 'text-slate-400', 'border-transparent');
+            btnElement.classList.add('font-bold', 'text-[#1C44FF]', 'border-[#1C44FF]');
+        }
+
         // 텍스트 더보기/접기 토글 로직
         function toggleDescription() {
             const content = document.getElementById('introContent');
             const btn = document.getElementById('toggleDescBtn');
-            const isExpanded = content.style.maxHeight === 'none';
+            const isExpanded = content.style.maxHeight !== '220px';
 
             if (isExpanded) {
-                content.style.maxHeight = '160px';
+                content.style.maxHeight = '220px';
                 content.classList.add('desc-gradient');
-                btn.innerHTML = '더 읽기 <i class="fa-solid fa-chevron-down text-[10px]"></i>';
+                btn.innerHTML = '더 읽기 <i class="fa-solid fa-chevron-down"></i>';
             } else {
-                content.style.maxHeight = 'none';
+                content.style.maxHeight = '1500px'; 
                 content.classList.remove('desc-gradient');
-                btn.innerHTML = '접기 <i class="fa-solid fa-chevron-up text-[10px]"></i>';
+                btn.innerHTML = '접기 <i class="fa-solid fa-chevron-up"></i>';
             }
         }
 
@@ -607,18 +649,20 @@
             }
         }
 
-        document.getElementById('startDate').addEventListener('change', calculateTotal);
-        document.getElementById('endDate').addEventListener('change', calculateTotal);
-
+        let toastTimeout;
         function showToast(message) {
             const toastContainer = document.getElementById('toastContainer');
+            toastContainer.innerHTML = '';
+            
             const toast = document.createElement('div');
-            toast.className = 'bg-slate-800 text-white shadow-xl rounded-xl px-5 py-3 flex items-center justify-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center text-sm font-medium mx-auto w-fit';
+            toast.className = 'bg-slate-800 text-white shadow-xl rounded-xl px-5 py-3.5 flex items-center justify-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto text-center text-sm font-medium mx-auto w-fit';
             toast.innerHTML = `<i class="fa-solid fa-check text-green-400"></i><span class="whitespace-nowrap">${message}</span>`;
             
             toastContainer.appendChild(toast);
             requestAnimationFrame(() => toast.classList.remove('translate-y-10', 'opacity-0'));
-            setTimeout(() => {
+            
+            if(toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
                 toast.classList.add('translate-y-10', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
             }, 2500);
